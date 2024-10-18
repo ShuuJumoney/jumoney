@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
-<title>ÁÖ¸Ó´Ï ¼øÈ¸</title>
+<meta charset="UTF-8">
+<title>ì£¼ë¨¸ë‹ˆ ìˆœíšŒ</title>
 <script type="text/javascript">
 document.addEventListener("DOMContentLoaded", function () {
 	const locations = {
-		"»óÀÎ ³×·ç": "Æ¼¸£ÄÚ³×ÀÏ", "»óÀÎ ´©´©": "´ø¹ÙÆ°", "»óÀÎ ¸Ş·ç": "ÀÌ¸à¸¶ÇÏ", "»óÀÎ ¶ó´©": "¹İÈ£¸£", "»óÀÎ º£·ç": "Å»Æ¾", "»óÀÎ ¿¡·ç": "Å¸¶ó",
-		"»óÀÎ ¾Æ·ç": "Ä«ºê", "»óÀÎ ÇÇ·ç": "º§¹Ù½ºÆ®", "»óÀÎ ¼¼´©": "½ºÄ«ÇÏ", "Å×ÀÏ·Î": "ÄÌ¶ó", "ÄË": "ÇÊ¸®¾Æ", "¸®³ª": "ÄÚ¸£", "Ä«µğ": "¹ß·¹½º", 
-		"±Í³Ø": "Ä«·ç", "¾ó¸®": "¿À¾Æ½Ã½º", "¸ğ¶ô": "Ä®¸®´Ù", "µ¥À§": "Æä¶ó(ÀÚ¸£µò)"
+		"ìƒì¸ ë„¤ë£¨": "í‹°ë¥´ì½”ë„¤ì¼", "ìƒì¸ ëˆ„ëˆ„": "ë˜ë°”íŠ¼", "ìƒì¸ ë©”ë£¨": "ì´ë©˜ë§ˆí•˜", "ìƒì¸ ë¼ëˆ„": "ë°˜í˜¸ë¥´", "ìƒì¸ ë² ë£¨": "íƒˆí‹´", "ìƒì¸ ì—ë£¨": "íƒ€ë¼",
+		"ìƒì¸ ì•„ë£¨": "ì¹´ë¸Œ", "ìƒì¸ í”¼ë£¨": "ë²¨ë°”ìŠ¤íŠ¸", "ìƒì¸ ì„¸ëˆ„": "ìŠ¤ì¹´í•˜", "í…Œì¼ë¡œ": "ì¼ˆë¼", "ì¼„": "í•„ë¦¬ì•„", "ë¦¬ë‚˜": "ì½”ë¥´", "ì¹´ë””": "ë°œë ˆìŠ¤", 
+		"ê·€ë„¥": "ì¹´ë£¨", "ì–¼ë¦¬": "ì˜¤ì•„ì‹œìŠ¤", "ëª¨ë½": "ì¹¼ë¦¬ë‹¤", "ë°ìœ„": "í˜ë¼(ìë¥´ë”˜)"
 	};
 
 	const setDefinitions = {
-		    ÀÛ¹°¼¼Æ®: ["Æ°Æ°ÇÑ ´Ş°¿ ÁÖ¸Ó´Ï", "Æ°Æ°ÇÑ °¨ÀÚ ÁÖ¸Ó´Ï", "Æ°Æ°ÇÑ ¿Á¼ö¼ö ÁÖ¸Ó´Ï", "Æ°Æ°ÇÑ ¹Ğ ÁÖ¸Ó´Ï", "Æ°Æ°ÇÑ º¸¸® ÁÖ¸Ó´Ï"],
-		    ¹æÁ÷¼¼Æ®: ["Æ°Æ°ÇÑ ¾çÅĞ ÁÖ¸Ó´Ï", "Æ°Æ°ÇÑ °Å¹ÌÁÙ ÁÖ¸Ó´Ï", "Æ°Æ°ÇÑ °¡´Â ½Ç¹¶Ä¡ ÁÖ¸Ó´Ï", "Æ°Æ°ÇÑ ±½Àº ½Ç¹¶Ä¡ ÁÖ¸Ó´Ï"],
-		    °¡Á×¼¼Æ®: ["Æ°Æ°ÇÑ Àú°¡Çü °¡Á× ÁÖ¸Ó´Ï", "Æ°Æ°ÇÑ ÀÏ¹İ °¡Á× ÁÖ¸Ó´Ï", "Æ°Æ°ÇÑ °í±Ş °¡Á× ÁÖ¸Ó´Ï", "Æ°Æ°ÇÑ ÃÖ°í±Ş °¡Á× ÁÖ¸Ó´Ï"],
-		    ¿Ê°¨¼¼Æ®: ["Æ°Æ°ÇÑ Àú°¡Çü ¿Ê°¨ ÁÖ¸Ó´Ï", "Æ°Æ°ÇÑ ÀÏ¹İ ¿Ê°¨ ÁÖ¸Ó´Ï", "Æ°Æ°ÇÑ °í±Ş ¿Ê°¨ ÁÖ¸Ó´Ï", "Æ°Æ°ÇÑ ÃÖ°í±Ş ¿Ê°¨ ÁÖ¸Ó´Ï"],
-		    ½ÇÅ©¼¼Æ®: ["Æ°Æ°ÇÑ Àú°¡Çü ½ÇÅ© ÁÖ¸Ó´Ï", "Æ°Æ°ÇÑ ÀÏ¹İ ½ÇÅ© ÁÖ¸Ó´Ï", "Æ°Æ°ÇÑ °í±Ş ½ÇÅ© ÁÖ¸Ó´Ï", "Æ°Æ°ÇÑ ÃÖ°í±Ş ½ÇÅ© ÁÖ¸Ó´Ï"]
+		    ì‘ë¬¼ì„¸íŠ¸: ["íŠ¼íŠ¼í•œ ë‹¬ê±€ ì£¼ë¨¸ë‹ˆ", "íŠ¼íŠ¼í•œ ê°ì ì£¼ë¨¸ë‹ˆ", "íŠ¼íŠ¼í•œ ì˜¥ìˆ˜ìˆ˜ ì£¼ë¨¸ë‹ˆ", "íŠ¼íŠ¼í•œ ë°€ ì£¼ë¨¸ë‹ˆ", "íŠ¼íŠ¼í•œ ë³´ë¦¬ ì£¼ë¨¸ë‹ˆ"],
+		    ë°©ì§ì„¸íŠ¸: ["íŠ¼íŠ¼í•œ ì–‘í„¸ ì£¼ë¨¸ë‹ˆ", "íŠ¼íŠ¼í•œ ê±°ë¯¸ì¤„ ì£¼ë¨¸ë‹ˆ", "íŠ¼íŠ¼í•œ ê°€ëŠ” ì‹¤ë­‰ì¹˜ ì£¼ë¨¸ë‹ˆ", "íŠ¼íŠ¼í•œ êµµì€ ì‹¤ë­‰ì¹˜ ì£¼ë¨¸ë‹ˆ"],
+		    ê°€ì£½ì„¸íŠ¸: ["íŠ¼íŠ¼í•œ ì €ê°€í˜• ê°€ì£½ ì£¼ë¨¸ë‹ˆ", "íŠ¼íŠ¼í•œ ì¼ë°˜ ê°€ì£½ ì£¼ë¨¸ë‹ˆ", "íŠ¼íŠ¼í•œ ê³ ê¸‰ ê°€ì£½ ì£¼ë¨¸ë‹ˆ", "íŠ¼íŠ¼í•œ ìµœê³ ê¸‰ ê°€ì£½ ì£¼ë¨¸ë‹ˆ"],
+		    ì˜·ê°ì„¸íŠ¸: ["íŠ¼íŠ¼í•œ ì €ê°€í˜• ì˜·ê° ì£¼ë¨¸ë‹ˆ", "íŠ¼íŠ¼í•œ ì¼ë°˜ ì˜·ê° ì£¼ë¨¸ë‹ˆ", "íŠ¼íŠ¼í•œ ê³ ê¸‰ ì˜·ê° ì£¼ë¨¸ë‹ˆ", "íŠ¼íŠ¼í•œ ìµœê³ ê¸‰ ì˜·ê° ì£¼ë¨¸ë‹ˆ"],
+		    ì‹¤í¬ì„¸íŠ¸: ["íŠ¼íŠ¼í•œ ì €ê°€í˜• ì‹¤í¬ ì£¼ë¨¸ë‹ˆ", "íŠ¼íŠ¼í•œ ì¼ë°˜ ì‹¤í¬ ì£¼ë¨¸ë‹ˆ", "íŠ¼íŠ¼í•œ ê³ ê¸‰ ì‹¤í¬ ì£¼ë¨¸ë‹ˆ", "íŠ¼íŠ¼í•œ ìµœê³ ê¸‰ ì‹¤í¬ ì£¼ë¨¸ë‹ˆ"]
 		};
 
-	const server_ch = { "¿ïÇÁ": 15, "·ùÆ®": 42, "ÇÏÇÁ": 24, "¸¸µ¹¸°": 15 };
+	const server_ch = { "ìš¸í”„": 15, "ë¥˜íŠ¸": 42, "í•˜í”„": 24, "ë§ŒëŒë¦°": 15 };
 	
 	const jumoney_url = "https://api.na.mabibase.com/assets/item/icon/";
 	const jumoney_key = [
@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	let dataCache = {};
 	let API_KEY = "";
 
-	// ÃÊ±â ¼³Á¤
+	// ì´ˆê¸° ì„¤ì •
 	setChannel();
 	prevNextCh();
 	//getNpcData();
@@ -92,7 +92,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			if (i === 11) continue;
 			let option = document.createElement('option');
 			option.value = i;
-			option.text = `${i}Ã¤`;
+			option.text = `${i}ì±„`;
 			chSelect.appendChild(option);
 		}
 		
@@ -101,7 +101,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	async function getNpcData() {
 		if(API_KEY == "") {
-			alert("API KEY¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä");
+			alert("API KEYë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”");
 			return false;
 		}
 		
@@ -130,8 +130,8 @@ document.addEventListener("DOMContentLoaded", function () {
 						document.getElementById("tables").insertAdjacentHTML('beforeend', `<h3>${data.error.name}<br/>${data.error.message}</h3>`);
 						document.getElementById("loading").style.display = "none";
 						document.getElementById("tables").style.display = "block";
-						controller.abort();  // ¸ğµç fetch ¿äÃ» Áß´Ü
-						throw new Error(`HTTP ¿À·ù! »óÅÂ: ${data.error.name}: ${data.error.message}`);
+						controller.abort();  // ëª¨ë“  fetch ìš”ì²­ ì¤‘ë‹¨
+						throw new Error(`HTTP ì˜¤ë¥˜! ìƒíƒœ: ${data.error.name}: ${data.error.message}`);
 					}
 					dataCache[cacheKey] = data;
 					return { data, npc };
@@ -150,7 +150,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			if (result && result.data && result.data.shop) {
 				const resetTime = convertToKST(result.data.date_shop_next_update);
 				if ( !lastResetTime && lastResetTime != resetTime) {
-					lastResetTime = resetTime;  // ¸®¼Â ½Ã°£À» ¾÷µ¥ÀÌÆ®
+					lastResetTime = resetTime;  // ë¦¬ì…‹ ì‹œê°„ì„ ì—…ë°ì´íŠ¸
 					document.getElementById("time").innerText = resetTime;
 				}
 				getJumoney(result.data, result.npc);
@@ -175,10 +175,10 @@ document.addEventListener("DOMContentLoaded", function () {
 			return null;
 		}
 		
-		const items = data.shop.find(item => item.tab_name === "ÁÖ¸Ó´Ï")?.item || [];
+		const items = data.shop.find(item => item.tab_name === "ì£¼ë¨¸ë‹ˆ")?.item || [];
 		let table = `<h2>${locations[npc]}</h2><div class="container">`;
 		let count = 0;
-		const max_cnt = 6; //ÇÑ ¿­ ÃÖ´ë ¼ö
+		const max_cnt = 6; //í•œ ì—´ ìµœëŒ€ ìˆ˜
 
 		items.forEach((key, index) => {
 			const url = key.image_url;
@@ -233,7 +233,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		return { r, g, b };
 	}
 	
-	// ÇÑ±¹ ½Ã°£À¸·Î ¸®¼Â ½Ã°£ Ç¥½Ã
+	// í•œêµ­ ì‹œê°„ìœ¼ë¡œ ë¦¬ì…‹ ì‹œê°„ í‘œì‹œ
 	function convertToKST(isoDate) {
 		const date = new Date(isoDate);
 		const options = { 
@@ -254,16 +254,16 @@ document.addEventListener("DOMContentLoaded", function () {
 		return `${dateStr} ${timeStr}`;
 	}
 
-	// ¼­¹ö º¯°æ ½Ã Ã¤³Î ¸ñ·Ï Àç¼³Á¤
+	// ì„œë²„ ë³€ê²½ ì‹œ ì±„ë„ ëª©ë¡ ì¬ì„¤ì •
 	document.getElementById("server").addEventListener("change", function() {
-		const server = this.value; // ¼±ÅÃÇÑ ¼­¹ö °¡Á®¿À±â
-		localStorage.setItem("server", server); // ·ÎÄÃ ½ºÅä¸®Áö¿¡ ÀúÀå
+		const server = this.value; // ì„ íƒí•œ ì„œë²„ ê°€ì ¸ì˜¤ê¸°
+		localStorage.setItem("server", server); // ë¡œì»¬ ìŠ¤í† ë¦¬ì§€ì— ì €ì¥
 	  	setChannel();
 	});
 	
 	document.getElementById("npc_nm").addEventListener("change", function() {
-		const npc = this.value; // ¼±ÅÃÇÑ ¼­¹ö °¡Á®¿À±â
-	  	localStorage.setItem("npc", npc); // ·ÎÄÃ ½ºÅä¸®Áö¿¡ ÀúÀå
+		const npc = this.value; // ì„ íƒí•œ ì„œë²„ ê°€ì ¸ì˜¤ê¸°
+	  	localStorage.setItem("npc", npc); // ë¡œì»¬ ìŠ¤í† ë¦¬ì§€ì— ì €ì¥
 		getNpcData();
 	});
 	
@@ -273,20 +273,20 @@ document.addEventListener("DOMContentLoaded", function () {
 		getNpcData();
 	});
 	
-	// API Å° ÀÔ·Â ÇÊµå¿¡ ÀÌº¥Æ® ¸®½º³Ê Ãß°¡
+	// API í‚¤ ì…ë ¥ í•„ë“œì— ì´ë²¤íŠ¸ ë¦¬ìŠ¤ë„ˆ ì¶”ê°€
 	document.getElementById("apiKey").addEventListener("input", function() {
-	  const apiKey = this.value; // ÀÔ·Â°ª °¡Á®¿À±â
-	  localStorage.setItem("apiKey", apiKey); // ·ÎÄÃ ½ºÅä¸®Áö¿¡ ÀúÀå
+	  const apiKey = this.value; // ì…ë ¥ê°’ ê°€ì ¸ì˜¤ê¸°
+	  localStorage.setItem("apiKey", apiKey); // ë¡œì»¬ ìŠ¤í† ë¦¬ì§€ì— ì €ì¥
 	});
 
-	// Ã¤³Î ÀÔ·Â ÇÊµå¿¡ ÀÌº¥Æ® ¸®½º³Ê Ãß°¡
+	// ì±„ë„ ì…ë ¥ í•„ë“œì— ì´ë²¤íŠ¸ ë¦¬ìŠ¤ë„ˆ ì¶”ê°€
 	document.getElementById("ch").addEventListener("input", function() {
-	  const channel = this.value; // ÀÔ·Â°ª °¡Á®¿À±â
-	  localStorage.setItem("channel", channel); // ·ÎÄÃ ½ºÅä¸®Áö¿¡ ÀúÀå
+	  const channel = this.value; // ì…ë ¥ê°’ ê°€ì ¸ì˜¤ê¸°
+	  localStorage.setItem("channel", channel); // ë¡œì»¬ ìŠ¤í† ë¦¬ì§€ì— ì €ì¥
 	});	
 
 
-	// Ã¤³Î ÀüÈ¯ ¹öÆ°
+	// ì±„ë„ ì „í™˜ ë²„íŠ¼
 	function prevNextCh() {
 		const selectBox = document.getElementById('ch');
 		const prevButton = document.getElementById('prev');
@@ -304,13 +304,13 @@ document.addEventListener("DOMContentLoaded", function () {
 	}
 	
 	document.getElementById("checkSet").addEventListener("click", async function () {
-	    alert("ÁØºñÁß ÀÔ´Ï´Ù.", function(){
+	    alert("ì¤€ë¹„ì¤‘ ì…ë‹ˆë‹¤.", function(){
 	    	return false;
 	    });
 	    
 		const npc_nm = document.getElementById("npc_nm").value;
 	    if (npc_nm === "all") {
-	        alert("ÀüÃ¼ ¼±ÅÃ ½Ã ¼¼Æ® È®ÀÎÀÌ ºÒ°¡´ÉÇÕ´Ï´Ù.");
+	        alert("ì „ì²´ ì„ íƒ ì‹œ ì„¸íŠ¸ í™•ì¸ì´ ë¶ˆê°€ëŠ¥í•©ë‹ˆë‹¤.");
 	        return;
 	    }
 
@@ -339,10 +339,10 @@ document.addEventListener("DOMContentLoaded", function () {
 	    try {
 	        const response = await fetch(url, { headers: { "x-nxopen-api-key": API_KEY } });
 	        const data = await response.json();
-	        const items = data.shop.find(item => item.tab_name === "ÁÖ¸Ó´Ï")?.item || [];
-	        return items.map(item => ({ ...item, channel }));  // Ã¤³Î Á¤º¸ Æ÷ÇÔ
+	        const items = data.shop.find(item => item.tab_name === "ì£¼ë¨¸ë‹ˆ")?.item || [];
+	        return items.map(item => ({ ...item, channel }));  // ì±„ë„ ì •ë³´ í¬í•¨
 	    } catch (error) {
-	        console.error(`Ã¤³Î ${channel} µ¥ÀÌÅÍ ºÒ·¯¿À±â ½ÇÆĞ:`, error);
+	        console.error(`ì±„ë„ ${channel} ë°ì´í„° ë¶ˆëŸ¬ì˜¤ê¸° ì‹¤íŒ¨:`, error);
 	        return [];
 	    }
 	}
@@ -382,9 +382,9 @@ document.addEventListener("DOMContentLoaded", function () {
 	    try {
 	        const params = new URL(url).searchParams;
 	        const colors = JSON.parse(decodeURIComponent(params.get('item_color') || '{}'));
-	        return `${colors.color_01}-${colors.color_02}-${colors.color_03}`;  // »ö»ó ÆÈ·¹Æ®¸¦ ¹®ÀÚ¿­·Î º¯È¯
+	        return `${colors.color_01}-${colors.color_02}-${colors.color_03}`;  // ìƒ‰ìƒ íŒ”ë ˆíŠ¸ë¥¼ ë¬¸ìì—´ë¡œ ë³€í™˜
 	    } catch (error) {
-	        console.warn("»ö»ó ÃßÃâ ¿À·ù:", error);
+	        console.warn("ìƒ‰ìƒ ì¶”ì¶œ ì˜¤ë¥˜:", error);
 	        return "";
 	    }
 	}
@@ -394,17 +394,17 @@ document.addEventListener("DOMContentLoaded", function () {
 	    setsContainer.innerHTML = "";
 
 	    if (!sets || Object.keys(sets).length === 0) {
-	        setsContainer.insertAdjacentHTML('beforeend', "<p>¼¼Æ®¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.</p>");
+	        setsContainer.insertAdjacentHTML('beforeend', "<p>ì„¸íŠ¸ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.</p>");
 	        return;
 	    }
 
-	    let html = "<h3>¼¼Æ® Á¤º¸</h3>";
+	    let html = "<h3>ì„¸íŠ¸ ì •ë³´</h3>";
 	    Object.entries(sets).forEach(([setName, { colors, items }]) => {
 	        html += `<h4>${setName}</h4>`;
-	        html += `<p>»ö»ó: ${colors}</p><ul>`;  // »ö»óÀº ÇÑ ¹ø¸¸ Ãâ·Â
+	        html += `<p>ìƒ‰ìƒ: ${colors}</p><ul>`;  // ìƒ‰ìƒì€ í•œ ë²ˆë§Œ ì¶œë ¥
 
 	        items.forEach(({ name, channel }) => {
-	            html += `<li>${name} (Ã¤³Î: ${channel})</li>`;
+	            html += `<li>${name} (ì±„ë„: ${channel})</li>`;
 	        });
 
 	        html += "</ul>";
@@ -579,48 +579,48 @@ button:hover, button:active {
 	<div id="main">
 		<div id="srchForm">
 			<div id="top-info">
-				<input type="text" id="apiKey"><button id="setApiKey">Àû¿ë</button>
-				<button onclick="window.open('https://openapi.nexon.com/my-application/')">API KEY »ı¼º</button>
+				<input type="text" id="apiKey"><button id="setApiKey">ì ìš©</button>
+				<button onclick="window.open('https://openapi.nexon.com/my-application/')">API KEY ìƒì„±</button>
 			</div>
 			<div id="wid">
 				<span id="resetTime">
-					¸®¼Â ½Ã°£: <span type="text" id="time"></span>
+					ë¦¬ì…‹ ì‹œê°„: <span type="text" id="time"></span>
 				</span>
 			
 				<select id="npc_nm" class="">
-					<option value="all">ÀüÃ¼</option>
-					<option value="»óÀÎ ³×·ç">Æ¼¸£ÄÚ³×ÀÏ</option>
-					<option value="»óÀÎ ´©´©">´ø¹ÙÆ°</option>
-					<option value="»óÀÎ ¸Ş·ç">ÀÌ¸à¸¶ÇÏ</option>
-					<option value="»óÀÎ ¶ó´©">¹İÈ£¸£</option>
-					<option value="»óÀÎ º£·ç">Å»Æ¾</option>
-					<option value="»óÀÎ ¿¡·ç">Å¸¶ó</option>
-					<option value="»óÀÎ ¾Æ·ç">Ä«ºê</option>
-					<option value="»óÀÎ ÇÇ·ç">º§¹Ù</option>
-					<option value="»óÀÎ ¼¼´©">½ºÄ«ÇÏ</option>
-					<option value="Å×ÀÏ·Î">ÄÌ¶ó</option>
-					<option value="ÄË">ÇÊ¸®¾Æ</option>
-					<option value="¸®³ª">ÄÚ¸£</option>
-					<option value="Ä«µğ">¹ß·¹½º</option>
-					<option value="±Í³Ø">Ä«·ç</option>
-					<option value="¾ó¸®">¿À¾Æ½Ã½º</option>
-					<option value="¸ğ¶ô">Ä®¸®´Ù</option>
-					<option value="µ¥À§">Æä¶ó(ÀÚ¸£µò)</option>
+					<option value="all">ì „ì²´</option>
+					<option value="ìƒì¸ ë„¤ë£¨">í‹°ë¥´ì½”ë„¤ì¼</option>
+					<option value="ìƒì¸ ëˆ„ëˆ„">ë˜ë°”íŠ¼</option>
+					<option value="ìƒì¸ ë©”ë£¨">ì´ë©˜ë§ˆí•˜</option>
+					<option value="ìƒì¸ ë¼ëˆ„">ë°˜í˜¸ë¥´</option>
+					<option value="ìƒì¸ ë² ë£¨">íƒˆí‹´</option>
+					<option value="ìƒì¸ ì—ë£¨">íƒ€ë¼</option>
+					<option value="ìƒì¸ ì•„ë£¨">ì¹´ë¸Œ</option>
+					<option value="ìƒì¸ í”¼ë£¨">ë²¨ë°”</option>
+					<option value="ìƒì¸ ì„¸ëˆ„">ìŠ¤ì¹´í•˜</option>
+					<option value="í…Œì¼ë¡œ">ì¼ˆë¼</option>
+					<option value="ì¼„">í•„ë¦¬ì•„</option>
+					<option value="ë¦¬ë‚˜">ì½”ë¥´</option>
+					<option value="ì¹´ë””">ë°œë ˆìŠ¤</option>
+					<option value="ê·€ë„¥">ì¹´ë£¨</option>
+					<option value="ì–¼ë¦¬">ì˜¤ì•„ì‹œìŠ¤</option>
+					<option value="ëª¨ë½">ì¹¼ë¦¬ë‹¤</option>
+					<option value="ë°ìœ„">í˜ë¼(ìë¥´ë”˜)</option>
 				</select>
 				
 				<select id="server">
-					<option value="¿ïÇÁ">¿ïÇÁ</option>
-					<option value="·ùÆ®">·ùÆ®</option>
-					<option value="ÇÏÇÁ">ÇÏÇÁ</option>
-					<option value="¸¸µ¹¸°">¸¸µ¹¸°</option>
+					<option value="ìš¸í”„">ìš¸í”„</option>
+					<option value="ë¥˜íŠ¸">ë¥˜íŠ¸</option>
+					<option value="í•˜í”„">í•˜í”„</option>
+					<option value="ë§ŒëŒë¦°">ë§ŒëŒë¦°</option>
 				</select>
 				
 				<select id="ch" class="">
 				</select>
 				
-				<button id="prev">ÀÌÀü Ã¤³Î</button>
-			    <button id="next">´ÙÀ½ Ã¤³Î</button>
-			    <button id="checkSet">¼¼Æ® È®ÀÎ</button>
+				<button id="prev">ì´ì „ ì±„ë„</button>
+			    <button id="next">ë‹¤ìŒ ì±„ë„</button>
+			    <button id="checkSet">ì„¸íŠ¸ í™•ì¸</button>
 				
 			</div>
 		</div>
