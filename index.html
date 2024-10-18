@@ -186,7 +186,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			const color = extractItemColorsFromUrl(url);
 			
 			//if (count % max_cnt === 0) table += "<tr>";
-			table += `<div class="item"><img src="${url}" alt="${item_nm}" class="api-img"><img src="${jumoney_url}${jumoney_key[index]}?colors=${getUrlColor(color)}" class="mabibase-img" onerror="this.src='#'"><label class="item_nm">${item_nm}</label>${setColorLabel(color)}</div>`;
+			table += `<div class="item"><img src="${url}" alt="${item_nm}" class="api-img"><img src="${jumoney_url}${jumoney_key[index]}?colors=${getUrlColor(color)}" class="mabibase-img" onerror="this.src='./cute.png'"><label class="item_nm">${item_nm}</label>${setColorLabel(color)}</div>`;
 			count++;
 			//if (count % max_cnt === 0) table += "</tr>";
 		});
