@@ -178,8 +178,8 @@ document.addEventListener("DOMContentLoaded", function () {
 	    //const openModalButton = document.querySelector('.open-modal');
 	    //const modalOverlay = document.querySelector('.modal-overlay');
 	    //const closeModalButton = document.querySelector('.close-button');
+	    /*
 	    const modal = document.getElementById("capture_modal");
-		console.log("1");
 	    // 모달 열기
 	    document.querySelector(".btnOpenCapture").addEventListener('click', () => {
 	    	console.log("click");
@@ -191,7 +191,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	    document.querySelector('.close-button').addEventListener('click', () => {
 	    	modal.style.display = 'none'; // 모달을 숨김
 	    });
-
+		*/
 	    // 모달 외부 클릭 시 닫기
 	    /*
 	    modalOverlay.addEventListener('click', (event) => {
@@ -240,7 +240,6 @@ document.addEventListener("DOMContentLoaded", function () {
 		document.getElementById("tables").insertAdjacentHTML('beforeend', table);
 		document.getElementById("loading").style.display = "none";
 		document.getElementById("tables").style.display = "block";
-		console.log("2");
 	}
 
 	function extractItemColorsFromUrl(url) {
@@ -423,7 +422,6 @@ document.addEventListener("DOMContentLoaded", function () {
 		const server = document.getElementById("server").value;
 		const maxCh = server_ch[server];
 		let groupedItems = {}; // 색상별로 그룹화된 주머니들
-		console.log(groupedItems);
 		
 		// 각 채널을 순회하며 주머니 수집
 		for (let ch = 1; ch <= maxCh; ch++) {
@@ -474,80 +472,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	    return sortedItems;
 	}
-		
-	//전체 세트 표시
-	/*
-	function displaySets(groupedItems, isMultiServer = false) {
-		console.log(groupedItems);
-		const sortedItems = sortGroupedItems(groupedItems);
-
-        console.log(groupedItems);
-        console.log("####");
-
-       
-		const items = document.querySelectorAll(".item");
-		//const addInfo = document.querySelectorAll(".color-info");
-		const unmatchedItem = document.createElement("div");
-        unmatchedItem.classList.add("unmatched-item");
-        unmatchedItem.classList.add("item");
-        unmatchedItem.classList.add(".channel-info");
-		const container = document.querySelectorAll(".container")[0]; //어짜피 전체에서는 선택 불가능
-		let index = 0;
-		
-	    // 기존 채널링 정보 삭제
-	    document.querySelectorAll(".channel-info").forEach(element => element.remove());		
-	    
-     	// 아이템 순서대로 채널링 정보 표시
-        items.forEach((item, index) => {
-            const imageUrl = item.querySelector(".api-img").src;
-            const itemColors = extractItemColor(imageUrl); // 이미지 URL에서 색상 추출
-            let colorKey = Object.values(itemColors); 
-            colorKey.splice(2, 1); //color_03 제외 4~5는 같은 색상 공유 인 것 확인, 3제외한 컬러를 키값으로 지정.
-            colorKey = colorKey.join("-"); // 색상을 키로 변환
-
-            const matchedItemGroup = groupedItems[colorKey]; // 색상으로 그룹화된 데이터에서 검색
-
-            if (matchedItemGroup) {
-                const channelInfoDiv = document.createElement("div");
-                channelInfoDiv.classList.add("channel-info");
-                channelInfoDiv.innerHTML = `<h4>채널링 정보</h4>`;
-
-                // 해당 색상에 매칭된 아이템별 채널 정보 추가
-                Object.entries(matchedItemGroup).forEach(([itemName, channels]) => {
-                	if (isMultiServer) {
-                		let multiChannelInfo =  `<p><label class="info-jumoney-name">${itemName}</label>`;
-                        // 다중 서버 처리: 서버 이름과 채널 정보 표시
-                        Object.entries(channels).forEach(([server, chList]) => {                           
-                                
-                        	multiChannelInfo += `<span class="info-channel all-server">${server}: ${chList.join(", ")}</span>`;
-                        });
-                        multiChannelInfo += "</p>";
-                    	channelInfoDiv.innerHTML += multiChannelInfo;
-                    }else{ //단일 서버 처리
-	                    channelInfoDiv.innerHTML += `
-	                        <p><label class="info-jumoney-name">${itemName}</label>
-	                        <span class="info-channel">${channels.join(", ")}</span></p>
-	                    `;
-                	}
-                });
-
-                // 현재 아이템에 채널링 정보 추가
-                items[index].appendChild(channelInfoDiv);
-            }else {
-                // 매칭되지 않은 항목을 새로운 컨테이너에 추가
-                
-                unmatchedItem.innerHTML = `<h4>채널링 정보</h4>`;
-                
-                unmatchedItem.innerHTML += `
-                    <p><label class="info-jumoney-name">${itemName}</label>
-                    <span class="info-channel">${channels.join(", ")}</span></p>
-                `;
-                container.appendChild(unmatchedItem);
-            }           
-
-        });
-	}
-     	*/
+	
    	function displaySets(groupedItems, isMultiServer = false) {
    	    const sortedItems = sortGroupedItems(groupedItems);
 
@@ -602,7 +527,6 @@ document.addEventListener("DOMContentLoaded", function () {
    	            // 주머니 이미지 및 정보 추가 (예제용)
    	            //newItem.innerHTML = `<h4></h4>`;
    	            const colorArr = `${colorKey}`.split('-');
-   	            console.log(colorArr);
    	            newItem.innerHTML = `<div class="color-info"><p>
 						   	             <span class="color_rect" style="background:${colorArr[0]};"></span>
 						   	             <label class="hex">${colorArr[0]}</label>
