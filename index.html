@@ -123,56 +123,29 @@ document.addEventListener("DOMContentLoaded", function () {
 			dataCache = {};
 		}
 
+		let shouldStop = false; // 호출 중단 여부를 결정하는 플래그 변수
 		const fetchPromises = locations.map(async (npc) => {
-			/*
-			// 전체 채널링과 기능 합침.
-			const cacheKey = `${npc}_${server_name}_${channel}`;
-			if (dataCache[cacheKey]) {
-				return { data: dataCache[cacheKey], npc };
-			} else {
-				const urlString = `https://open.api.nexon.com/mabinogi/v1/npcshop/list?npc_name=${npc}&server_name=${server_name}&channel=${channel}`;
-				
-				try {
-					const response = await fetch(urlString, {
-						headers: { "x-nxopen-api-key": API_KEY }
-					});
-					
-					const data = await response.json();
-					
-					if(data.error) {
-						console.warn(`Error: ${data.error.name}: ${data.error.message}`);
-						document.getElementById("tables").insertAdjacentHTML('beforeend', `<h3>${data.error.name}<br/>${data.error.message}</h3>`);
-						document.getElementById("loading").style.display = "none";
-						document.getElementById("tables").style.display = "block";
-						controller.abort();  // 모든 fetch 요청 중단
-						throw new Error(`HTTP 오류! 상태: ${data.error.name}: ${data.error.message}`);
-					}
-					dataCache[cacheKey] = data;
-					return { data, npc };
-					
-				} catch (error) {
-					//alert(data.error.name + "\n" + data.error.message);
-					console.error(`Error fetching NPC data for ${npc}:`, error);
-					displayErrorMessage(npc, error.message);
-					return null;
-				}
-			}
-			*/
-			return { data: await fetchNpcData(npc, server_name, channel), npc};
+			if (shouldStop) return null; // 중단 플래그가 true이면 요청하지 않음
 			
+			const result = await fetchNpcData(npc, server_name, channel);
+
+	        if (result.error) {
+	            console.warn(`Error: ${result.error.name}: ${result.error.message}`);
+	            displayErrorMessage(npc, result.error.message);
+	            shouldStop = true; // 에러 발생 시 중단 플래그 설정
+	            return null;
+	        }
+	        
+	        return { data: result, npc };			
 		});
 
 		const results = await Promise.all(fetchPromises);
 		
 		results.forEach(result => {
-			if (result && result.npc && result.data.length > 0) {					
+			if (result && result.npc && result.data.length > 0) {
 				getJumoney(result.data, result.npc);
 			} else {
-				console.log(result);
-				const errorMessage = `<h3>${result.data.error.name}<br/>${result.data.error.message}</h3>`;
-				document.getElementById("tables").insertAdjacentHTML('beforeend', errorMessage);
-				document.getElementById("loading").style.display = "none";
-				document.getElementById("tables").style.display = "block";
+				// 호출 단계에서 에러.	
 			}
 		});
 		
@@ -200,6 +173,34 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		document.getElementById("checkSet").addEventListener("click", checkSet);	
 		document.getElementById("checkAllServers").addEventListener("click", checkSetAllServers);
+		
+		// 요소 선택
+	    //const openModalButton = document.querySelector('.open-modal');
+	    //const modalOverlay = document.querySelector('.modal-overlay');
+	    //const closeModalButton = document.querySelector('.close-button');
+	    const modal = document.getElementById("capture_modal");
+		console.log("1");
+	    // 모달 열기
+	    document.querySelector(".btnOpenCapture").addEventListener('click', () => {
+	    	console.log("click");
+	    	console.log(modal);
+	    	modal.style.display = 'flex'; // 모달을 표시
+	    });
+
+	    // 모달 닫기
+	    document.querySelector('.close-button').addEventListener('click', () => {
+	    	modal.style.display = 'none'; // 모달을 숨김
+	    });
+
+	    // 모달 외부 클릭 시 닫기
+	    /*
+	    modalOverlay.addEventListener('click', (event) => {
+	        if (event.target === modalOverlay) { // 배경 클릭 시에만 닫힘
+	            modalOverlay.style.display = 'none';
+	        }
+	    });
+	    */
+		
 	}
 
 	function getUrlColor(colors){
@@ -229,7 +230,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			//캡쳐용 마을 이름 숨기기
 			pouchOrder[count] = item_nm;
 			table += `<div class="item"><h3 class="location_nm hidden">${location_nm}</h3>`;
-			table += `<button class="btnNewTab" data-info1="${color.color_01}" data-info2="${color.color_02}" style="display:none;"></button>`;
+			table += `<button class="btnOpenCapture" data-info1="${color.color_01}" data-info2="${color.color_02}" style="display:none;"></button>`;
 			table += `<img src="${url}" alt="${item_nm}" class="api-img"><img src="${jumoney_url}${jumoney_key[index]}?colors=${getUrlColor(color)}" class="mabibase-img" onerror="this.src='./cute.png'"><label class="item_nm">${item_nm}</label>${setColorLabel(color)}</div>`;
 			count++;
 			//if (count % max_cnt === 0) table += "</tr>";
@@ -239,6 +240,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		document.getElementById("tables").insertAdjacentHTML('beforeend', table);
 		document.getElementById("loading").style.display = "none";
 		document.getElementById("tables").style.display = "block";
+		console.log("2");
 	}
 
 	function extractItemColorsFromUrl(url) {
@@ -554,7 +556,7 @@ document.addEventListener("DOMContentLoaded", function () {
    	 	const processedColors = new Set(); // 처리된 색상 키를 추적
 
    	    document.querySelectorAll(".channel-info").forEach(element => element.remove());
-	    document.querySelectorAll(".nomatch-addItem").forEach(element => element.remove());
+   	 	document.querySelectorAll(".nomatch-addItem").forEach(element => element.remove());
 
    	    items.forEach((item, index) => {
    	        const imageUrl = item.querySelector(".api-img").src;
@@ -600,6 +602,7 @@ document.addEventListener("DOMContentLoaded", function () {
    	            // 주머니 이미지 및 정보 추가 (예제용)
    	            //newItem.innerHTML = `<h4></h4>`;
    	            const colorArr = `${colorKey}`.split('-');
+   	            console.log(colorArr);
    	            newItem.innerHTML = `<div class="color-info"><p>
 						   	             <span class="color_rect" style="background:${colorArr[0]};"></span>
 						   	             <label class="hex">${colorArr[0]}</label>
@@ -664,7 +667,9 @@ document.addEventListener("DOMContentLoaded", function () {
             const data = await response.json();
 
             if (!response.ok || !data.shop) {
-            	console.error(data.error.name + ": " + data.error.mesaage);
+            	console.error(data.error.name + ": " + data.error.message);
+            	document.getElementById("loading").style.display = "none";
+            	document.getElementById("results").innerHTML = data.error.name + "<br/>" + data.error.message;
             	return data;
                 throw new Error(`채널 ${channel} 데이터 로드 실패: ${response.status}`);
             }
@@ -949,6 +954,32 @@ span.info-channel.all-server{
 .server-mark.만돌린{
 	background-image: url("./image/md.png");
 }
+.modal.close{
+	display:none;
+}
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 반투명 검정 */
+    display: none; /* 기본 상태는 숨김 */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* 최상단에 표시 */
+}
+
+/* 모달 창 스타일 */
+.modal {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 80%;
+    text-align: center;
+}
 .channel-info{
 	padding-bottom: 7px;
 }
@@ -1010,7 +1041,15 @@ span.info-channel.all-server{
 		</div>
 		<div id="loading">...</div>
 		<div id="tables" style="display:none;"></div>
-		<div id="results" style="margin-top: 20px;"></div>
+		<div id="results" style="margin-top: 20px;padding: 100px 0px;"></div>
+	</div>
+	
+	<div id="capture_modal" class="modal close">
+		<div class="modal">
+	        <h3>모달 창</h3>
+	        <p>이것은 모달 창입니다. 모달 창을 닫으려면 아래 버튼을 누르세요.</p>
+	        <button class="close-button">닫기</button>
+	    </div>
 	</div>
 </body>
 </html>
