@@ -549,11 +549,12 @@ document.addEventListener("DOMContentLoaded", function () {
    	function displaySets(groupedItems, isMultiServer = false) {
    	    const sortedItems = sortGroupedItems(groupedItems);
 
-   	    const items = document.querySelectorAll(".item");
+   	    const items = document.querySelectorAll('.item:not(.nomatch-addItem)');
    	    const container = document.querySelectorAll(".container")[0];
    	 	const processedColors = new Set(); // 처리된 색상 키를 추적
 
    	    document.querySelectorAll(".channel-info").forEach(element => element.remove());
+	    document.querySelectorAll(".nomatch-addItem").forEach(element => element.remove());
 
    	    items.forEach((item, index) => {
    	        const imageUrl = item.querySelector(".api-img").src;
@@ -605,7 +606,7 @@ document.addEventListener("DOMContentLoaded", function () {
 						   	             <label class="rgb">${hexToRgbString(colorArr[0])}</label>
 						   	          </p>
 						   	       	  <p>
-						   	          	 <span class="color_rect" style="background:${colorArr[0]};"></span>
+						   	          	 <span class="color_rect" style="background:${colorArr[1]};"></span>
 						   	          	 <label class="hex">${colorArr[1]}</label>
 						   	             <label class="rgb">${hexToRgbString(colorArr[1])}</label>
 						   	          </p></div>
