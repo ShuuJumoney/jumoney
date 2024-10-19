@@ -3,8 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <title>주머니 순회</title>
+<script src="./js/erinTime.js?v2"></script>
 <script type="text/javascript">
 document.addEventListener("DOMContentLoaded", function () {
+	getErinTime(document.getElementById("erinTime"));
 	const locations = {
 		"상인 네루": "티르코네일", "상인 누누": "던바튼", "상인 메루": "이멘마하", "상인 라누": "반호르", "상인 베루": "탈틴", "상인 에루": "타라",
 		"상인 아루": "카브", "상인 피루": "벨바스트", "상인 세누": "스카하", "테일로": "켈라", "켄": "필리아", "리나": "코르", "카디": "발레스", 
@@ -18,6 +20,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		    옷감세트: ["튼튼한 저가형 옷감 주머니", "튼튼한 일반 옷감 주머니", "튼튼한 고급 옷감 주머니", "튼튼한 최고급 옷감 주머니"],
 		    실크세트: ["튼튼한 저가형 실크 주머니", "튼튼한 일반 실크 주머니", "튼튼한 고급 실크 주머니", "튼튼한 최고급 실크 주머니"]
 		};
+	
+	let pouchOrder = [];
+		
 
 	const server_ch = { "울프": 15, "류트": 42, "하프": 24, "만돌린": 15 };
 	
@@ -113,7 +118,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		document.getElementById("tables").innerHTML = "";
 		
-		if( isResetNeeded() ) dataCache = {};
+		if( isResetNeeded() ) {
+			console.log("캐시된 데이터 삭제");
+			dataCache = {};
+		}
 
 		const fetchPromises = locations.map(async (npc) => {
 			/*
@@ -190,7 +198,8 @@ document.addEventListener("DOMContentLoaded", function () {
 		});
 		*/
 
-		document.getElementById("checkSet").addEventListener("click", checkSet);		
+		document.getElementById("checkSet").addEventListener("click", checkSet);	
+		document.getElementById("checkAllServers").addEventListener("click", checkSetAllServers);
 	}
 
 	function getUrlColor(colors){
@@ -218,6 +227,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			const color = extractItemColorsFromUrl(url);
 			//if (count % max_cnt === 0) table += "<tr>";
 			//캡쳐용 마을 이름 숨기기
+			pouchOrder[count] = item_nm;
 			table += `<div class="item"><h3 class="location_nm hidden">${location_nm}</h3>`;
 			table += `<button class="btnSearch" data-info1="${color.color_01}" data-info2="${color.color_02}"></button>`;
 			table += `<img src="${url}" alt="${item_nm}" class="api-img"><img src="${jumoney_url}${jumoney_key[index]}?colors=${getUrlColor(color)}" class="mabibase-img" onerror="this.src='./cute.png'"><label class="item_nm">${item_nm}</label>${setColorLabel(color)}</div>`;
@@ -335,6 +345,72 @@ document.addEventListener("DOMContentLoaded", function () {
 			selectBox.selectedIndex = selectBox.selectedIndex === selectBox.options.length - 1 ? 0 : selectBox.selectedIndex + 1;
 			selectBox.dispatchEvent(new Event('change'));
 		});
+	}	
+	
+	//전체 서버 채널링
+	function displayAllServersSets(groupedItems) {
+	    const resultsDiv = document.getElementById("results");
+	    resultsDiv.innerHTML = "";  // 기존 결과 초기화
+
+	    // 색상 팔레트별로 순회하며 결과 생성
+	    Object.entries(groupedItems).forEach(([colorKey, items]) => {
+	        let html = `<h3>색상 팔레트: ${colorKey}</h3><ul>`;
+
+	        // 주머니 이름별로 순회하며 서버와 채널 표시
+	        Object.entries(items).forEach(([itemName, servers]) => {
+	            html += `<li>${itemName}<ul>`;
+	            Object.entries(servers).forEach(([server, channels]) => {
+	                html += `<li>${server}: ${channels.join(", ")}채널</li>`;
+	            });
+	            html += `</ul></li>`;
+	        });
+
+	        html += "</ul>";
+	        resultsDiv.insertAdjacentHTML("beforeend", html);
+	    });
+	}
+	
+	//해당 지역 전체 채널링
+	async function checkSetAllServers() {
+	    const npc = document.getElementById("npc_nm").value;
+	    if (npc === "all") return alert("특정 지역을 선택하세요.");
+	
+	    const servers = Object.keys(server_ch);  // 모든 서버 목록 가져오기
+	    let groupedItems = {};  // 색상별로 주머니를 그룹화
+	
+	    // 각 서버와 채널에서 주머니 데이터 수집
+	    for (const server of servers) {
+	        const maxCh = server_ch[server];
+	
+	        for (let ch = 1; ch <= maxCh; ch++) {
+	            if (ch === 11) continue;  // 11채널 제외
+	
+	            const data = await fetchNpcData(npc, server, ch);  // 서버-채널 주머니 데이터 가져오기
+	            data.forEach(item => {
+	                const colors = extractItemColor(item.image_url);  // 주머니의 색상 추출
+	                let colorKey = Object.values(colors);
+					colorKey.splice(2, 1); //color_03 제외 4~5는 같은 색상 공유 인 것 확인, 3제외한 컬러를 키값으로 지정.
+					colorKey = colorKey.join("-");
+
+	                // 색상 키 초기화
+	                if (!groupedItems[colorKey]) groupedItems[colorKey] = {};
+	                if (!groupedItems[colorKey][item.item_display_name]) 
+	                    groupedItems[colorKey][item.item_display_name] = {};
+
+	                // 서버별로 채널 목록 초기화 및 추가
+	                if (!groupedItems[colorKey][item.item_display_name][server]) 
+	                    groupedItems[colorKey][item.item_display_name][server] = [];
+	                
+	                // 채널 번호 추가
+	                const serverChannel = ch;
+	                if (!groupedItems[colorKey][item.item_display_name][server].includes(serverChannel)) {
+	                    groupedItems[colorKey][item.item_display_name][server].push(serverChannel);
+	                }
+	            });
+	        }
+	    }
+	
+	    displaySets(groupedItems, true);  // 기존 displaySets 함수로 결과 표시
 	}
 	
 	//해당 지역 전체 채널링
@@ -346,31 +422,32 @@ document.addEventListener("DOMContentLoaded", function () {
 		const maxCh = server_ch[server];
 		let groupedItems = {}; // 색상별로 그룹화된 주머니들
 		console.log(groupedItems);
+		
 		// 각 채널을 순회하며 주머니 수집
 		for (let ch = 1; ch <= maxCh; ch++) {
 			if (ch === 11) continue; // 11채널 제외
-			const data = await fetchNpcData(npc, server, ch);
 			
+			const data = await fetchNpcData(npc, server, ch);			
 			data.forEach(item => {
 				const colors = extractItemColor(item.image_url);
-				let color = Object.values(colors);
-				color.splice(2, 1); //color_03 제외 4~5는 같은 색상 공유 인 것 확인, 3제외한 컬러를 키값으로 지정.
-				color = color.join("-");
+				let colorKey = Object.values(colors);
+				colorKey.splice(2, 1); //color_03 제외 4~5는 같은 색상 공유 인 것 확인, 3제외한 컬러를 키값으로 지정.
+				colorKey = colorKey.join("-");
 				//const color = colors.color_01+colors.color_02; //겉감 기준으로만, color_03 은 작물+방직 / 가죽+옷감+실크 끼리 공유
-				if (!groupedItems[color]) {
-					groupedItems[color] = {}; // 색상 그룹 생성
+				if (!groupedItems[colorKey]) {
+					groupedItems[colorKey] = {}; // 색상 그룹 생성
 				}
 				/* 
 				if (!groupedItems[color]["color"]) {
 					groupedItems[color]["color"] = [];
 				}
 				 */
-				if (!groupedItems[color][item.item_display_name]) {
-					groupedItems[color][item.item_display_name] = [];
+				if (!groupedItems[colorKey][item.item_display_name]) {
+					groupedItems[colorKey][item.item_display_name] = [];
 				}
 				// 해당 아이템에 채널 추가 (중복 방지)
-				if (!groupedItems[color][item.item_display_name].includes(ch)) {
-					groupedItems[color][item.item_display_name].push(ch);
+				if (!groupedItems[colorKey][item.item_display_name].includes(ch)) {
+					groupedItems[colorKey][item.item_display_name].push(ch);
 					//groupedItems[color]["color"].push(colors); //3은 따로 넣어야함.
 				}
 			});
@@ -379,18 +456,45 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		displaySets(groupedItems); // 결과 표시
 	}
+	
+	function sortGroupedItems(groupedItems) {
+	    const sortedItems = {};
+
+	    // 미리 정의한 순서에 따라 정렬
+	    pouchOrder.forEach(itemName => {
+	        for (const colorKey in groupedItems) {
+	            if (groupedItems[colorKey][itemName]) {
+	                if (!sortedItems[colorKey]) sortedItems[colorKey] = {};
+	                sortedItems[colorKey][itemName] = groupedItems[colorKey][itemName];
+	            }
+	        }
+	    });
+
+	    return sortedItems;
+	}
 		
 	//전체 세트 표시
-	function displaySets(groupedItems) {
+	/*
+	function displaySets(groupedItems, isMultiServer = false) {
+		console.log(groupedItems);
+		const sortedItems = sortGroupedItems(groupedItems);
+
+        console.log(groupedItems);
+        console.log("####");
+
+       
 		const items = document.querySelectorAll(".item");
 		//const addInfo = document.querySelectorAll(".color-info");
+		const unmatchedItem = document.createElement("div");
+        unmatchedItem.classList.add("unmatched-item");
+        unmatchedItem.classList.add("item");
+        unmatchedItem.classList.add(".channel-info");
 		const container = document.querySelectorAll(".container")[0]; //어짜피 전체에서는 선택 불가능
 		let index = 0;
 		
-		//추가 전 존재하는 채널링 정보 모두 삭제
-		const elements = document.querySelectorAll(".channel-info");
-        elements.forEach(element => element.remove()); // 요소 삭제
-        
+	    // 기존 채널링 정보 삭제
+	    document.querySelectorAll(".channel-info").forEach(element => element.remove());		
+	    
      	// 아이템 순서대로 채널링 정보 표시
         items.forEach((item, index) => {
             const imageUrl = item.querySelector(".api-img").src;
@@ -408,41 +512,131 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 // 해당 색상에 매칭된 아이템별 채널 정보 추가
                 Object.entries(matchedItemGroup).forEach(([itemName, channels]) => {
-                    channelInfoDiv.innerHTML += `
-                        <p><label class="info-jumoney-name">${itemName}</label>
-                        <span class="info-channel">${channels.join(", ")}</span></p>
-                    `;
+                	if (isMultiServer) {
+                		let multiChannelInfo =  `<p><label class="info-jumoney-name">${itemName}</label>`;
+                        // 다중 서버 처리: 서버 이름과 채널 정보 표시
+                        Object.entries(channels).forEach(([server, chList]) => {                           
+                                
+                        	multiChannelInfo += `<span class="info-channel all-server">${server}: ${chList.join(", ")}</span>`;
+                        });
+                        multiChannelInfo += "</p>";
+                    	channelInfoDiv.innerHTML += multiChannelInfo;
+                    }else{ //단일 서버 처리
+	                    channelInfoDiv.innerHTML += `
+	                        <p><label class="info-jumoney-name">${itemName}</label>
+	                        <span class="info-channel">${channels.join(", ")}</span></p>
+	                    `;
+                	}
                 });
 
                 // 현재 아이템에 채널링 정보 추가
                 items[index].appendChild(channelInfoDiv);
-            }
+            }else {
+                // 매칭되지 않은 항목을 새로운 컨테이너에 추가
+                
+                unmatchedItem.innerHTML = `<h4>채널링 정보</h4>`;
+                
+                unmatchedItem.innerHTML += `
+                    <p><label class="info-jumoney-name">${itemName}</label>
+                    <span class="info-channel">${channels.join(", ")}</span></p>
+                `;
+                container.appendChild(unmatchedItem);
+            }           
+
         });
-		
-		// 색상 그룹을 순회하며 세트 정보 표시
-		//Object.entries() 객체의 삽입 순서에 따라 키-값 쌍을 반환합니다. => 순서 유지 가능
-		
-		/*
-		Object.entries(groupedItems).forEach(([color, items]) => {
-			console.log(color);
-			const div = document.createElement("div");
-			div.classList.add("channel-info");
-			div.innerHTML = "<h4>채널링 정보</h4>";
-			Object.entries(items).forEach(([itemName, channels]) => {	
-				div.innerHTML += `<p><label class="info-jumoney-name">${itemName}</label><span class="info-channel">${channels.join(", ")}</span></p>`;
-			});
-			
-			if(addInfo[index])
-				addInfo[index].appendChild(div);
-			else{
-				container.appendChild(div);
-				div.classList.add("new-colorSet");
-			}
-			
-			index++;
-		});
-		*/
 	}
+     	*/
+   	function displaySets(groupedItems, isMultiServer = false) {
+   	    const sortedItems = sortGroupedItems(groupedItems);
+
+   	    const items = document.querySelectorAll(".item");
+   	    const container = document.querySelectorAll(".container")[0];
+   	 	const processedColors = new Set(); // 처리된 색상 키를 추적
+
+   	    document.querySelectorAll(".channel-info").forEach(element => element.remove());
+
+   	    items.forEach((item, index) => {
+   	        const imageUrl = item.querySelector(".api-img").src;
+   	        const itemColors = extractItemColor(imageUrl);
+   	        let colorKey = Object.values(itemColors);
+   	        colorKey.splice(2, 1);
+   	        colorKey = colorKey.join("-");
+
+   	        const matchedItemGroup = sortedItems[colorKey];
+
+   	        if (matchedItemGroup) {
+   	            const channelInfoDiv = document.createElement("div");
+   	            channelInfoDiv.classList.add("channel-info");
+   	            channelInfoDiv.innerHTML = `<h4>채널링 정보</h4>`;
+
+   	            Object.entries(matchedItemGroup).forEach(([itemName, channels]) => {
+   	                if (isMultiServer) {
+   	                    let multiChannelInfo = `<p><label class="info-jumoney-name">${itemName}</label>`;
+   	                    Object.entries(channels).forEach(([server, chList]) => {
+   	                        multiChannelInfo += `<span class="info-channel all-server">${server}: ${chList.join(", ")}</span>`;
+   	                    });
+   	                    multiChannelInfo += "</p>";
+   	                    channelInfoDiv.innerHTML += multiChannelInfo;
+   	                } else {
+   	                    channelInfoDiv.innerHTML += `
+   	                        <p><label class="info-jumoney-name">${itemName}</label>
+   	                        <span class="info-channel">${channels.join(", ")}</span></p>`;
+   	                }
+   	            });
+
+   	            items[index].appendChild(channelInfoDiv);
+   	        	processedColors.add(colorKey); // 처리된 색상 키 추적
+   	        }
+   	    });
+   	    
+   	// 매칭되지 않은 색상 그룹을 새로 생성하여 .container에 추가
+   	    Object.entries(sortedItems).forEach(([colorKey, itemGroup]) => {
+   	        if (!processedColors.has(colorKey)) {
+   	            const newItem = document.createElement("div");
+   	            newItem.classList.add("item");
+   	        	newItem.classList.add("nomatch-addItem");
+
+   	            // 주머니 이미지 및 정보 추가 (예제용)
+   	            //newItem.innerHTML = `<h4></h4>`;
+   	            const colorArr = `${colorKey}`.split('-');
+   	            newItem.innerHTML = `<div class="color-info"><p>
+						   	             <span class="color_rect" style="background:${colorArr[0]};"></span>
+						   	             <label class="hex">${colorArr[0]}</label>
+						   	             <label class="rgb">${hexToRgbString(colorArr[0])}</label>
+						   	          </p>
+						   	       	  <p>
+						   	          	 <span class="color_rect" style="background:${colorArr[0]};"></span>
+						   	          	 <label class="hex">${colorArr[1]}</label>
+						   	             <label class="rgb">${hexToRgbString(colorArr[1])}</label>
+						   	          </p></div>
+						   	         `;
+   	            const channelInfoDiv = document.createElement("div");
+   	            channelInfoDiv.classList.add("channel-info");
+   	            channelInfoDiv.innerHTML = `<h4>채널링 정보</h4>`;
+
+   	            // 새로운 항목의 채널링 정보 추가
+   	            Object.entries(itemGroup).forEach(([itemName, channels]) => {
+   	                if (isMultiServer) {
+   	                    let multiChannelInfo = `<p><label class="info-jumoney-name">${itemName}</label>`;
+   	                    Object.entries(channels).forEach(([server, chList]) => {
+   	                        multiChannelInfo += `<span class="info-channel all-server">${server}: ${chList.join(", ")}</span>`;
+   	                    });
+   	                    multiChannelInfo += "</p>";
+   	                    channelInfoDiv.innerHTML += multiChannelInfo;
+   	                } else {
+   	                    channelInfoDiv.innerHTML += `
+   	                        <p><label class="info-jumoney-name">${itemName}</label>
+   	                        <span class="info-channel">${channels.join(", ")}</span></p>`;
+   	                }
+   	            });
+
+   	            newItem.appendChild(channelInfoDiv); // 새로 생성한 .item에 채널 정보 추가
+   	            container.appendChild(newItem); // .container에 새 항목 추가
+   	        }
+   	    });
+   	}
+		
+	
 
     async function fetchNpcData(npc, server, channel) {
     	const cacheKey = `${npc}_${server}_${channel}`; // 중복 호출을 피하기 위한 캐시키 생성 //호출 횟수 아껴야함...ㅠㅠ
@@ -518,6 +712,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	    nextReset.setMinutes(Math.ceil(now.getMinutes() / 36) * 36, 0, 0);  // 다음 리셋 시간 계산
 	    return nextReset;
 	}
+	
 	
 });
 
@@ -665,7 +860,7 @@ button:hover, button:active {
 }
 .mabibase-img{
 	position: relative;
-	top: -5%;
+	top: -0.7em;
 }
 #top-info{
 	width: 100%;
@@ -718,9 +913,21 @@ span.info-channel {
     margin-left: 11px;
     font-size: 11pt;
 }
+span.info-channel.all-server{
+	display: block;
+}
 .channel-info h4 {
     margin-bottom: 3px;
     text-align: center;
+}
+.item.nomatch-addItem {
+    padding: 50% 0px;
+}
+
+#erirTime{
+    position: absolute;
+    left: 0px;
+    transform: translate(0%, -50%);
 }
 </style>
 
@@ -733,6 +940,8 @@ span.info-channel {
 				<button onclick="window.open('https://openapi.nexon.com/my-application/')">API KEY 생성</button>
 			</div>
 			<div id="wid">
+				<sapn id="erinTime">
+				</sapn>
 				<span id="resetTime">
 					리셋 시간: <span type="text" id="time"></span>
 				</span>
@@ -771,6 +980,7 @@ span.info-channel {
 				<button id="prev">이전 채널</button>
 			    <button id="next">다음 채널</button>
 			    <button id="checkSet">채널링</button>
+			    <button id="checkAllServers">전 서버 채널링</button>
 				
 			</div>
 		</div>
