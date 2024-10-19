@@ -229,7 +229,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			//캡쳐용 마을 이름 숨기기
 			pouchOrder[count] = item_nm;
 			table += `<div class="item"><h3 class="location_nm hidden">${location_nm}</h3>`;
-			table += `<button class="btnNewTab" data-info1="${color.color_01}" data-info2="${color.color_02}"></button>`;
+			table += `<button class="btnNewTab" data-info1="${color.color_01}" data-info2="${color.color_02}" style="display:none;"></button>`;
 			table += `<img src="${url}" alt="${item_nm}" class="api-img"><img src="${jumoney_url}${jumoney_key[index]}?colors=${getUrlColor(color)}" class="mabibase-img" onerror="this.src='./cute.png'"><label class="item_nm">${item_nm}</label>${setColorLabel(color)}</div>`;
 			count++;
 			//if (count % max_cnt === 0) table += "</tr>";
