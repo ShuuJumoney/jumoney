@@ -21,6 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	const server_ch = { "울프": 15, "류트": 42, "하프": 24, "만돌린": 15 };
 	
+	//이후 svg 제작 이미지로 수정 예정
 	const jumoney_url = "https://api.na.mabibase.com/assets/item/icon/";
 	const jumoney_key = [
 	  "5110005",
@@ -29,9 +30,9 @@ document.addEventListener("DOMContentLoaded", function () {
 	  "5110008",
 	  "5110009",
 	  "5110010",
-  	  "2041",
-          "2042",
-          "2043",
+	  "2041",
+	  "2042",
+	  "2043",
 	  "5110014",
 	  "5110015",
 	  "5110016",
@@ -47,8 +48,9 @@ document.addEventListener("DOMContentLoaded", function () {
 	  "5110044",
 	];
 	
-	let lastResetTime = null;
 	let dataCache = {};
+	let nextResetTime = null;  // 전역 리셋 시간
+	let lastResetTime = null;
 	let API_KEY = "";
 
 	// 초기 설정
@@ -112,13 +114,15 @@ document.addEventListener("DOMContentLoaded", function () {
 		document.getElementById("tables").innerHTML = "";
 
 		const fetchPromises = locations.map(async (npc) => {
+			/*
+			// 전체 채널링과 기능 합침.
 			const cacheKey = `${npc}_${server_name}_${channel}`;
 			if (dataCache[cacheKey]) {
 				return { data: dataCache[cacheKey], npc };
 			} else {
 				const urlString = `https://open.api.nexon.com/mabinogi/v1/npcshop/list?npc_name=${npc}&server_name=${server_name}&channel=${channel}`;
 				
-				try {					
+				try {
 					const response = await fetch(urlString, {
 						headers: { "x-nxopen-api-key": API_KEY }
 					});
@@ -143,24 +147,48 @@ document.addEventListener("DOMContentLoaded", function () {
 					return null;
 				}
 			}
+			*/
+			return { data: await fetchNpcData(npc, server_name, channel), npc};
+			
 		});
 
 		const results = await Promise.all(fetchPromises);
+		
 		results.forEach(result => {
-			if (result && result.data && result.data.shop) {
-				const resetTime = convertToKST(result.data.date_shop_next_update);
-				if ( !lastResetTime && lastResetTime != resetTime) {
-					lastResetTime = resetTime;  // 리셋 시간을 업데이트
-					document.getElementById("time").innerText = resetTime;
-				}
+			if (result && result.npc && result.data.length > 0) {					
 				getJumoney(result.data, result.npc);
-			} else {				
+			} else {
+				
 				const errorMessage = `<h3>${result.data.error.name}<br/>${result.data.error.message}</h3>`;
 				document.getElementById("tables").insertAdjacentHTML('beforeend', errorMessage);
 				document.getElementById("loading").style.display = "none";
 				document.getElementById("tables").style.display = "block";
 			}
 		});
+		
+		document.querySelectorAll('.item_nm').forEach(elem => {
+			elem.addEventListener('click', () => {
+				const parent = elem.parentElement; // 부모 요소 찾기
+				const locationNm = parent.querySelector('.location_nm'); // .location_nm 요소 찾기
+				
+				if (locationNm) {
+					locationNm.classList.toggle('hidden'); // locationNm 요소에 hidden 클래스 토글
+				}
+			});
+		});
+		
+		/* 
+		//개별 채널링 아직
+		document.querySelectorAll('.btnSearch').forEach(elem => {
+			elem.addEventListener('click', () => {
+				const color = { "color_01" : elem.getAttribute("data-info1"), "color_02": elem.getAttribute("data-info2")};
+				console.log(color);
+				searchMatchingPouches(elem, color);
+			});
+		});
+		*/
+
+		document.getElementById("checkSet").addEventListener("click", checkSet);		
 	}
 
 	function getUrlColor(colors){
@@ -168,25 +196,29 @@ document.addEventListener("DOMContentLoaded", function () {
 	    return urlColor.map(color => '0x' + color.slice(1).toLowerCase()).join('%2C');
 	}
 	
-	function getJumoney(data, npc) {		
-		if (!data.shop) {
+	function getJumoney(data, npc) {	
+		if (data.length < 1 && data.error) {
 			alert(data.error.name + "\n" + data.error.message);
 			console.warn(`No shop data for NPC: ${npc}`);
 			return null;
 		}
 		
-		const items = data.shop.find(item => item.tab_name === "주머니")?.item || [];
+		const items = data;
+		
 		let table = `<h2>${locations[npc]}</h2><div class="container">`;
 		let count = 0;
 		const max_cnt = 6; //한 열 최대 수
+		const location_nm = locations[npc];
 
 		items.forEach((key, index) => {
 			const url = key.image_url;
 			const item_nm = key.item_display_name;
 			const color = extractItemColorsFromUrl(url);
-			
 			//if (count % max_cnt === 0) table += "<tr>";
-			table += `<div class="item"><img src="${url}" alt="${item_nm}" class="api-img"><img src="${jumoney_url}${jumoney_key[index]}?colors=${getUrlColor(color)}" class="mabibase-img" onerror="this.src='./cute.png'"><label class="item_nm">${item_nm}</label>${setColorLabel(color)}</div>`;
+			//캡쳐용 마을 이름 숨기기
+			table += `<div class="item"><h3 class="location_nm hidden">${location_nm}</h3>`;
+			table += `<button class="btnSearch" data-info1="${color.color_01}" data-info2="${color.color_02}"></button>`;
+			table += `<img src="${url}" alt="${item_nm}" class="api-img"><img src="${jumoney_url}${jumoney_key[index]}?colors=${getUrlColor(color)}" class="mabibase-img" onerror="this.src='./cute.png'"><label class="item_nm">${item_nm}</label>${setColorLabel(color)}</div>`;
 			count++;
 			//if (count % max_cnt === 0) table += "</tr>";
 		});
@@ -212,7 +244,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	function setColorLabel(color) {
 		if (!color) return '';
-		let result = "<div>";
+		let result = '<div class="color-info">';
 		for (let i = 1; i <= 3; i++) {
 			const cur_color = color["color_0" + i];
 			result += `<p><span class="color_rect" style="background:${cur_color};"></span><label class="hex">${cur_color}</label><label class="rgb">${hexToRgbString(cur_color)}</label></p>`;
@@ -267,7 +299,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		getNpcData();
 	});
 	
-	document.getElementById("ch").addEventListener("change", getNpcData);
+	document.getElementById("ch").addEventListener("change", getNpcData);	
 	document.getElementById("setApiKey").addEventListener("click", function() {
 		API_KEY = document.getElementById("apiKey").value;
 		getNpcData();
@@ -303,116 +335,188 @@ document.addEventListener("DOMContentLoaded", function () {
 		});
 	}
 	
-	document.getElementById("checkSet").addEventListener("click", async function () {
-	    alert("준비중 입니다.", function(){
-	    	return false;
-	    });
-	    
-		const npc_nm = document.getElementById("npc_nm").value;
-	    if (npc_nm === "all") {
-	        alert("전체 선택 시 세트 확인이 불가능합니다.");
-	        return;
-	    }
+	//해당 지역 전체 채널링
+	async function checkSet() {
+		const npc = document.getElementById("npc_nm").value;
+		if (npc === "all") return alert("특정 지역을 선택하세요.");
 
-	    const itemsWithChannels = await fetchAllChannelData();
-	    const setsFound = findMatchingSets(itemsWithChannels);
-	    displaySetsWithChannels(setsFound);
-	});
+		const server = document.getElementById("server").value;
+		const maxCh = server_ch[server];
+		let groupedItems = {}; // 색상별로 그룹화된 주머니들
+
+		// 각 채널을 순회하며 주머니 수집
+		for (let ch = 1; ch <= maxCh; ch++) {
+			if (ch === 11) continue; // 11채널 제외
+			const data = await fetchNpcData(npc, server, ch);
+			
+			data.forEach(item => {
+				const colors = extractItemColor(item.image_url);
+				let color = Object.values(colors);
+				color.splice(2, 1); //color_03 제외 4~5는 같은 색상 공유 인 것 확인, 3제외한 컬러를 키값으로 지정.
+				color = color.join("-");
+				//const color = colors.color_01+colors.color_02; //겉감 기준으로만, color_03 은 작물+방직 / 가죽+옷감+실크 끼리 공유
+				if (!groupedItems[color]) {
+					groupedItems[color] = {}; // 색상 그룹 생성
+				}
+				/* 
+				if (!groupedItems[color]["color"]) {
+					groupedItems[color]["color"] = [];
+				}
+				 */
+				if (!groupedItems[color][item.item_display_name]) {
+					groupedItems[color][item.item_display_name] = [];
+				}
+				// 해당 아이템에 채널 추가 (중복 방지)
+				if (!groupedItems[color][item.item_display_name].includes(ch)) {
+					groupedItems[color][item.item_display_name].push(ch);
+					//groupedItems[color]["color"].push(colors); //3은 따로 넣어야함.
+				}
+			});
+			
+		}
+
+		displaySets(groupedItems); // 결과 표시
+	}
 	
-	async function fetchAllChannelData() {
-	    const npc_nm = document.getElementById("npc_nm").value;
-	    const server_name = document.getElementById("server").value;
-	    const maxCh = server_ch[server_name];
+	function stringifyColors(color) {
+	    const sortedColors = Object.keys(color)
+	        .sort()  // 키를 정렬하여 순서 보장
+	        .map(key => color[key].toLowerCase())  // 소문자로 일관성 유지
+	        .join('-');  // 문자열로 병합
 
-	    const promises = [];
-	    for (let i = 1; i <= maxCh; i++) {
-	        if (i !== 11) promises.push(fetchChannelData(npc_nm, server_name, i));
-	    }
-
-	    const results = await Promise.all(promises);
-	    return results.flat();
+	    return sortedColors;
+	}
+	
+	//전체 세트 표시
+	function displaySets(groupedItems) {
+		const addInfo = document.querySelectorAll(".color-info");
+		const container = document.querySelectorAll(".container")[0]; //어짜피 전체에서는 선택 불가능
+		let index = 0;
+		
+		//추가 전 존재하는 채널링 정보 모두 삭제
+		const elements = document.querySelectorAll(".channel-info");
+        elements.forEach(element => element.remove()); // 요소 삭제
+		
+		// 색상 그룹을 순회하며 세트 정보 표시
+		//Object.entries() 객체의 삽입 순서에 따라 키-값 쌍을 반환합니다. => 순서 유지 가능
+		Object.entries(groupedItems).forEach(([color, items]) => {
+			
+			const div = document.createElement("div");
+			div.classList.add("channel-info");
+			div.innerHTML = "<h4>채널링 정보</h4>";
+			Object.entries(items).forEach(([itemName, channels]) => {	
+				div.innerHTML += `<p><label class="info-jumoney-name">${itemName}</label><span class="info-channel">${channels.join(", ")}</span></p>`;
+			});
+			
+			if(addInfo[index])
+				addInfo[index].appendChild(div);
+			else{
+				container.appendChild(div);
+				div.classList.add("new-colorSet");
+			}
+			
+			index++;
+		});
 	}
 
-	async function fetchChannelData(npc_nm, server_name, channel) {
-	    const url = `https://open.api.nexon.com/mabinogi/v1/npcshop/list?npc_name=${npc_nm}&server_name=${server_name}&channel=${channel}`;
+    async function fetchNpcData(npc, server, channel) {
+    	const cacheKey = `${npc}_${server}_${channel}`; // 중복 호출을 피하기 위한 캐시키 생성 //호출 횟수 아껴야함...ㅠㅠ
+        const url = `https://open.api.nexon.com/mabinogi/v1/npcshop/list?npc_name=${npc}&server_name=${server}&channel=${channel}`;
+    	
+    	// 캐시된 데이터가 있는 경우 반환
+    	/*
+        if (dataCache[cacheKey] && !isCacheExpired(cacheKey)) {
+            console.log(`캐시된 데이터 사용: ${cacheKey}`);
+            return dataCache[cacheKey];
+        }
+    	*/
+    	
+    	// 리셋 시간이 지나지 않았고 캐시가 존재하면 재사용
+        if (dataCache[cacheKey] && !isResetNeeded()) {        	
+            console.log(`캐시된 데이터 사용: ${cacheKey}`);
+            return dataCache[cacheKey];
+        }
+    	
+        console.log(`API 호출: ${cacheKey}`);
+        
+        try {
+            const response = await fetch(url, { headers: { "x-nxopen-api-key": API_KEY } });
+            const data = await response.json();
 
-	    try {
-	        const response = await fetch(url, { headers: { "x-nxopen-api-key": API_KEY } });
-	        const data = await response.json();
-	        const items = data.shop.find(item => item.tab_name === "주머니")?.item || [];
-	        return items.map(item => ({ ...item, channel }));  // 채널 정보 포함
-	    } catch (error) {
-	        console.error(`채널 ${channel} 데이터 불러오기 실패:`, error);
-	        return [];
-	    }
+            if (!response.ok || !data.shop) {
+            	console.error(data.error.name + ": " + data.error.mesaage);
+            	return data;
+                throw new Error(`채널 ${channel} 데이터 로드 실패: ${response.status}`);
+            }
+            
+            //리셋 시간 변경 됐을 경우만 저장
+            if (!nextResetTime || new Date(data.date_shop_next_update) > nextResetTime) {
+                nextResetTime = new Date(data.date_shop_next_update);
+                document.getElementById("time").innerText = convertToKST(nextResetTime);
+                console.log(`다음 리셋 시간 갱신: ${nextResetTime}`);
+            }
+            
+        	// 주머니 데이터 추출 및 캐시에 저장
+            const items = data.shop.filter(shop => shop.tab_name === "주머니").flatMap(shop => shop.item);
+            dataCache[cacheKey] = items;  // 캐시에 저장            
+            return items;
+            
+        } catch (error) {
+            console.error("데이터 로드 오류:", error);
+            return error;
+        }
+    }
+
+    function displayItems(items, location) {
+        const tables = document.getElementById("tables");
+        let table = `<h2>${location}</h2><div class="container">`;
+
+        items.forEach(item => {
+            const color = extractItemColor(item.image_url);
+            table += `<div class="item">
+                <p>${item.item_display_name}</p>
+                <img src="${item.image_url}" />
+                ${setColorLabel(color)}
+            </div>`;
+        });
+
+        table += "</div>";
+        tables.innerHTML += table;
+    }
+	
+	function extractItemColor(url) {
+		const params = new URL(url).searchParams;
+		return JSON.parse(decodeURIComponent(params.get("item_color") || "{}"));
 	}
-
-	function findMatchingSets(items) {
-	    const setsFound = {};
-
-	    Object.entries(setDefinitions).forEach(([setName, setItems]) => {
-	        const matchingItems = setItems.map(setItem =>
-	            items.find(item => item.item_display_name === setItem)
-	        ).filter(Boolean);
-
-	        if (matchingItems.length === setItems.length) {
-	            const firstPalette = extractRelevantColors(matchingItems[0].image_url);
-
-	            const isMatchingPalette = matchingItems.every(item =>
-	                extractRelevantColors(item.image_url) === firstPalette
-	            );
-
-	            if (isMatchingPalette) {
-	                if (!setsFound[setName]) setsFound[setName] = { colors: firstPalette, items: [] };
-
-	                matchingItems.forEach(item => {
-	                    setsFound[setName].items.push({
-	                        name: item.item_display_name,
-	                        channel: item.channel
-	                    });
-	                });
-	            }
-	        }
-	    });
-
-	    return setsFound;
+	
+	//리셋 시간 체크
+	function isResetNeeded() {
+	    const now = new Date();
+	    return nextResetTime && now >= nextResetTime;  // 리셋 시간이 지났는지 확인
 	}
-
-	function extractRelevantColors(url) {
-	    try {
-	        const params = new URL(url).searchParams;
-	        const colors = JSON.parse(decodeURIComponent(params.get('item_color') || '{}'));
-	        return `${colors.color_01}-${colors.color_02}-${colors.color_03}`;  // 색상 팔레트를 문자열로 변환
-	    } catch (error) {
-	        console.warn("색상 추출 오류:", error);
-	        return "";
-	    }
+	
+	
+	function getNextResetTime() {
+	    const now = new Date();
+	    const nextReset = new Date(now);
+	    nextReset.setMinutes(Math.ceil(now.getMinutes() / 36) * 36, 0, 0);  // 다음 리셋 시간 계산
+	    return nextReset;
 	}
+	
+	function scheduleDataRefresh() {
+	    const nextReset = getNextResetTime();
+	    const timeout = nextReset - new Date();  // 다음 리셋까지 남은 시간 계산
 
-	function displaySetsWithChannels(sets) {
-	    const setsContainer = document.getElementById("sets");
-	    setsContainer.innerHTML = "";
+	    console.log(`다음 리셋 시간: ${nextReset.toLocaleTimeString()}`);
 
-	    if (!sets || Object.keys(sets).length === 0) {
-	        setsContainer.insertAdjacentHTML('beforeend', "<p>세트를 찾을 수 없습니다.</p>");
-	        return;
-	    }
-
-	    let html = "<h3>세트 정보</h3>";
-	    Object.entries(sets).forEach(([setName, { colors, items }]) => {
-	        html += `<h4>${setName}</h4>`;
-	        html += `<p>색상: ${colors}</p><ul>`;  // 색상은 한 번만 출력
-
-	        items.forEach(({ name, channel }) => {
-	            html += `<li>${name} (채널: ${channel})</li>`;
-	        });
-
-	        html += "</ul>";
-	    });
-
-	    setsContainer.insertAdjacentHTML('beforeend', html);
+	    setTimeout(() => {
+	        console.log("리셋 시간 도달: 캐시 초기화 중...");
+	        dataCache = {};  // 캐시 초기화
+	        lastFetchTime = {};  // 호출 시간 초기화
+	        getNpcData();  // 데이터 갱신
+	        scheduleDataRefresh();  // 다음 리셋 예약
+	    }, timeout);
 	}
-
 });
 
 </script>
@@ -431,13 +535,14 @@ body {
 .api-img {
 	width: 60%;
 }
-.item {
+.item, .channel-info.new-colorSet {
     width: calc(100% - 6px);
     min-width: 235px;
     border: 1px solid #e1e1e1;
     vertical-align: top;
     text-align: center;
     margin-bottom: 4px;
+	position: relative;
 }
 .color_rect {
     display: inline-block;
@@ -467,6 +572,9 @@ div {
     width: 90%;
     display: inline-block;
 }
+.color-info{
+	margin-bottom: 0.5em;
+}
 p {
     margin: 2px;
     text-align: left;
@@ -476,6 +584,7 @@ p {
 .item_nm {
 	margin-bottom: 7px;
 	display: block;
+	cursor: pointer;
 }
 
 #srchForm {
@@ -572,6 +681,45 @@ button:hover, button:active {
     margin-right: 5px;
     cursor: pointer;
 }
+button.btnSearch {
+    position: absolute;
+    top: 0.5em;
+    right: 0.5em;
+    width: 20px;
+    height: 20px;
+    display:none;
+}
+.location_nm{
+    margin: 10px 0px 0px;
+}
+.location_nm.hidden{
+	display:none;
+}
+.channel-info p {
+    text-align: left;
+    display: block;
+    margin-top: 7px;
+}
+label.info-jumoney-name:before {
+    content: "";
+    width: 5px;
+    height: 5px;
+    border-radius: 5px;
+    display: inline-block;
+    background: #636363;
+    margin: 3px;
+}
+label.info-jumoney-name {
+    display: block;
+}
+span.info-channel {
+    margin-left: 11px;
+    font-size: 11pt;
+}
+.channel-info h4 {
+    margin-bottom: 3px;
+    text-align: center;
+}
 </style>
 
 </head>
@@ -620,13 +768,13 @@ button:hover, button:active {
 				
 				<button id="prev">이전 채널</button>
 			    <button id="next">다음 채널</button>
-			    <button id="checkSet">세트 확인</button>
+			    <button id="checkSet">채널링</button>
 				
 			</div>
 		</div>
 		<div id="loading">...</div>
 		<div id="tables" style="display:none;"></div>
-		<div id="sets" style="margin-top: 20px;"></div>
+		<div id="results" style="margin-top: 20px;"></div>
 	</div>
 </body>
 </html>
