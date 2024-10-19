@@ -343,7 +343,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		const server = document.getElementById("server").value;
 		const maxCh = server_ch[server];
 		let groupedItems = {}; // 색상별로 그룹화된 주머니들
-
+		console.log(groupedItems);
 		// 각 채널을 순회하며 주머니 수집
 		for (let ch = 1; ch <= maxCh; ch++) {
 			if (ch === 11) continue; // 11채널 제외
@@ -377,18 +377,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		displaySets(groupedItems); // 결과 표시
 	}
-	
-	function stringifyColors(color) {
-	    const sortedColors = Object.keys(color)
-	        .sort()  // 키를 정렬하여 순서 보장
-	        .map(key => color[key].toLowerCase())  // 소문자로 일관성 유지
-	        .join('-');  // 문자열로 병합
-
-	    return sortedColors;
-	}
-	
+		
 	//전체 세트 표시
 	function displaySets(groupedItems) {
+		const items = document.querySelectorAll(".item");
 		const addInfo = document.querySelectorAll(".color-info");
 		const container = document.querySelectorAll(".container")[0]; //어짜피 전체에서는 선택 불가능
 		let index = 0;
@@ -396,11 +388,41 @@ document.addEventListener("DOMContentLoaded", function () {
 		//추가 전 존재하는 채널링 정보 모두 삭제
 		const elements = document.querySelectorAll(".channel-info");
         elements.forEach(element => element.remove()); // 요소 삭제
+        
+     	// 아이템 순서대로 채널링 정보 표시
+        items.forEach((item, index) => {
+            const imageUrl = item.querySelector(".api-img").src;
+            const itemColors = extractItemColor(imageUrl); // 이미지 URL에서 색상 추출
+            let colorKey = Object.values(itemColors); 
+            colorKey.splice(2, 1); //color_03 제외 4~5는 같은 색상 공유 인 것 확인, 3제외한 컬러를 키값으로 지정.
+            colorKey = colorKey.join("-"); // 색상을 키로 변환
+
+            const matchedItemGroup = groupedItems[colorKey]; // 색상으로 그룹화된 데이터에서 검색
+
+            if (matchedItemGroup) {
+                const channelInfoDiv = document.createElement("div");
+                channelInfoDiv.classList.add("channel-info");
+                channelInfoDiv.innerHTML = `<h4>채널링 정보</h4>`;
+
+                // 해당 색상에 매칭된 아이템별 채널 정보 추가
+                Object.entries(matchedItemGroup).forEach(([itemName, channels]) => {
+                    channelInfoDiv.innerHTML += `
+                        <p><label class="info-jumoney-name">${itemName}</label>
+                        <span class="info-channel">${channels.join(", ")}</span></p>
+                    `;
+                });
+
+                // 현재 아이템에 채널링 정보 추가
+                addInfo[index].appendChild(channelInfoDiv);
+            }
+        });
 		
 		// 색상 그룹을 순회하며 세트 정보 표시
 		//Object.entries() 객체의 삽입 순서에 따라 키-값 쌍을 반환합니다. => 순서 유지 가능
+		
+		/*
 		Object.entries(groupedItems).forEach(([color, items]) => {
-			
+			console.log(color);
 			const div = document.createElement("div");
 			div.classList.add("channel-info");
 			div.innerHTML = "<h4>채널링 정보</h4>";
@@ -417,6 +439,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			
 			index++;
 		});
+		*/
 	}
 
     async function fetchNpcData(npc, server, channel) {
