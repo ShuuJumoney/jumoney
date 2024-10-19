@@ -112,6 +112,8 @@ document.addEventListener("DOMContentLoaded", function () {
 		const locations = getLocatioin();
 
 		document.getElementById("tables").innerHTML = "";
+		
+		if( isResetNeeded() ) dataCache = {};
 
 		const fetchPromises = locations.map(async (npc) => {
 			/*
@@ -158,7 +160,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			if (result && result.npc && result.data.length > 0) {					
 				getJumoney(result.data, result.npc);
 			} else {
-				
+				console.log(result);
 				const errorMessage = `<h3>${result.data.error.name}<br/>${result.data.error.message}</h3>`;
 				document.getElementById("tables").insertAdjacentHTML('beforeend', errorMessage);
 				document.getElementById("loading").style.display = "none";
@@ -381,7 +383,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	//전체 세트 표시
 	function displaySets(groupedItems) {
 		const items = document.querySelectorAll(".item");
-		const addInfo = document.querySelectorAll(".color-info");
+		//const addInfo = document.querySelectorAll(".color-info");
 		const container = document.querySelectorAll(".container")[0]; //어짜피 전체에서는 선택 불가능
 		let index = 0;
 		
@@ -413,7 +415,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
 
                 // 현재 아이템에 채널링 정보 추가
-                addInfo[index].appendChild(channelInfoDiv);
+                items[index].appendChild(channelInfoDiv);
             }
         });
 		
@@ -473,7 +475,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
             
             //리셋 시간 변경 됐을 경우만 저장
-            if (!nextResetTime || new Date(data.date_shop_next_update) > nextResetTime) {
+            if (!nextResetTime || new Date(data.date_shop_next_update) > nextResetTime ) {
                 nextResetTime = new Date(data.date_shop_next_update);
                 document.getElementById("time").innerText = convertToKST(nextResetTime);
                 console.log(`다음 리셋 시간 갱신: ${nextResetTime}`);
@@ -490,23 +492,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    function displayItems(items, location) {
-        const tables = document.getElementById("tables");
-        let table = `<h2>${location}</h2><div class="container">`;
-
-        items.forEach(item => {
-            const color = extractItemColor(item.image_url);
-            table += `<div class="item">
-                <p>${item.item_display_name}</p>
-                <img src="${item.image_url}" />
-                ${setColorLabel(color)}
-            </div>`;
-        });
-
-        table += "</div>";
-        tables.innerHTML += table;
-    }
-	
 	function extractItemColor(url) {
 		const params = new URL(url).searchParams;
 		return JSON.parse(decodeURIComponent(params.get("item_color") || "{}"));
@@ -515,7 +500,15 @@ document.addEventListener("DOMContentLoaded", function () {
 	//리셋 시간 체크
 	function isResetNeeded() {
 	    const now = new Date();
-	    return nextResetTime && now >= nextResetTime;  // 리셋 시간이 지났는지 확인
+	    let result  = false;
+	    
+	    console.log(now);
+	    console.log(nextResetTime);
+	    
+	    if(nextResetTime == null) result = true;
+	    else if ( now >= nextResetTime ) result = true;
+	  		
+	    return result;
 	}
 	
 	
@@ -526,20 +519,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	    return nextReset;
 	}
 	
-	function scheduleDataRefresh() {
-	    const nextReset = getNextResetTime();
-	    const timeout = nextReset - new Date();  // 다음 리셋까지 남은 시간 계산
-
-	    console.log(`다음 리셋 시간: ${nextReset.toLocaleTimeString()}`);
-
-	    setTimeout(() => {
-	        console.log("리셋 시간 도달: 캐시 초기화 중...");
-	        dataCache = {};  // 캐시 초기화
-	        lastFetchTime = {};  // 호출 시간 초기화
-	        getNpcData();  // 데이터 갱신
-	        scheduleDataRefresh();  // 다음 리셋 예약
-	    }, timeout);
-	}
 });
 
 </script>
