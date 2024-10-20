@@ -51,8 +51,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	let API_KEY = "";
 
 	// 초기 설정
-	setChannel();
-	prevNextCh();
 	//getNpcData();
 	
 	window.onload = function () {
@@ -74,6 +72,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		
 		if (localNpc)
 		  document.getElementById("npc_nm").value = localNpc;		  
+		
+		setChannel(); //localServer 설정 한 후에		
+		prevNextCh(); 
 	};
 
 	function getLocatioin() {
@@ -83,10 +84,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	function setChannel() {
 		const chSelect = document.getElementById("ch");
-		const serverSelect = document.getElementById("server");
-		const maxCh = server_ch[serverSelect.value];
+		const serverSelect = document.getElementById("server").value;
+		const maxCh = server_ch[serverSelect];
+		
 
 		chSelect.innerHTML = "";
+		
 		for (let i = 1; i <= maxCh; i++) {
 			if (i === 11) continue;
 			let option = document.createElement('option');
@@ -94,7 +97,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			option.text = `${i}채`;
 			chSelect.appendChild(option);
 		}
-		
+				
 		if(API_KEY != "") chSelect.dispatchEvent(new Event('change'));
 	}
 
@@ -305,7 +308,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
 
 	// 채널 입력 필드에 이벤트 리스너 추가
-	document.getElementById("ch").addEventListener("input", function() {
+	document.getElementById("ch").addEventListener("change", function() {
 	  const channel = this.value; // 입력값 가져오기
 	  localStorage.setItem("channel", channel); // 로컬 스토리지에 저장
 	});	
