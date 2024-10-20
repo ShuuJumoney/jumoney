@@ -223,6 +223,7 @@ span.info-channel.all-server{
 	background-repeat: no-repeat;
 	vertical-align: middle;
 	opacity: 0.6;
+	margin-right: 4px;
 }
 .server-mark.울프{
 	background-image: url("../image/wf.png");

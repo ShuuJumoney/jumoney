@@ -328,29 +328,6 @@ document.addEventListener("DOMContentLoaded", function () {
 		});
 	}	
 	
-	//전체 서버 채널링
-	function displayAllServersSets(groupedItems) {
-	    const resultsDiv = document.getElementById("results");
-	    resultsDiv.innerHTML = "";  // 기존 결과 초기화
-
-	    // 색상 팔레트별로 순회하며 결과 생성
-	    Object.entries(groupedItems).forEach(([colorKey, items]) => {
-	        let html = `<h3>색상 팔레트: ${colorKey}</h3><ul>`;
-
-	        // 주머니 이름별로 순회하며 서버와 채널 표시
-	        Object.entries(items).forEach(([itemName, servers]) => {
-	            html += `<li>${itemName}<ul>`;
-	            Object.entries(servers).forEach(([server, channels]) => {
-	                html += `<li>${server}: ${channels.join(", ")}채널</li>`;
-	            });
-	            html += `</ul></li>`;
-	        });
-
-	        html += "</ul>";
-	        resultsDiv.insertAdjacentHTML("beforeend", html);
-	    });
-	}
-	
 	//해당 지역 전체 채널링
 	async function checkSetAllServers() {
 	    const npc = document.getElementById("npc_nm").value;
@@ -481,14 +458,15 @@ document.addEventListener("DOMContentLoaded", function () {
    	                if (isMultiServer) {
    	                    let multiChannelInfo = `<p><label class="info-jumoney-name">${itemName}</label>`;
    	                    Object.entries(channels).forEach(([server, chList]) => {
-   	                        multiChannelInfo += `<span class="info-channel all-server"><label class="server-mark ${server}"></label> ${chList.join(", ")}</span>`;
+   	                        multiChannelInfo += `<span class="info-channel all-server"><label class="server-mark ${server}"></label>${chList.join(", ")}</span>`;
    	                    });
    	                    multiChannelInfo += "</p>";
    	                    channelInfoDiv.innerHTML += multiChannelInfo;
    	                } else {
+						const server = document.getElementById("server").value;
    	                    channelInfoDiv.innerHTML += `
    	                        <p><label class="info-jumoney-name">${itemName}</label>
-   	                        <span class="info-channel">${channels.join(", ")}</span></p>`;
+   	                        <span class="info-channel"><label class="server-mark ${server}"></label>${channels.join(", ")}</span></p>`;
    	                }
    	            });
 
