@@ -538,6 +538,12 @@ document.addEventListener("DOMContentLoaded", function () {
             return dataCache[cacheKey];
         }
     	*/
+
+	//시간이 지나 리셋 됐다면 무조건 캐시 초기화.
+    	if(isResetNeeded()){
+		dataCache = {};
+	}
+    	
     	
     	// 리셋 시간이 지나지 않았고 캐시가 존재하면 재사용
         if (dataCache[cacheKey] && !isResetNeeded()) {        	
