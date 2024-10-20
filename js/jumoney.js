@@ -48,7 +48,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	
 	let dataCache = {};
 	let nextResetTime = null;  // 전역 리셋 시간
-	let lastResetTime = null;
 	let API_KEY = "";
 
 	// 초기 설정
@@ -280,27 +279,6 @@ document.addEventListener("DOMContentLoaded", function () {
 		return { r, g, b };
 	}
 	
-	// 한국 시간으로 리셋 시간 표시
-	function convertToKST(isoDate) {
-		const date = new Date(isoDate);
-		const options = { 
-			timeZone: 'Asia/Seoul', 
-			year: 'numeric', 
-			month: '2-digit', 
-			day: '2-digit', 
-			hour: '2-digit', 
-			minute: '2-digit', 
-			hour12: false 
-		};
-		const formatter = new Intl.DateTimeFormat('ko-KR', options);
-		const parts = formatter.formatToParts(date);
-		const dateStr = parts.filter(part => part.type === 'year' || part.type === 'month' || part.type === 'day')
-						   .map(part => part.value).join('-');
-		const timeStr = parts.filter(part => part.type === 'hour' || part.type === 'minute')
-						   .map(part => part.value).join(':');
-		return `${dateStr} ${timeStr}`;
-	}
-
 	// 서버 변경 시 채널 목록 재설정
 	document.getElementById("server").addEventListener("change", function() {
 		const server = this.value; // 선택한 서버 가져오기
@@ -602,7 +580,7 @@ document.addEventListener("DOMContentLoaded", function () {
             //리셋 시간 변경 됐을 경우만 저장
             if (!nextResetTime || new Date(data.date_shop_next_update) > nextResetTime ) {
                 nextResetTime = new Date(data.date_shop_next_update);
-                document.getElementById("time").innerText = convertToKST(nextResetTime);
+                setTime(nextResetTime);
                 console.log(`다음 리셋 시간 갱신: ${nextResetTime}`);
             }
             
@@ -626,14 +604,45 @@ document.addEventListener("DOMContentLoaded", function () {
 	function isResetNeeded() {
 	    const now = new Date();
 	    let result  = false;
-	    
-	    console.log(now);
-	    console.log(nextResetTime);
-	    
+	    	    
 	    if(nextResetTime == null) result = true;
 	    else if ( now >= nextResetTime ) result = true;
 	  		
 	    return result;
 	}
 	
+	function setTime(nextResetTime) {
+		const resetTime = convertToKST(nextResetTime);
+		
+        document.getElementById("today").innerText = resetTime.date;
+        document.getElementById("lastCallTime").innerText = convertToKST(new Date().toISOString()).time;
+        document.getElementById("time").innerText = resetTime.time;
+	}
+	
+	
+	// 한국 시간으로 리셋 시간 표시
+	function convertToKST(isoDate) {
+	    const date = new Date(isoDate).toLocaleString('ko-KR', {
+	        timeZone: 'Asia/Seoul',
+	        year: 'numeric',
+	        month: '2-digit',
+	        day: '2-digit',
+	        hour: '2-digit',
+	        minute: '2-digit',
+	        hour12: true
+	    });
+	    
+	    // 날짜와 시간-분을 분리
+    	const parts = date.split(' ');
+	
+    	const datePart = parts.slice(0, 3).join('-').replace(/\./g, '').trim(); // "YYYY-MM-DD"
+    	const timePart = `${parts[3]} ${parts[4]}`.trim(); // "오전 05:08" 형식
+
+	    return { 
+	        date: datePart,
+	        time: timePart
+	    };
+	}
+	
 });
+
