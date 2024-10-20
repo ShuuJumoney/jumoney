@@ -556,8 +556,9 @@ document.addEventListener("DOMContentLoaded", function () {
             	document.getElementById("loading").style.display = "none";
             	document.getElementById("results").innerHTML = data.error.name + "<br/>" + data.error.message;
             	return data;
-            }
-            
+            }else{
+		document.getElementById("results").innerHTML = "";	
+	    }            
             //리셋 시간 변경 됐을 경우만 저장
             if (!nextResetTime || new Date(data.date_shop_next_update) > nextResetTime ) {
                 nextResetTime = new Date(data.date_shop_next_update);
