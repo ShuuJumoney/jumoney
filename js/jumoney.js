@@ -539,10 +539,12 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     	*/
 
-	//시간이 지나 리셋 됐다면 무조건 캐시 초기화.
+    	//리셋 시간되면 무조건 캐시 초기화 밑 tables 초기화
     	if(isResetNeeded()){
+		document.getElementById("tables").innerHTML = "";
 		dataCache = {};
 	}
+    	
     	
     	
     	// 리셋 시간이 지나지 않았고 캐시가 존재하면 재사용
