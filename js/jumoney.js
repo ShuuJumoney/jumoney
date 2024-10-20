@@ -512,7 +512,7 @@ document.addEventListener("DOMContentLoaded", function () {
    	                } else {
    	                    channelInfoDiv.innerHTML += `
    	                        <p><label class="info-jumoney-name">${itemName}</label>
-   	                        <span class="info-channel">${channels.join(", ")}</span></p>`;
+   	                        <span class="info-channel"><label class="server-mark ${server}"></label>${channels.join(", ")}</span></p>`;
    	                }
    	            });
 
