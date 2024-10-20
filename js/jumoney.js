@@ -505,7 +505,7 @@ document.addEventListener("DOMContentLoaded", function () {
    	                if (isMultiServer) {
    	                    let multiChannelInfo = `<p><label class="info-jumoney-name">${itemName}</label>`;
    	                    Object.entries(channels).forEach(([server, chList]) => {
-   	                        multiChannelInfo += `<span class="info-channel all-server"><label class="server-mark ${server}"></label> ${chList.join(", ")}</span>`;
+   	                        multiChannelInfo += `<span class="info-channel all-server"><label class="server-mark ${server}"></label>${chList.join(", ")}</span>`;
    	                    });
    	                    multiChannelInfo += "</p>";
    	                    channelInfoDiv.innerHTML += multiChannelInfo;
