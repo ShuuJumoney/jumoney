@@ -101,7 +101,14 @@ p {
 #loading {
     width: 100%;
     padding: 100px 0px;
-    text-align: center;
+    /*text-align: center;*/
+}
+#loading ul {
+    width: 50%;
+    text-align: left;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%);
 }
 select {
     border-color: #cccccc;
@@ -193,7 +200,8 @@ label.info-jumoney-name {
     display: block;
 }
 span.info-channel {
-    margin-left: 11px;
+    /*margin-left: 11px;*/
+    margin-left: 3px;
     font-size: 11pt;
 }
 span.info-channel.all-server{
@@ -205,17 +213,12 @@ span.info-channel.all-server{
     margin-bottom: 3px;
     margin-top: 8px;
     text-align: center;
+    font-size: 11pt;
 }
 .item.nomatch-addItem {
     padding: 50% 0px;
 }
-/*
-#erinTime{
-    position: absolute;
-    left: 0px;
-    transform: translate(0%, -50%);
-}
-*/
+
 .server-mark{
 	width: 15px;
 	height: 15px;
@@ -278,4 +281,13 @@ span.info-channel.all-server{
     max-width: 1475px;
     left: 50%;
     transform: translate(-50%, 0%);
+}
+p.set-info {
+    margin: 0px;
+}
+span.setComplete {
+    font-size: 9pt;
+    background: #ddd;
+    border-radius: 20px;
+    padding: 2px 7px;
 }

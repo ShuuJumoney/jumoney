@@ -7,11 +7,11 @@ document.addEventListener("DOMContentLoaded", function () {
 	};
 
 	const setDefinitions = {
-		    작물세트: ["튼튼한 달걀 주머니", "튼튼한 감자 주머니", "튼튼한 옥수수 주머니", "튼튼한 밀 주머니", "튼튼한 보리 주머니"],
-		    방직세트: ["튼튼한 양털 주머니", "튼튼한 거미줄 주머니", "튼튼한 가는 실뭉치 주머니", "튼튼한 굵은 실뭉치 주머니"],
-		    가죽세트: ["튼튼한 저가형 가죽 주머니", "튼튼한 일반 가죽 주머니", "튼튼한 고급 가죽 주머니", "튼튼한 최고급 가죽 주머니"],
-		    옷감세트: ["튼튼한 저가형 옷감 주머니", "튼튼한 일반 옷감 주머니", "튼튼한 고급 옷감 주머니", "튼튼한 최고급 옷감 주머니"],
-		    실크세트: ["튼튼한 저가형 실크 주머니", "튼튼한 일반 실크 주머니", "튼튼한 고급 실크 주머니", "튼튼한 최고급 실크 주머니"]
+		    작물셋: ["튼튼한 달걀 주머니", "튼튼한 감자 주머니", "튼튼한 옥수수 주머니", "튼튼한 밀 주머니", "튼튼한 보리 주머니"],
+		    방직셋: ["튼튼한 양털 주머니", "튼튼한 거미줄 주머니", "튼튼한 가는 실뭉치 주머니", "튼튼한 굵은 실뭉치 주머니"],
+		    가죽셋: ["튼튼한 저가형 가죽 주머니", "튼튼한 일반 가죽 주머니", "튼튼한 고급 가죽 주머니", "튼튼한 최고급 가죽 주머니"],
+		    옷감셋: ["튼튼한 저가형 옷감 주머니", "튼튼한 일반 옷감 주머니", "튼튼한 고급 옷감 주머니", "튼튼한 최고급 옷감 주머니"],
+		    실크셋: ["튼튼한 저가형 실크 주머니", "튼튼한 일반 실크 주머니", "튼튼한 고급 실크 주머니", "튼튼한 최고급 실크 주머니", "튼튼한 꽃바구니"]
 		};
 	
 	let pouchOrder = [];
@@ -54,12 +54,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	//getNpcData();
 	
 	window.onload = function () {
-		const localApiKey = localStorage.getItem("apiKey");
-		if (localApiKey) {
-		  document.getElementById("apiKey").value = localApiKey;
-		  API_KEY = localApiKey;
-		}
-		
+		const localApiKey = localStorage.getItem("apiKey");		
 		const localServer = localStorage.getItem("server");
 		const localChannel = localStorage.getItem("channel");
 		const localNpc = localStorage.getItem("npc");
@@ -74,7 +69,14 @@ document.addEventListener("DOMContentLoaded", function () {
 		  document.getElementById("npc_nm").value = localNpc;		  
 		
 		setChannel(); //localServer 설정 한 후에		
-		prevNextCh(); 
+		prevNextCh();
+		
+		//초기 리스트 바로 생성을 막기 위해 setChannel 이후 앱키 설정
+		if (localApiKey) {
+		  document.getElementById("apiKey").value = localApiKey;
+		  API_KEY = localApiKey;
+		}
+		
 	};
 
 	function getLocatioin() {
@@ -159,7 +161,6 @@ document.addEventListener("DOMContentLoaded", function () {
 		document.querySelectorAll('.area-capture').forEach(elem => {
 			elem.addEventListener('click', () => {
 				const captureArea = elem.parentElement;
-				console.log("click~");
 				copyToClipboard(captureArea);
 			});
 		});
@@ -169,14 +170,14 @@ document.addEventListener("DOMContentLoaded", function () {
 		document.querySelectorAll('.btnSearch').forEach(elem => {
 			elem.addEventListener('click', () => {
 				const color = { "color_01" : elem.getAttribute("data-info1"), "color_02": elem.getAttribute("data-info2")};
-				console.log(color);
 				searchMatchingPouches(elem, color);
 			});
 		});
 		*/
 
-		document.getElementById("checkSet").addEventListener("click", checkSet);	
-		document.getElementById("checkAllServers").addEventListener("click", checkSetAllServers);
+		//document.getElementById("checkSet").addEventListener("click", checkSet);	
+		document.getElementById("checkSet").addEventListener("click", () => { checkSetAllServers(false);});
+		document.getElementById("checkAllServers").addEventListener("click", () => { checkSetAllServers(true);});
 		
 		// 요소 선택
 	    //const openModalButton = document.querySelector('.open-modal');
@@ -186,8 +187,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	    const modal = document.getElementById("capture_modal");
 	    // 모달 열기
 	    document.querySelector(".btnOpenCapture").addEventListener('click', () => {
-	    	console.log("click");
-	    	console.log(modal);
 	    	modal.style.display = 'flex'; // 모달을 표시
 	    });
 
@@ -331,12 +330,16 @@ document.addEventListener("DOMContentLoaded", function () {
 		});
 	}	
 	
-	//해당 지역 전체 채널링
-	async function checkSetAllServers() {
+	//해당 지역 전체 채널링 - 단독이랑도 섞으면
+	async function checkSetAllServers(all) {
 	    const npc = document.getElementById("npc_nm").value;
+	    const items = document.querySelectorAll('.item:not(.nomatch-addItem)');
 	    if (npc === "all") return alert("특정 지역을 선택하세요.");
-	
-	    const servers = Object.keys(server_ch);  // 모든 서버 목록 가져오기
+	    else if(items.length < 1)  return alert("지역 주머니 리스트 생성 후 다시 시도해주세요.");
+	    
+		let servers = [document.getElementById("server").value];
+	    if(all) servers = Object.keys(server_ch);  // 모든 서버 목록 가져오기
+
 	    let groupedItems = {};  // 색상별로 주머니를 그룹화
 	
 	    // 각 서버와 채널에서 주머니 데이터 수집
@@ -353,68 +356,24 @@ document.addEventListener("DOMContentLoaded", function () {
 					colorKey.splice(2, 1); //color_03 제외 4~5는 같은 색상 공유 인 것 확인, 3제외한 컬러를 키값으로 지정.
 					colorKey = colorKey.join("-");
 
-	                // 색상 키 초기화
+	                // 색상 키로 주머니 정보 초기화
 	                if (!groupedItems[colorKey]) groupedItems[colorKey] = {};
+	
 	                if (!groupedItems[colorKey][item.item_display_name]) 
-	                    groupedItems[colorKey][item.item_display_name] = {};
+	                    groupedItems[colorKey][item.item_display_name] = { color_03: colors.color_03, servers: {} };
 
-	                // 서버별로 채널 목록 초기화 및 추가
-	                if (!groupedItems[colorKey][item.item_display_name][server]) 
-	                    groupedItems[colorKey][item.item_display_name][server] = [];
-	                
+	                if (!groupedItems[colorKey][item.item_display_name].servers[server]) 
+	                    groupedItems[colorKey][item.item_display_name].servers[server] = [];
+	
 	                // 채널 번호 추가
-	                const serverChannel = ch;
-	                if (!groupedItems[colorKey][item.item_display_name][server].includes(serverChannel)) {
-	                    groupedItems[colorKey][item.item_display_name][server].push(serverChannel);
+	                if (!groupedItems[colorKey][item.item_display_name].servers[server].includes(ch)) {
+	                    groupedItems[colorKey][item.item_display_name].servers[server].push(ch);
 	                }
 	            });
 	        }
 	    }
-	
-	    displaySets(groupedItems, true);  // 기존 displaySets 함수로 결과 표시
-	}
-	
-	//해당 지역 전체 채널링
-	async function checkSet() {
-		const npc = document.getElementById("npc_nm").value;
-		if (npc === "all") return alert("특정 지역을 선택하세요.");
-
-		const server = document.getElementById("server").value;
-		const maxCh = server_ch[server];
-		let groupedItems = {}; // 색상별로 그룹화된 주머니들
-		
-		// 각 채널을 순회하며 주머니 수집
-		for (let ch = 1; ch <= maxCh; ch++) {
-			if (ch === 11) continue; // 11채널 제외
-			
-			const data = await fetchNpcData(npc, server, ch);			
-			data.forEach(item => {
-				const colors = extractItemColor(item.image_url);
-				let colorKey = Object.values(colors);
-				colorKey.splice(2, 1); //color_03 제외 4~5는 같은 색상 공유 인 것 확인, 3제외한 컬러를 키값으로 지정.
-				colorKey = colorKey.join("-");
-				//const color = colors.color_01+colors.color_02; //겉감 기준으로만, color_03 은 작물+방직 / 가죽+옷감+실크 끼리 공유
-				if (!groupedItems[colorKey]) {
-					groupedItems[colorKey] = {}; // 색상 그룹 생성
-				}
-				/* 
-				if (!groupedItems[color]["color"]) {
-					groupedItems[color]["color"] = [];
-				}
-				 */
-				if (!groupedItems[colorKey][item.item_display_name]) {
-					groupedItems[colorKey][item.item_display_name] = [];
-				}
-				// 해당 아이템에 채널 추가 (중복 방지)
-				if (!groupedItems[colorKey][item.item_display_name].includes(ch)) {
-					groupedItems[colorKey][item.item_display_name].push(ch);
-					//groupedItems[color]["color"].push(colors); //3은 따로 넣어야함.
-				}
-			});
-			
-		}
-
-		displaySets(groupedItems); // 결과 표시
+	    
+	    displaySets(groupedItems);  // 기존 displaySets 함수로 결과 표시
 	}
 	
 	function sortGroupedItems(groupedItems) {
@@ -432,10 +391,34 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	    return sortedItems;
 	}
-	
-   	function displaySets(groupedItems, isMultiServer = false) {
-   	    const sortedItems = sortGroupedItems(groupedItems);
 
+	function checkSetCompletion(itemGroup) {
+	    const completedSets = {}; // 세트별 완성 여부 저장
+	
+	    Object.entries(setDefinitions).forEach(([setName, items]) => {
+	        const itemNames = Object.keys(itemGroup);
+	        const hasAllItems = items.every(item => itemNames.includes(item)); // 모든 아이템 포함 여부
+	
+	        if (setName === "방직세트") {
+	            const hasWool = itemNames.includes("튼튼한 양털 주머니");
+	            completedSets[setName] = hasAllItems 
+	                ? `${setName} 완성` 
+	                : hasWool ? "방직셋" : "유사 방직셋"; // 양털이 없을 때만 '유사 방직셋'
+	        } else if (setName === "실크세트") {
+	            const hasFlowerBasket = itemNames.includes("튼튼한 꽃바구니");
+	            completedSets[setName] = hasAllItems
+	                ? (hasFlowerBasket ? "실크세트+" : "실크세트")
+	                : null;
+	        } else {
+	            completedSets[setName] = hasAllItems ? `${setName} 완성` : null;
+	        }
+	    });
+	
+	    return completedSets;
+	}
+	
+   	function displaySets(groupedItems) {
+   	    const sortedItems = sortGroupedItems(groupedItems);
    	    const items = document.querySelectorAll('.item:not(.nomatch-addItem)');
    	    const container = document.querySelectorAll(".container")[0];
    	 	const processedColors = new Set(); // 처리된 색상 키를 추적
@@ -453,104 +436,119 @@ document.addEventListener("DOMContentLoaded", function () {
    	        const matchedItemGroup = sortedItems[colorKey];
 
    	        if (matchedItemGroup) {
-   	            const channelInfoDiv = document.createElement("div");
-   	            channelInfoDiv.classList.add("channel-info");
-   	            channelInfoDiv.innerHTML = `<h4>채널링 정보</h4>`;
-
-   	            Object.entries(matchedItemGroup).forEach(([itemName, channels]) => {
-   	                if (isMultiServer) {
-   	                    let multiChannelInfo = `<p><label class="info-jumoney-name">${itemName}</label>`;
-   	                    Object.entries(channels).forEach(([server, chList]) => {
-   	                        multiChannelInfo += `<span class="info-channel all-server"><label class="server-mark ${server}"></label>${chList.join(", ")}</span>`;
-   	                    });
-   	                    multiChannelInfo += "</p>";
-   	                    channelInfoDiv.innerHTML += multiChannelInfo;
-   	                } else {
-						const server = document.getElementById("server").value;
-   	                    channelInfoDiv.innerHTML += `
-   	                        <p><label class="info-jumoney-name">${itemName}</label>
-   	                        <span class="info-channel"><label class="server-mark ${server}"></label>${channels.join(", ")}</span></p>`;
-   	                }
-   	            });
-
+   	            const channelInfoDiv = createChannelInfoDiv(matchedItemGroup);   	      
    	            items[index].appendChild(channelInfoDiv);
    	        	processedColors.add(colorKey); // 처리된 색상 키 추적
    	        }
    	    });
    	    
-   	// 매칭되지 않은 색상 그룹을 새로 생성하여 .container에 추가
+   		// 매칭되지 않은 색상 그룹을 새로 생성하여 .container에 추가
    	    Object.entries(sortedItems).forEach(([colorKey, itemGroup]) => {
-   	        if (!processedColors.has(colorKey)) {
-   	            const newItem = document.createElement("div");
-   	            newItem.classList.add("item");
-   	        	newItem.classList.add("nomatch-addItem");
-
-   	            // 주머니 이미지 및 정보 추가 (예제용)
-   	            //newItem.innerHTML = `<h4></h4>`;
-   	            const colorArr = `${colorKey}`.split('-');
-   	            newItem.innerHTML = `<div class="color-info"><p>
-						   	             <span class="color_rect" style="background:${colorArr[0]};"></span>
-						   	             <label class="hex">${colorArr[0]}</label>
-						   	             <label class="rgb">${hexToRgbString(colorArr[0])}</label>
-						   	          </p>
-						   	       	  <p>
-						   	          	 <span class="color_rect" style="background:${colorArr[1]};"></span>
-						   	          	 <label class="hex">${colorArr[1]}</label>
-						   	             <label class="rgb">${hexToRgbString(colorArr[1])}</label>
-						   	          </p></div>
-						   	         `;
-   	            const channelInfoDiv = document.createElement("div");
-   	            channelInfoDiv.classList.add("channel-info");
-   	            channelInfoDiv.innerHTML = `<h4>채널링 정보</h4>`;
-
-   	            // 새로운 항목의 채널링 정보 추가
-   	            Object.entries(itemGroup).forEach(([itemName, channels]) => {
-   	                if (isMultiServer) {
-   	                    let multiChannelInfo = `<p><label class="info-jumoney-name">${itemName}</label>`;
-   	                    Object.entries(channels).forEach(([server, chList]) => {
-   	                        multiChannelInfo += `<span class="info-channel all-server"><label class="server-mark ${server}"></label>${chList.join(", ")}</span>`;
-   	                    });
-   	                    multiChannelInfo += "</p>";
-   	                    channelInfoDiv.innerHTML += multiChannelInfo;
-   	                } else {
-   	                    channelInfoDiv.innerHTML += `
-   	                        <p><label class="info-jumoney-name">${itemName}</label>
-   	                        <span class="info-channel"><label class="server-mark ${server}"></label>${channels.join(", ")}</span></p>`;
-   	                }
-   	            });
-
-   	            newItem.appendChild(channelInfoDiv); // 새로 생성한 .item에 채널 정보 추가
+   	        if (!processedColors.has(colorKey)) { 
+				const newItem = createNewItem(colorKey, itemGroup);
    	            container.appendChild(newItem); // .container에 새 항목 추가
    	        }
    	    });
-   	}
-		
+   	}	
+   	
+	// 채널 정보 DIV 생성 함수
+	function createChannelInfoDiv(itemGroup) {
+	    const channelInfoDiv = document.createElement("div");
+	    channelInfoDiv.classList.add("channel-info");
+	    channelInfoDiv.innerHTML = `<h4>채널링 정보</h4>`;
+	    
+	    const setInfo = checkSetCompletion(itemGroup);
+	    let setInfoText = Object.entries(setInfo)
+	        .filter(([, status]) => status) // null이 아닌 값만 남김
+	        .map(([setName, status]) => `<span class="setComplete ${setName}">${setName}</span>`) // 세트명과 상태 결합
+	        .join(", "); // 콤마로 구분
 	
+	    channelInfoDiv.innerHTML += `<p class="set-info">${setInfoText}</p>`;
+
+	    Object.entries(itemGroup).forEach(([itemName, { color_03, servers }]) => {
+	        let itemInfo = `<p><label class="info-jumoney-name">${itemName}</label>`;
+	        itemInfo += `<span class="color-03" style="display:none" color-data="${color_03}"></span>`;
+	        
+	        Object.entries(servers).forEach(([server, chList]) => {
+	            itemInfo += `<span class="info-channel all-server"><label class="server-mark ${server}"></label>${chList.join(", ")}</span>`;
+	        });
+	
+	        itemInfo += "</p>";
+	        channelInfoDiv.innerHTML += itemInfo;
+	    });
+	
+	    return channelInfoDiv;
+	}	
+	
+	// 새로운 팔레트 항목 생성 함수
+	function createNewItem(colorKey, itemGroup) {
+	    const newItem = document.createElement("div");
+	    newItem.classList.add("item", "nomatch-addItem");
+	
+	    const colorArr = colorKey.split('-').splice(0, 2); //a,b 파트만 뒤에는 더미컬러
+	    newItem.innerHTML = `
+	        <div class="color-info">
+	            ${colorArr.map(color => `
+	                <p>
+	                    <span class="color_rect" style="background:${color};"></span>
+	                    <label class="hex">${color}</label>
+	                    <label class="rgb">${hexToRgbString(color)}</label>
+	                </p>`).join('')}
+	        </div>`;
+	
+	    const channelInfoDiv = createChannelInfoDiv(itemGroup);
+	    newItem.appendChild(channelInfoDiv);
+	
+	    return newItem;
+	}
+	
+	// 세트 정보 계산 함수
+	function getSetInfo(matchedItemGroup) {
+	    const itemNames = Object.keys(matchedItemGroup);
+	
+	    // 세트 완성 여부 확인
+	    let completedSets = [];
+	    let partialSets = [];
+	
+	    Object.entries(setDefinitions).forEach(([setName, items]) => {
+	        const hasAllItems = items.every(item => itemNames.includes(item));
+	        const isPartial = items.some(item => itemNames.includes(item));
+	
+	        if (hasAllItems) {
+	            completedSets.push(setName);
+	        } else if (isPartial) {
+	            partialSets.push(setName);
+	        }
+	    });
+	
+	    // 결과 문자열 생성
+	    let setInfo = "";
+	    if (completedSets.length > 0) {
+	        setInfo += `완성된 세트: ${completedSets.join(", ")} `;
+	    }
+	    if (partialSets.length > 0) {
+	        setInfo += `부분 세트: ${partialSets.join(", ")}`;
+	    }
+	    return setInfo || "세트 정보 없음";
+	}
 
     async function fetchNpcData(npc, server, channel) {
     	const cacheKey = `${npc}_${server}_${channel}`; // 중복 호출을 피하기 위한 캐시키 생성 //호출 횟수 아껴야함...ㅠㅠ
         const url = `https://open.api.nexon.com/mabinogi/v1/npcshop/list?npc_name=${npc}&server_name=${server}&channel=${channel}`;
     	
-    	// 캐시된 데이터가 있는 경우 반환
-    	/*
-        if (dataCache[cacheKey] && !isCacheExpired(cacheKey)) {
-            console.log(`캐시된 데이터 사용: ${cacheKey}`);
-            return dataCache[cacheKey];
-        }
-    	*/
-
     	//리셋 시간되면 무조건 캐시 초기화 밑 tables 초기화
     	if(isResetNeeded()){
-		document.getElementById("tables").innerHTML = "";
-		dataCache = {};
-	}
-    	
-    	
+			document.getElementById("tables").innerHTML = "";
+			dataCache = {};			
+		}
     	
     	// 리셋 시간이 지나지 않았고 캐시가 존재하면 재사용
-        if (dataCache[cacheKey] && !isResetNeeded()) {        	
-            console.log(`캐시된 데이터 사용: ${cacheKey}`);
-            return dataCache[cacheKey];
+        if (dataCache[cacheKey] && !isResetNeeded()) {
+			//간혹 리셋 되었는데 캐시된 데이터 사용한다는 로그가 뜨며 리스트 생성 안하는 증상 방지
+			if( dataCache[cacheKey] ) { //데이터가 없다면 다시 불러오기
+	            console.log(`캐시된 데이터 사용: ${cacheKey}`);
+	            return dataCache[cacheKey];
+            }
         }
     	
         console.log(`API 호출: ${cacheKey}`);
@@ -565,8 +563,9 @@ document.addEventListener("DOMContentLoaded", function () {
             	document.getElementById("results").innerHTML = data.error.name + "<br/>" + data.error.message;
             	return data;
             }else{
-		document.getElementById("results").innerHTML = "";	
-	    }            
+				document.getElementById("results").innerHTML = "";	
+			}
+            
             //리셋 시간 변경 됐을 경우만 저장
             if (!nextResetTime || new Date(data.date_shop_next_update) > nextResetTime ) {
                 nextResetTime = new Date(data.date_shop_next_update);
@@ -576,7 +575,7 @@ document.addEventListener("DOMContentLoaded", function () {
             
         	// 주머니 데이터 추출 및 캐시에 저장
             const items = data.shop.filter(shop => shop.tab_name === "주머니").flatMap(shop => shop.item);
-            dataCache[cacheKey] = items;  // 캐시에 저장            
+            dataCache[cacheKey] = items;  // 캐시에 저장
             return items;
             
         } catch (error) {

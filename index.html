@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <title>주머니 순회</title>
 <script src="./js/erinTime.js?v2"></script>
-<script type="text/javascript" src="./js/jumoney.js?v8"></script>
+<script type="text/javascript" src="./js/jumoney.js?v9"></script>
 <link rel="stylesheet" href="./css/font.css">
-<link rel="stylesheet" href="./css/default.css?v3">
+<link rel="stylesheet" href="./css/default.css?v9">
 
 </head>
 <body>
@@ -26,7 +26,7 @@
 				</sapn>
 			</div>
 			<div id="top-info">
-				<input type="text" id="apiKey"><button id="setApiKey">적용</button>
+				<input type="text" id="apiKey"><button id="setApiKey">검색</button>
 				<button onclick="window.open('https://openapi.nexon.com/my-application/')">API KEY 생성</button>
 			</div>			
 			<div id="wid">				
@@ -69,9 +69,29 @@
 			</div>
 		</div>
 		<div id="loading">
-			주머니 이름 클릭시 이미지 위에 지역 이름이 표시됩니다!<br/>
-			채널링, 특히 전 서버 채널링은 어쩔 수 없이 api 호출 횟수가 많습니다..ㅠㅠ<br/>
-			서비스 api키 발급에서 사이트 검증을 안하는 것 같으니 참고하세요!
+			<ul>
+				<li>얼레벌레 공지입니다. 보기 좋게 만드는 건 기능구현 후에..</li>
+			</ul>
+			
+			<ul>
+				<li>주머니 이름 클릭시 이미지 위에 지역 이름이 표시됩니다!</li>
+				<li>채널링, 특히 전 서버 채널링은 어쩔 수 없이 api 호출 횟수가 많습니다..ㅠㅠ</li>
+				<li>서비스 api키 발급에서 사이트 검증을 안하는 것 같으니 참고하세요!</li>
+			</ul>
+			
+			<ul>
+				<li>신규 기능이 추가되었습니다. (2024-10-21)</li>
+				<li>채널링 또는 전체 채널링시 세트 여부가 표시됩니다.</li>
+				<li>각 세트별 구분하기 쉽게 배경색을 따로 배정할까 하는데 고민 중이에요...</li>
+			</ul>
+			
+			<ul>
+				<li>기능 추가 예정</li>
+				<li>안감 이미지 등 자체 이미지로 변경 예정입니다.</li>
+				<li>만들어진 이미지를 픽셀이 깨지지 않고 축소 확대 기능 추가 예정</li>
+				<li>방직셋 등 세트가 된다면 세트 이미지 표시 예정</li>
+				<li>캡쳐하기 쉽도록 가로 크기의 주머니 정보와 채널링 정보 모달 제작 예정</li>
+			</ul>
 		</div>
 		<div id="tables" style="display:none;"></div>
 		<div id="results" style="margin-top: 20px;padding: 100px 0px;"></div>
