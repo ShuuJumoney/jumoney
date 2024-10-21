@@ -404,10 +404,10 @@ document.addEventListener("DOMContentLoaded", function () {
 	            completedSets[setName] = hasAllItems 
 	                ? `${setName} 완성` 
 	                : hasWool ? "방직셋" : "유사 방직셋"; // 양털이 없을 때만 '유사 방직셋'
-	        } else if (setName === "실크세트") {
+	        } else if (setName === "실크셋") {
 	            const hasFlowerBasket = itemNames.includes("튼튼한 꽃바구니");
 	            completedSets[setName] = hasAllItems
-	                ? (hasFlowerBasket ? "실크세트+" : "실크세트")
+	                ? (hasFlowerBasket ? "실크셋+" : "실크셋")
 	                : null;
 	        } else {
 	            completedSets[setName] = hasAllItems ? `${setName} 완성` : null;
