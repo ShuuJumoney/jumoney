@@ -391,27 +391,51 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	    return sortedItems;
 	}
-
+	
 	function checkSetCompletion(itemGroup) {
 	    const completedSets = {}; // 세트별 완성 여부 저장
 	
 	    Object.entries(setDefinitions).forEach(([setName, items]) => {
-	        const itemNames = Object.keys(itemGroup);
+	        const itemNames = Object.keys(itemGroup); // 현재 그룹의 아이템 목록
 	        const hasAllItems = items.every(item => itemNames.includes(item)); // 모든 아이템 포함 여부
-	
-	        if (setName === "방직세트") {
+					/*
+	        if (setName === "방직셋" && itemNames.some(name => name.includes("실뭉치") || name.includes("거미줄")) || name.includes("양털")) {
 	            const hasWool = itemNames.includes("튼튼한 양털 주머니");
 	            completedSets[setName] = hasAllItems 
-	                ? `${setName} 완성` 
-	                : hasWool ? "방직셋" : "유사 방직셋"; // 양털이 없을 때만 '유사 방직셋'
+	                ? `${setName}` 
+	                : hasWool ? "방직셋" : "유사 방직";  // 양털이 없을 때만 유사 방직셋
 	        } else if (setName === "실크셋") {
 	            const hasFlowerBasket = itemNames.includes("튼튼한 꽃바구니");
-	            completedSets[setName] = hasAllItems
+	            completedSets[setName] = hasAllItems 
 	                ? (hasFlowerBasket ? "실크셋+" : "실크셋")
-	                : null;
+	                : null; // 미완성일 경우 null 반환
 	        } else {
-	            completedSets[setName] = hasAllItems ? `${setName} 완성` : null;
+	            // 다른 세트들에 대해 처리
+	            completedSets[setName] = hasAllItems ? `${setName}` : null;
 	        }
+	        */
+	        
+        if (setName === "방직셋") {
+            const hasWool = itemNames.includes("튼튼한 양털 주머니");
+            const hasThreadItems = ["튼튼한 거미줄 주머니", "튼튼한 가는 실뭉치 주머니", "튼튼한 굵은 실뭉치 주머니"]
+                .every(item => itemNames.includes(item)); // 거미줄과 실뭉치가 모두 있는지 확인
+
+            completedSets[setName] = hasAllItems 
+                ? `${setName}` 
+                : (!hasWool && hasThreadItems) ? "유사 방직" : null; // 양털이 없고 실뭉치와 거미줄이 있을 때만 유사 방직셋
+        } else if (setName === "실크셋") {
+            const hasFlowerBasket = itemNames.includes("튼튼한 꽃바구니");
+            const silkSetWithoutBasket = items.filter(item => item !== "튼튼한 꽃바구니");
+
+            const hasAllSilkItems = silkSetWithoutBasket.every(item => itemNames.includes(item));
+
+            completedSets[setName] = hasAllSilkItems
+                ? (hasFlowerBasket ? "실크셋+" : "실크셋")
+                : null;  // 미완성일 경우 null 반환
+        } else {
+            // 다른 세트들에 대해 처리
+            completedSets[setName] = hasAllItems ? `${setName}` : null;
+        }
 	    });
 	
 	    return completedSets;
@@ -458,9 +482,10 @@ document.addEventListener("DOMContentLoaded", function () {
 	    channelInfoDiv.innerHTML = `<h4>채널링 정보</h4>`;
 	    
 	    const setInfo = checkSetCompletion(itemGroup);
+	    
 	    let setInfoText = Object.entries(setInfo)
 	        .filter(([, status]) => status) // null이 아닌 값만 남김
-	        .map(([setName, status]) => `<span class="setComplete ${setName}">${setName}</span>`) // 세트명과 상태 결합
+	        .map(([setName, status]) => `<span class="setComplete ${setName}">${status}</span>`) // 세트명과 상태 결합
 	        .join(", "); // 콤마로 구분
 	
 	    channelInfoDiv.innerHTML += `<p class="set-info">${setInfoText}</p>`;
@@ -502,36 +527,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	    return newItem;
 	}
 	
-	// 세트 정보 계산 함수
-	function getSetInfo(matchedItemGroup) {
-	    const itemNames = Object.keys(matchedItemGroup);
-	
-	    // 세트 완성 여부 확인
-	    let completedSets = [];
-	    let partialSets = [];
-	
-	    Object.entries(setDefinitions).forEach(([setName, items]) => {
-	        const hasAllItems = items.every(item => itemNames.includes(item));
-	        const isPartial = items.some(item => itemNames.includes(item));
-	
-	        if (hasAllItems) {
-	            completedSets.push(setName);
-	        } else if (isPartial) {
-	            partialSets.push(setName);
-	        }
-	    });
-	
-	    // 결과 문자열 생성
-	    let setInfo = "";
-	    if (completedSets.length > 0) {
-	        setInfo += `완성된 세트: ${completedSets.join(", ")} `;
-	    }
-	    if (partialSets.length > 0) {
-	        setInfo += `부분 세트: ${partialSets.join(", ")}`;
-	    }
-	    return setInfo || "세트 정보 없음";
-	}
-
     async function fetchNpcData(npc, server, channel) {
     	const cacheKey = `${npc}_${server}_${channel}`; // 중복 호출을 피하기 위한 캐시키 생성 //호출 횟수 아껴야함...ㅠㅠ
         const url = `https://open.api.nexon.com/mabinogi/v1/npcshop/list?npc_name=${npc}&server_name=${server}&channel=${channel}`;
@@ -556,7 +551,7 @@ document.addEventListener("DOMContentLoaded", function () {
         try {
             const response = await fetch(url, { headers: { "x-nxopen-api-key": API_KEY } });
             const data = await response.json();
-
+            
             if (!response.ok || !data.shop) {
             	console.error(data.error.name + ": " + data.error.message);
             	document.getElementById("loading").style.display = "none";
