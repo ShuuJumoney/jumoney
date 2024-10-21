@@ -398,44 +398,39 @@ document.addEventListener("DOMContentLoaded", function () {
 	    Object.entries(setDefinitions).forEach(([setName, items]) => {
 	        const itemNames = Object.keys(itemGroup); // 현재 그룹의 아이템 목록
 	        const hasAllItems = items.every(item => itemNames.includes(item)); // 모든 아이템 포함 여부
-					/*
-	        if (setName === "방직셋" && itemNames.some(name => name.includes("실뭉치") || name.includes("거미줄")) || name.includes("양털")) {
+	
+	        if (setName === "방직셋") {
 	            const hasWool = itemNames.includes("튼튼한 양털 주머니");
-	            completedSets[setName] = hasAllItems 
-	                ? `${setName}` 
-	                : hasWool ? "방직셋" : "유사 방직";  // 양털이 없을 때만 유사 방직셋
+	            const hasOtherItems = ["튼튼한 거미줄 주머니", "튼튼한 가는 실뭉치 주머니", "튼튼한 굵은 실뭉치 주머니"]
+	                .every(item => itemNames.includes(item));
+	
+	            // 방직셋 판별: 양털 없이 나머지 방직 아이템이 모두 있으면 '유사 방직셋'
+	            if (hasAllItems) {
+	                completedSets[setName] = `${setName}`;
+	            } else if (hasOtherItems && !hasWool) {
+	                completedSets[setName] = "유사 방직셋";
+	            } else {
+	                completedSets[setName] = null;
+	            }
+	
 	        } else if (setName === "실크셋") {
 	            const hasFlowerBasket = itemNames.includes("튼튼한 꽃바구니");
-	            completedSets[setName] = hasAllItems 
-	                ? (hasFlowerBasket ? "실크셋+" : "실크셋")
-	                : null; // 미완성일 경우 null 반환
+	            const silkItems = items.filter(item => item !== "튼튼한 꽃바구니"); // 꽃바구니 제외
+	
+	            const hasSilkItems = silkItems.every(item => itemNames.includes(item));
+	
+	            // 실크셋+: 모든 실크 아이템과 꽃바구니가 있을 때
+	            // 실크셋: 모든 실크 아이템이 있고 꽃바구니가 없을 때
+	            if (hasSilkItems) {
+	                completedSets[setName] = hasFlowerBasket ? "실크셋+" : "실크셋";
+	            } else {
+	                completedSets[setName] = null;
+	            }
+	
 	        } else {
-	            // 다른 세트들에 대해 처리
+	            // 다른 세트는 모든 아이템이 있을 경우만 완성으로 처리
 	            completedSets[setName] = hasAllItems ? `${setName}` : null;
 	        }
-	        */
-	        
-        if (setName === "방직셋") {
-            const hasWool = itemNames.includes("튼튼한 양털 주머니");
-            const hasThreadItems = ["튼튼한 거미줄 주머니", "튼튼한 가는 실뭉치 주머니", "튼튼한 굵은 실뭉치 주머니"]
-                .every(item => itemNames.includes(item)); // 거미줄과 실뭉치가 모두 있는지 확인
-
-            completedSets[setName] = hasAllItems 
-                ? `${setName}` 
-                : (!hasWool && hasThreadItems) ? "유사 방직" : null; // 양털이 없고 실뭉치와 거미줄이 있을 때만 유사 방직셋
-        } else if (setName === "실크셋") {
-            const hasFlowerBasket = itemNames.includes("튼튼한 꽃바구니");
-            const silkSetWithoutBasket = items.filter(item => item !== "튼튼한 꽃바구니");
-
-            const hasAllSilkItems = silkSetWithoutBasket.every(item => itemNames.includes(item));
-
-            completedSets[setName] = hasAllSilkItems
-                ? (hasFlowerBasket ? "실크셋+" : "실크셋")
-                : null;  // 미완성일 경우 null 반환
-        } else {
-            // 다른 세트들에 대해 처리
-            completedSets[setName] = hasAllItems ? `${setName}` : null;
-        }
 	    });
 	
 	    return completedSets;
