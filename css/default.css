@@ -78,6 +78,10 @@ p {
     box-shadow: 0 3px 6px 0px #b3b3b3;
     height: 80px;
     z-index: 1;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    align-items: flex-end;
 }
 #wid{
     width: 100%;
@@ -107,7 +111,7 @@ p {
 select {
     border-color: #cccccc;
     border-radius: 3px;
-    padding: 5px;
+    padding: 5.5px 5px;
     font-size: 15pt;
 }
 #tables {
@@ -152,15 +156,23 @@ button:hover, button:active {
     position: relative;
     text-align: right;
     margin-bottom: 10px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
 }
 #apiKey{
-	padding: 5px;
+	padding: 7px 5px;
     font-size: 13pt;
-    width: 50%;
+    width: 15%;
+    min-width: 100px;
     text-align: left;
     color: #888;
     margin-right: 5px;
     cursor: pointer;
+    outline: none;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-left: 7px;
 }
 button.btnSearch {
     position: absolute;
@@ -374,4 +386,13 @@ span#loadingClose:hover {
 span#loadingClose {
     cursor: pointer;
     text-decoration: underline;
+}
+.srchBtn{
+	display: inline-block;
+    position: relative;
+    width: fit-content;
+    height: 37px;
+    border-right: 1px solid #cccccc;
+    padding-right: 7px;
+    padding-left: 2px;
 }
