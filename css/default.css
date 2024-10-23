@@ -103,13 +103,7 @@ p {
     padding: 100px 0px;
     /*text-align: center;*/
 }
-#loading ul {
-    width: 50%;
-    text-align: left;
-    position: relative;
-    left: 50%;
-    transform: translate(-50%);
-}
+
 select {
     border-color: #cccccc;
     border-radius: 3px;
@@ -206,7 +200,7 @@ span.info-channel {
 }
 span.info-channel.all-server{
 	display: block;
-	text-indent: -1.35em;
+	text-indent: -1.3em;
 	padding-left: 2em;
 }
 .channel-info h4 {
@@ -214,6 +208,7 @@ span.info-channel.all-server{
     margin-top: 8px;
     text-align: center;
     font-size: 11pt;
+    cursor: pointer;
 }
 .item.nomatch-addItem {
     padding: 50% 0px;
@@ -239,6 +234,9 @@ span.info-channel.all-server{
 }
 .server-mark.만돌린{
 	background-image: url("../image/md.png");
+}
+.server-mark.통합{
+	background-image: url("../image/al.png");
 }
 .modal.close{
 	display:none;
@@ -290,4 +288,90 @@ span.setComplete {
     background: #ddd;
     border-radius: 20px;
     padding: 2px 7px;
+    cursor: pointer;
+}
+.set-info .server-mark {
+    margin: 0;
+    cursor: pointer;
+    opacity: 0.5;
+}
+.set-info .server-mark:hover, .set-info .server-mark.active {
+    opacity: 1;
+}
+/* 로딩 오버레이 스타일 */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(0 0 0 / 68%); /* 반투명 배경 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  flex-direction: column;
+}
+
+.hidden {
+  display: none;
+}
+.spinner {
+  border: 8px solid rgba(255, 255, 255, 0.3);
+  border-top: 8px solid #fff;
+  border-radius: 50%;
+  width: 60px;
+  /* display: block; */
+  height: 60px;
+  animation: spin 1s linear infinite;
+}
+#loadingOverlay p {
+    color: #f3f3f3;
+    text-align: center;
+    flex-direction: column;
+}
+#completeCnt{
+	padding-left: 5px;
+}
+/* 로딩 애니메이션 */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+span.setComplete.active, span.setComplete:hover {
+    background: #536786bf;
+    color: #fff;
+}
+button#loadingClose {
+    padding: 3px;
+    font-size: 13pt;
+}
+label.new_nt {
+    color: red;
+    font-size: 10px;
+    margin-right: 5px;
+    position: absolute;
+    left: 15px;
+    /* top: 16px; */
+}
+#loading ul {
+    width: 50%;
+    text-align: left;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%);
+    list-style: none;
+    font-size: 0.9em;
+}
+span#loadingClose:hover {
+    color: #ffea5d;
+}
+span#loadingClose {
+    cursor: pointer;
+    text-decoration: underline;
 }
