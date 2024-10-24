@@ -6,11 +6,18 @@
 <title>주머니 순회</title>
 <script type="text/javascript" src="./js/apiCode.js"></script>
 <script src="./js/erinTime.min.js?v2"></script>
-<script type="text/javascript" src="./js/jumoney.min.js?v20251024"></script>
+<script src="./js/colorCode.js?v2"></script>
+<script type="text/javascript" src="./js/jumoney.min.js?v20251025"></script>
 <link rel="stylesheet" href="./css/font.css">
 <link rel="stylesheet" href="./css/default.css?v20241025-0145">
-<link rel="stylesheet" href="./css/icon/iconStyle.css?v20251024-0145">
-
+<link rel="stylesheet" href="./css/icon/iconStyle.css?v20251025-0145">
+<style>
+		#loading a {
+			text-decoration: none;
+    		color: #0017d0;
+    		font-weight: bold;
+		}
+	</style>
 </head>
 <body>
 	<div id="main">
@@ -83,34 +90,38 @@
 				<li>얼레벌레 공지입니다. 보기 좋게 만드는 건 기능구현 후에..</li>
 			</ul>
 			
-			<ul style=" background: #fff49d;font-size: 14pt;">				
+			<ul style="background: #fff8c7;font-size: 11pt;">				
+				<li><label class="new_nt">new</label><a href="https://x.com/jumeonidik3038" target="_blank">@jumeonidik303</a> 님의 도움으로 색 코드를 표시할 수 있게 됐습니다!</li>
+				<li>정확하지 않을 수 있으니 참고용으로 봐주세요</li>
+				<li>컬러 코드중 ? 표시가 있는 색은 분석이 덜 된 코드입니다.</li>
+				<li>이미지 주소값과 기미 후 스티커로 만들어서 나온 컬러코드를 <a href="https://x.com/jumeonidik3038" target="_blank">@jumeonidik303</a> 님께 전달해주세요!</li>
+			</ul>
+			
+			
+			<ul style=" background: #fcf3f3;">				
 				<li>***업데이트 이후 주머니에 컬러코드가 실종 됐습니다***</li>
 				<li>임시방편으로 이미지만 출력 됩니다.</li>
-				<li><label class="new_nt">new</label>24-10-24 15:15 채널링 기능은 복구 되었습니다...</li>
-				<li><label class="new_nt">new</label>채널링 클릭시 뒤에 요상한 문구 대신 대표 이미지 하나로 수정했습니다.</li>
-				<li><label class="new_nt">new</label>방직과 가죽이 같은 팔레트임에도 채널링에 안잡히던 증상을 수정했습니다.</li>
+				<li>24-10-24 15:15 채널링 기능은 복구 되었습니다...</li>
+				<li>채널링 클릭시 뒤에 요상한 문구 대신 대표 이미지 하나로 수정했습니다.</li>
+				<li>방직과 가죽이 같은 팔레트임에도 채널링에 안잡히던 증상을 수정했습니다.</li>
 			</ul>
-			
-			<ul>				
-				<li>신규 기능이 추가되었습니다. (2024-10-23)</li>
-			</ul>
-			
+					
 			<ul style="background: #fcf3f3;">				
-				<li><label class="new_nt">new</label>테스트키로 채널링 및 전체 채널링 검색 시 초당 호출 횟수 제한을 피하기 위해 로딩 시간이 생겼습니다.</li>
+				<li>테스트키로 채널링 및 전체 채널링 검색 시 초당 호출 횟수 제한을 피하기 위해 로딩 시간이 생겼습니다.</li>
 				<li>어디까지 로딩했는지 확인 가능합니다.</li>
 				<li>로딩된 데이터는 페이지를 새로고침 하거나, 리셋시간이 되지 않은 경우 캐시에 저장 되어있으니</li>
 				<li>호출 제한 코드가 뜬 후 다시 채널링을 누를 경우 못 받은 데이터만 호출해서 가져옵니다.</li>
 			</ul>
 			
 			<ul style="background: #fcf3f3;">
-				<li><label class="new_nt">new</label>전체 서버 채널링 및 채널링에서 세트 정보 표기를 눌러 해당 주머니 채널만 볼 수 있습니다!</li>
+				<li>전체 서버 채널링 및 채널링에서 세트 정보 표기를 눌러 해당 주머니 채널만 볼 수 있습니다!</li>
 				<li>어디까지 로딩했는지 확인 가능합니다.</li>
 				<li>로딩된 데이터는 페이지를 새로고침 하거나, 리셋시간이 되지 않은 경우 캐시에 저장 되어있으니</li>
 				<li>호출 제한 코드가 뜬 후 다시 채널링을 누를 경우 못 받은 데이터만 호출해서 가져옵니다.</li>				
 			</ul>
 			
 			<ul style="background: #fcf3f3;">
-				<li><label class="new_nt">new</label>이전 마을, 다음 마을 버튼이 추가되었습니다.</li>
+				<li>이전 마을, 다음 마을 버튼이 추가되었습니다.</li>
 				<li>전체 지역의 경우 선택 박스에서만 선택 가능합니다.</li>
 				<li>이전 마을, 다음 마을 버튼에서는 전체를 건너띄고 넘어가서 선택할 수 없습니다.</li>
 								
@@ -157,5 +168,6 @@
 	  <p style="display: inline;">"에러 발생시에만" 로딩 화면이 꺼지지 않는다면<br/><span id="loadingClose">로딩 화면 끄기</span>를 눌러주세요</p>
 	 
 	</div>
+	
 </body>
 </html>
