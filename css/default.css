@@ -396,3 +396,17 @@ span#loadingClose {
     padding-right: 7px;
     padding-left: 2px;
 }
+
+.item .icon{
+	position: absolute;
+    right: 0.3em;
+    top: 0.3em;
+    padding: 3px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    color: #999;
+    cursor: pointer;
+}
+.item .icon:hover {
+    background: #f0f0f0;
+}
