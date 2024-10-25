@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PNG 여러 이미지 색상 변환 및 합성기</title>
+  <style>
+    canvas {
+      display: none; /* 캔버스를 숨깁니다 */
+    }
+    img {
+      display: block;
+      margin: 10px auto;
+      border: 1px solid #000;
+      width: 600px;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>PNG 여러 이미지 색상 변환 및 합성기</h1>
+
+  <label for="newColor1">Base 색상 (R G B):</label>
+  <input type="text" id="newColor1" placeholder="예: 83 103 134"><br>
+
+  <label for="newColor2">Icon/Number 색상 (R G B):</label>
+  <input type="text" id="newColor2" placeholder="예: 83 103 134"><br>
+
+  <label for="newColor3">Main 색상 (R G B):</label>
+  <input type="text" id="newColor3" placeholder="예: 83 103 134"><br>
+
+  <button id="applyOverlay">색상 변경 및 합성하기</button><br><br>
+
+  <img id="resultImage" alt="최종 합성 결과"><br>
+
+  <canvas id="canvas"></canvas>
+
+  <script>
+    const baseColor = { r: 128, g: 128, b: 128 }; // 기준 색상
+
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    const applyOverlayButton = document.getElementById('applyOverlay');
+    const resultImage = document.getElementById('resultImage');
+
+    const imagePath = "./image/jumoney/open/";
+
+    const base = {
+      "튼튼한 저가형 옷감": `${imagePath}open_fabric_base_all.png`,
+      "튼튼한 일반 옷감": `${imagePath}open_fabric_base_all.png`,
+      "튼튼한 고급 옷감": `${imagePath}open_fabric_base_all.png`,
+      "튼튼한 최고급 옷감": `${imagePath}open_fabric_base_all.png`
+    };
+
+    const icon_or_number = {
+      "튼튼한 저가형 옷감": `${imagePath}open_fabric_number_1.png`,
+      "튼튼한 일반 옷감": `${imagePath}open_fabric_number_2.png`,
+      "튼튼한 고급 옷감": `${imagePath}open_fabric_number_3.png`,
+      "튼튼한 최고급 옷감": `${imagePath}open_fabric_number_4.png`
+    };
+
+    const main = {
+      "튼튼한 저가형 옷감": `${imagePath}fabric_main.png`,
+      "튼튼한 일반 옷감": `${imagePath}fabric_main.png`,
+      "튼튼한 고급 옷감": `${imagePath}fabric_main.png`,
+      "튼튼한 최고급 옷감": `${imagePath}fabric_main.png`
+    };
+
+    const plus = {
+      "튼튼한 저가형 옷감": `${imagePath}open_fabric_plus_all.png`,
+      "튼튼한 일반 옷감": `${imagePath}open_fabric_plus_all.png`,
+      "튼튼한 고급 옷감": `${imagePath}open_fabric_plus_all.png`,
+      "튼튼한 최고급 옷감": `${imagePath}open_fabric_plus_all.png`
+    };
+
+    function loadImage(src, callback) {
+      const img = new Image();
+      img.src = src;
+      img.onload = () => callback(img);
+    }
+
+    function applyOverlay() {
+      const newColor1 = parseColor(document.getElementById('newColor1').value);
+      const newColor2 = parseColor(document.getElementById('newColor2').value);
+      const newColor3 = parseColor(document.getElementById('newColor3').value);
+
+      if (!newColor1 || !newColor2 || !newColor3) {
+        alert('모든 색상을 입력하세요!');
+        return;
+      }
+
+      const type = "튼튼한 고급 옷감"; // 임의로 선택한 유형
+
+      loadImage(base[type], (img1) => {
+        canvas.width = img1.width;
+        canvas.height = img1.height;
+        ctx.drawImage(img1, 0, 0);
+        let imageData1 = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        applyNewColor(imageData1, newColor1);
+
+        loadImage(icon_or_number[type], (img2) => {
+          ctx.putImageData(imageData1, 0, 0);
+          ctx.drawImage(img2, 0, 0);
+          let imageData2 = ctx.getImageData(0, 0, canvas.width, canvas.height);
+          applyNewColor(imageData2, newColor2);
+
+          loadImage(main[type], (img3) => {
+            ctx.putImageData(imageData2, 0, 0);
+            ctx.drawImage(img3, 0, 0);
+            let imageData3 = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            applyNewColor(imageData3, newColor3);
+
+            loadImage(plus[type], (img4) => {
+              ctx.putImageData(imageData3, 0, 0);
+              ctx.drawImage(img4, 0, 0);
+
+              // 최종 이미지를 <img> 태그에 표시
+              resultImage.src = canvas.toDataURL();
+            });
+          });
+        });
+      });
+    }
+
+    function applyNewColor(imageData, newColor) {
+      const data = imageData.data;
+
+      for (let i = 0; i < data.length; i += 4) {
+        const rOffset = calculateOffset(data[i], baseColor.r);
+        const gOffset = calculateOffset(data[i + 1], baseColor.g);
+        const bOffset = calculateOffset(data[i + 2], baseColor.b);
+
+        data[i] = clamp(newColor.r + rOffset);
+        data[i + 1] = clamp(newColor.g + gOffset);
+        data[i + 2] = clamp(newColor.b + bOffset);
+      }
+    }
+
+    function calculateOffset(pixelValue, baseValue) {
+      return pixelValue - baseValue;
+    }
+
+    function clamp(value) {
+      return Math.max(0, Math.min(255, value));
+    }
+
+    function parseColor(input) {
+      const parts = input.trim().split(' ').map(Number);
+      if (parts.length === 3 && parts.every(n => n >= 0 && n <= 255)) {
+        return { r: parts[0], g: parts[1], b: parts[2] };
+      }
+      return null;
+    }
+
+    applyOverlayButton.addEventListener('click', applyOverlay);
+  </script>
+</body>
+</html>
