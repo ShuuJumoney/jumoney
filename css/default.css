@@ -559,8 +559,12 @@ span#loadingClose {
     margin: 0 auto; /* 가운데 정렬 */
 }
 #itemModal .image-list-sample{
-    width: 85%;
+    #itemModal .image-list-sample{
+    width: 15.1em;
     margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 .default_jumoney{
 	-webkit-filter: grayscale(100%); /* 크롬, 사파리 구형 */
@@ -586,20 +590,17 @@ span#loadingClose {
     top: 25%;
     left: 20%;
 }
-
  
- 
- #itemModal .image-list-sample img {
+#itemModal .image-list-sample img {
    object-fit: contain; /* 비율 유지 */
    top: 0px;
- }
+}
 
 
- #itemModal .loaded .loading-spinner {
+#itemModal .loaded .loading-spinner {
    display: none; /* 로딩 완료 후 스피너 숨김 */
- }
- 
- 
+}
+  
 .hidden {
   display: none; /* 이미지 로드 전 숨김 */
 }
