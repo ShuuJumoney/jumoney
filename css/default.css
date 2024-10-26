@@ -560,6 +560,7 @@ span#loadingClose {
 }
 #itemModal .image-list-sample{
     width: 15.1em;
+    /* width: 70%; */
     margin-top: 10px;
     display: flex;
     flex-direction: column;
@@ -589,17 +590,20 @@ span#loadingClose {
     top: 25%;
     left: 20%;
 }
+
  
-#itemModal .image-list-sample img {
+ 
+ #itemModal .image-list-sample img {
    object-fit: contain; /* 비율 유지 */
    top: 0px;
-}
+ }
 
 
-#itemModal .loaded .loading-spinner {
+ #itemModal .loaded .loading-spinner {
    display: none; /* 로딩 완료 후 스피너 숨김 */
-}
-  
+ }
+ 
+ 
 .hidden {
   display: none; /* 이미지 로드 전 숨김 */
 }
