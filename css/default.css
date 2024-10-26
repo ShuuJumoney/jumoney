@@ -559,7 +559,7 @@ span#loadingClose {
     margin: 0 auto; /* 가운데 정렬 */
 }
 #itemModal .image-list-sample{
-    width: 70%;
+    width: 85;
     grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
 }
 .default_jumoney{
