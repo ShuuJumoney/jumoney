@@ -604,6 +604,6 @@ span#loadingClose {
   display: none; /* 이미지 로드 전 숨김 */
 }
 
-#itemModal .setComplete, #itemModal .server-mark #itemModal h4{
+#itemModal .setComplete, #itemModal .server-mark, #itemModal h4{
 	cursor: default;
 }
