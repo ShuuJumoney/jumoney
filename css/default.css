@@ -573,7 +573,7 @@ span#loadingClose {
 .image-container2 img, .default_jumoney{
 	-webkit-filter: grayscale(100%); /* 크롬, 사파리 구형 */
   	filter: grayscale(100%);	
-    opacity: 0.5;
+    opacity: 0.6;
 }
 #itemModal .image-container2 {
     position: relative;
