@@ -570,11 +570,11 @@ span#loadingClose {
     flex-direction: column;
     align-items: center;
 }
-.default_jumoney{
+.image-container2 img, .default_jumoney{
 	-webkit-filter: grayscale(100%); /* 크롬, 사파리 구형 */
-  	filter: grayscale(100%);
+  	filter: grayscale(100%);	
+    opacity: 0.5;
 }
-
 #itemModal .image-container2 {
     position: relative;
     width: 48px;
