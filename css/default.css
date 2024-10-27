@@ -488,12 +488,6 @@ span#loadingClose {
     object-fit: contain;
     transition: transform 0.3s ease;
     image-rendering: pixelated;
-    top: -0.7em;
-}
-
-#itemModal .zoomable-image.zoom {
-    transform: scale(2);
-    cursor: zoom-out;
 }
 
 /* 오른쪽 레이아웃: 세트 정보와 채널 정보 */
