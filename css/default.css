@@ -15,8 +15,8 @@ body {
     text-align: center;
 }
 .api-img {
-	/*width: 35%;*/
     image-rendering: pixelated;
+	height: 94px;
     height: 94px;
 }
 .item, .channel-info.new-colorSet {
