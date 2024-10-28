@@ -535,10 +535,6 @@ span#loadingClose {
 	
 }
 
-#modalApiImage img {
-	width : 25%;	
-}
-
 #itemModal #closeModal {
     text-align: center;
     display: inline;
