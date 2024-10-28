@@ -586,7 +586,7 @@ span#loadingClose {
     overflow: hidden;
   }
 
- #itemModal .loading-spinner {
+.loading-spinner {
     border: 4px solid rgba(0, 0, 0, 0.1);
     border-top-color: #c2c2c2;
     border-radius: 50%;
@@ -606,7 +606,7 @@ span#loadingClose {
  }
 
 
- #itemModal .loaded .loading-spinner {
+.loaded .loading-spinner {
    display: none; /* 로딩 완료 후 스피너 숨김 */
  }
  
@@ -726,4 +726,8 @@ label.timeTitle {
 /* 마우스 오버 시 툴팁 표시 */
 #itemModal .info-jumoney-name .color_rect:hover::after {
     opacity: 1;
+}
+
+.img-area .loading-spinner {
+	left: 8em;
 }
