@@ -423,9 +423,6 @@ span#loadingClose {
 /* 모달 관련 CSS */
 /* 모달 오버레이 */
 
-#itemModal div{
-	width: 100%;
-}
 
 #itemModal.modal-overlay {
     position: fixed;
@@ -463,7 +460,9 @@ span#loadingClose {
     display: flex;
     /*gap: 20px;*/
 }
-
+#itemModal div{
+	width: 100%;
+}
 /* 왼쪽 레이아웃: 이미지와 색상 정보 */
 #itemModal .left-layout {
     display: flex;
@@ -584,9 +583,10 @@ span#loadingClose {
     height: 48px;
     display: inline-block;
     overflow: hidden;
-  }
+}
 
-.loading-spinner {
+
+#itemModal .loading-spinner, .loading-spinner {
     border: 4px solid rgba(0, 0, 0, 0.1);
     border-top-color: #c2c2c2;
     border-radius: 50%;
@@ -596,9 +596,7 @@ span#loadingClose {
     position: absolute;
     top: 25%;
     left: 20%;
-}
-
- 
+} 
  
  #itemModal .image-list-sample img {
    object-fit: contain; /* 비율 유지 */
