@@ -727,7 +727,3 @@ label.timeTitle {
 #itemModal .info-jumoney-name .color_rect:hover::after {
     opacity: 1;
 }
-
-#modalApiImage{
-	width:25%;
-}
