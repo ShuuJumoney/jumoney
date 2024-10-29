@@ -7,12 +7,12 @@
 <script type="text/javascript" src="./js/apiCode.js"></script>
 <script src="./js/erinTime.min.js?v2"></script>
 <script type="text/javascript" src="./js/decodeGivenColorQuery.min.js"></script>
-<script type="text/javascript" src="./js/jumoneySample.min.js?v241029"></script>
+<script type="text/javascript" src="./js/jumoneySample.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/dom-to-image-more@2.8.0/dist/dom-to-image-more.min.js"></script>
-<script type="text/javascript" src="./js/jumoney.min.js?v20241029"></script>
+<script type="text/javascript" src="./js/jumoney.min.js?v20241029-2"></script>
 <link rel="stylesheet" href="./css/font.css">
-<link rel="stylesheet" href="./css/default.css?v20241029">
-<link rel="stylesheet" href="./css/icon/iconStyle.css?v20241029">
+<link rel="stylesheet" href="./css/default.css?v20241029-2">
+<link rel="stylesheet" href="./css/icon/iconStyle.css?v20241029-2">
 <style>
 		#loading a {
 			text-decoration: none;
@@ -71,6 +71,11 @@
 					</select>
 				</div>
 				<input type="text" id="apiKey"><button id="setApiKey" style="margin-right: 6px;">검색</button>
+				<label class="checkLabel" style="display:none;">
+			        <span>공용키 사용</span>
+			        <input type="checkbox" id="shareKey">
+			        <span class="checkmark"></span>
+			    </label>
 				<button onclick="window.open('https://openapi.nexon.com/my-application/')">KEY 생성</button>
 			</div>			
 			<div id="wid">
@@ -102,10 +107,11 @@
 			
 			
 			<ul style=" background: #fcf3f3;">
-				<li><label class="new_nt">new</label>2024-10-29 02:00</li>
-				<li>모달창 좌측 상단에 캡쳐 버튼이 생겼습니다.</li>
+				<li><label class="new_nt">new</label>2024-10-29 22:10</li>
+				<li>모달창 좌측 상단에 저장 버튼이 생겼습니다.</li>
 				<li>&nbsp;</li>	
-				<li><label class="new_nt">new</label>2024-10-28 22:29</li>								
+				<li>모달창 좌측 상단에 캡쳐 버튼이 생겼습니다.</li>
+				<li>&nbsp;</li>							
 				<li>닫힘 이미지도 제작된 이미지가 표시됩니다.</li>
 				<li>이미지는 약간의 오차가 있을 수 있습니다.</li>
 				<li>&nbsp;</li>
@@ -170,7 +176,8 @@
 	<div id="itemModal" class="modal-overlay" style="display: none;">
 	    <div class="modal-content">
 	    	<div id="modal-btns">
-	        	<span id="captureBtn" class="icon-image"></span>
+	        	<span id="captureBtn" class="modal-icon icon-Image--Streamline-Phosphor"></span>
+	        	<span id="captureSaveBtn" class="modal-icon icon-Floppy-Disk-Light--Streamline-Phosphor"></span>
 		        <span id="closeModal" class="close-button">×</span>
 			</div>
 	        <div class="modal-body">
@@ -181,7 +188,7 @@
 	                    <img id="modalApiImage" src="" class="api-img">
 	                    <img id="modalMabibaseImage" src="" class="zoomable-image mabibase-img">
 	                </div>
-	                <div class="color-info" id="modalItemColors"></div> <!-- 색상 정보 -->
+	                <div id="modalItemColors"></div> <!-- 색상 정보 -->
 	                <div class="image-copy-container"> <!-- 이미지 복사본 위치 -->
 	                    <img id="modalMabibaseImageCopy" src="" class="zoomable-image-copy">
 	                </div>

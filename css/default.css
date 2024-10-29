@@ -46,6 +46,7 @@ label {
 label.hex {
 	width: calc(50% - 40px);
     margin-right: 5px;
+    min-width:58px;
 }
 label.rgb {
 	width: calc(50% - 20px);
@@ -729,7 +730,7 @@ label.timeTitle {
 	left: 6.7em;
 }
 
-#captureBtn {
+.modal-icon {
     position: relative;
     top: -1.45em;
     padding: 2.5px;
@@ -743,8 +744,9 @@ label.timeTitle {
     color: #5e5e5e;
     cursor: pointer;
     float: left;
+    margin-right: 6px;
 }
-#captureBtn:hover, #closeModal:hover {
+.modal-icon:hover, #closeModal:hover {
     background: #f0f0f0;
 }
 
@@ -767,13 +769,13 @@ input[type="checkbox"] {
 
 /* 체크박스 디자인 */
 .checkmark {
-	width: 20px;
-	height: 20px;
-	background-color: #f9f9f9;
-	border: 1px solid #ddd;
-	border-radius: 5px;
-	position: relative;
-	transition: background-color 0.3s, box-shadow 0.3s;
+    width: 20px;
+    height: 20px;
+    background-color: #fbfbfb;
+    border: 1px solid #d3d3d3;
+    border-radius: 5px;
+    position: relative;
+    transition: background-color 0.3s, box-shadow 0.3s;
 }
 
 /* 체크 상태일 때 스타일 */
@@ -806,4 +808,10 @@ input[type="checkbox"]:checked+.checkmark::after {
 input[type="checkbox"]:disabled+.checkmark {
 	background-color: #555;
 	cursor: not-allowed;
+}
+
+#modalItemColors{
+	display: flex;
+    align-items: center;
+    justify-content: center;
 }
