@@ -38,7 +38,14 @@ module.exports = async (req, res) => {
     });
 
     if (!response.data.shop) {
-      return res.status(404).json({ error: 'NPC 데이터를 찾을 수 없습니다.' });
+      const errorMessage = response.data.error.message || 'NPC 데이터를 찾을 수 없습니다.';
+      console.error(`에러 발생: ${errorMessage}`);
+
+      return res.status(404).json({
+        name: response.data.error.name',
+        message: errorMessage,
+        status: 404,
+      });
     }
 
     const items = response.data.shop
@@ -52,8 +59,13 @@ module.exports = async (req, res) => {
     console.log(`API 데이터 저장: ${cacheKey}`);
     return res.status(200).json({ data: items, source: 'api' });
   } catch (error) {
-    console.error(`API 호출 실패: ${error.message}`);
-    return res.status(500).json({ error: 'API 호출 중 문제가 발생했습니다.' });
+     console.error(`API 호출 실패: ${error.message}`);
+
+    const errorResponse = {
+      name: error.name || 'APIError',
+      message: error.response?.data?.message || error.message || '알 수 없는 오류',
+      status: error.response?.status || 500,
+    };
   }
 };
 
