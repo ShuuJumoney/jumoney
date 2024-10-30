@@ -8,8 +8,9 @@ footer {
     color: #999;
     font-size: 11px;
     height: 45px;
-    position: absolute;
+    position: relative;
     bottom: 0;
+    margin-top: 10em;
 }
 #main {
     /*width: calc(240px* 6 + 35px);*/
