@@ -3,7 +3,11 @@ body {
    	justify-items: center;
    	touch-action: manipulation; /* 터치 제스처 제한 */
 }
-
+footer{
+    text-align: center;
+    color: #999;
+    font-size: 11px;
+}
 #main {
     /*width: calc(240px* 6 + 35px);*/
     width: 100%;
