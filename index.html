@@ -7,12 +7,14 @@
 <script type="text/javascript" src="./js/apiCode.js"></script>
 <script src="./js/erinTime.min.js?v2"></script>
 <script type="text/javascript" src="./js/decodeGivenColorQuery.min.js"></script>
-<script type="text/javascript" src="./js/jumoneySample.min.js"></script>
+<script type="text/javascript" src="./js/jumoneySample.min.js?241030"></script>
 <script src="https://cdn.jsdelivr.net/npm/dom-to-image-more@2.8.0/dist/dom-to-image-more.min.js"></script>
-<script type="text/javascript" src="./js/jumoney.min.js?v20241029-2"></script>
+<script type="text/javascript" src="./js/jumoney.min.js?v241030-2"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.4/dist/sweetalert2.all.min.js"></script>
 <link rel="stylesheet" href="./css/font.css">
-<link rel="stylesheet" href="./css/default.css?v20241029-2">
-<link rel="stylesheet" href="./css/icon/iconStyle.css?v20241029-2">
+<link rel="stylesheet" href="./css/default.css?v241030-2">
+<link rel="stylesheet" href="./css/icon/iconStyle.css?v241030-2">
+<link rel="stylesheet" href="./js/sweetalert2/sweetalert2.css"></link>
 <style>
 		#loading a {
 			text-decoration: none;
@@ -70,7 +72,7 @@
 					<select id="ch" class="">
 					</select>
 				</div>
-				<input type="text" id="apiKey"><button id="setApiKey" style="margin-right: 6px;">검색</button>
+				<input type="password" id="apiKey"><button id="setApiKey" style="margin-right: 6px;">검색</button>
 				<label class="checkLabel" style="display:none;">
 			        <span>공용키 사용</span>
 			        <input type="checkbox" id="shareKey">
@@ -103,21 +105,23 @@
 					색 코드를 표시할 수 있게 됐습니다!
 				</li>
 				<li>색상코드 계산법이 <a href="https://x.com/jumeonidik3038" target="_blank">주머니디코@jumeonidik303</a>이 제공해주신 파일 수정본으로 대체됩니다.</li>
+				<li>이미지 제작에 도움 및 파일 제공 해주신 <a href="https://x.com/darkchocored" target="_blank">주머니보고다님@darkchocored</a>님 감사합니다.</li>
 			</ul>
 			
-			
 			<ul style=" background: #fcf3f3;">
-				<li><label class="new_nt">new</label>2024-10-29 22:10</li>
+				<li><label class="new_nt">new</label>2024-10-30 22:10</li>
+				<li>아이템 이미지 부분 더블클릭시 채널링 기능이 생겼습니다.</li>
+				<li>&nbsp;</li>
+				<li>모달창에서도 세트, 서버 선택 토글이 가능해집니다.</li>
+				<li>&nbsp;</li>
+				<li>캡쳐시 API KEY 노출을 방지 합니다.</li>
+			</ul>
+			
+			<ul>
 				<li>모달창 좌측 상단에 저장 버튼이 생겼습니다.</li>
-				<li>&nbsp;</li>	
-				<li>모달창 좌측 상단에 캡쳐 버튼이 생겼습니다.</li>
-				<li>&nbsp;</li>							
+				<li>모달창 좌측 상단에 캡쳐 버튼이 생겼습니다.</li>				
 				<li>닫힘 이미지도 제작된 이미지가 표시됩니다.</li>
 				<li>이미지는 약간의 오차가 있을 수 있습니다.</li>
-				<li>&nbsp;</li>
-				<li>이미지 제작에 도움 및 파일 제공 해주신 <a href="https://x.com/darkchocored" target="_blank">주머니보고다님@darkchocored</a>님 감사합니다.</li>
-				<li>&nbsp;</li>
-				<li>업데이트 후 있던 버그 몇가지 수정</li>
 			</ul>
 				
 			<ul>
@@ -152,6 +156,9 @@
 				<li>서비스 api키 발급에서 사이트 검증을 안하는 것 같으니 참고하세요!</li>
 			</ul>
 			
+			<ul>
+				<li>넥슨 API 정보를 사용한 사이트입니다.</li>
+			</ul>
 			
 			<ul>
 				<li>기능 추가 예정 - 여기 중에 뭐가 먼저 나올지는 저도 모르겠어요</li>
@@ -204,7 +211,7 @@
 						<span id="modal-realTime"><label class="timeTitle">현재시간</label><span class="set-time"></span></span>
 					</div>
 					<div id="right-content">
-		                <div class="set-info" id="modalItemSet"></div> <!-- 세트 정보 -->
+		                <!-- <div class="set-info" id="modalItemSet"></div>  --><!-- 세트 정보 -->
 		                <div class="channel-info" id="modalItemChannel"></div> <!-- 채널 정보 -->
 	                </div>
 	            </div>

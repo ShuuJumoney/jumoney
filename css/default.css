@@ -13,6 +13,7 @@ body {
     image-rendering: pixelated;
     height: 94px;
     text-align: center;
+    cursor: url(../image/mouse_click.png) 13.5 0, auto;
 }
 .api-img {
     image-rendering: pixelated;
@@ -613,10 +614,11 @@ span#loadingClose {
   display: none; /* 이미지 로드 전 숨김 */
 }
 
+/*
 #itemModal .setComplete, #itemModal .server-mark, #itemModal h4{
 	cursor: default;
 }
-
+*/
 #modalTime {
 	text-align: left;
     position: absolute;
@@ -654,7 +656,7 @@ label.timeTitle {
 }
 
 /* 화면 너비가 1350px 미만일 때 현재 시간 숨기기 */
-@media (max-width: 1350px) {
+@media (max-width: 1310px) {
     #modal-realTime {
     	opacity: 0;
     	height: 0;
@@ -727,7 +729,8 @@ label.timeTitle {
 }
 
 .img-area .loading-spinner {
-	left: 6.7em;
+    left: calc(50% - 10px);
+    top: 20%;    
 }
 
 .modal-icon {
