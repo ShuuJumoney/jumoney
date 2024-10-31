@@ -2,6 +2,7 @@ body {
 	display: grid;
    	justify-items: center;
    	touch-action: manipulation; /* 터치 제스처 제한 */
+	font-family: 'Noto Sans KR';
 }
 footer {
     text-align: center;
