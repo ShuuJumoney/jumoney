@@ -891,3 +891,11 @@ input[type="checkbox"]:disabled+.checkmark {
 .ico-down-triangle:before {
     content: "\25BC";
 }
+#curDate{
+	position: absolute;
+    bottom: -16px;
+    right: 0px;
+    font-size: 9px;
+    color: #b7b7b7;
+    padding-bottom: 0.3em;
+}
