@@ -1,17 +1,22 @@
+html, body{
+	height: 100%;
+}
 body {
 	display: grid;
    	justify-items: center;
    	touch-action: manipulation; /* 터치 제스처 제한 */
-	/*font-family: 'Noto Sans KR';*/
 }
 footer {
     text-align: center;
     color: #999;
     font-size: 11px;
-    height: 45px;
+    height: 40px;
     position: relative;
     bottom: 0;
     margin-top: 10em;
+}
+footer span{
+    color: #cdcdcd;
 }
 #main {
     /*width: calc(240px* 6 + 35px);*/
@@ -24,6 +29,9 @@ footer {
     height: 94px;
     text-align: center;
     cursor: url(../image/mouse_click.png) 13.5 0, auto;
+    display: inline-block;
+    width: 70%;
+    min-width: 150px;
 }
 .api-img {
     image-rendering: pixelated;
@@ -64,19 +72,26 @@ label.rgb {
     float: right;
     text-align: left;
 }
+/*
 div {
     text-align: left;
     width: 90%;
     display: inline-block;
 }
+*/
 .color-info{
 	margin-bottom: 0.5em;
+	width: 90%;
+	display: inline-block;
 }
 p {
     margin: 2px;
     text-align: left;
     display: flex;
     justify-content: space-evenly;
+}
+h2.area-capture{
+	text-align: left;
 }
 .item_nm {
 	margin-bottom: 7px;
@@ -107,6 +122,7 @@ p {
     max-width: 1475px;
     position: relative;
     text-align: right;
+    /* font-family: 'Noto Sans KR'; */
 }
 /*
 #resetTime {
@@ -125,6 +141,7 @@ p {
     width: 100%;
     padding: 100px 0px;
     /*text-align: center;*/
+    font-family: 'Noto Sans KR';
 }
 
 select {
@@ -227,12 +244,19 @@ label.info-jumoney-name {
 span.info-channel {
     /*margin-left: 11px;*/
     margin-left: 3px;
-    font-size: 11pt;
+    font-size: 10pt;
 }
 span.info-channel.all-server{
 	display: block;
 	text-indent: -1.3em;
 	padding-left: 2em;
+	color: #8e8e8e;
+}
+.all-server strong {
+    color: #222;
+    font-weight: 500;
+    text-shadow: 0px 0px 0px #686868;
+    font-size: 11pt;
 }
 .channel-info h4 {
     margin-bottom: 3px;
@@ -240,6 +264,10 @@ span.info-channel.all-server{
     text-align: center;
     font-size: 11pt;
     cursor: pointer;
+    /* font-family: 'Noto Sans Kr'; */
+    transform: skew(-0.1deg);
+    color: #333;
+    font-size: 14px;
 }
 .item.nomatch-addItem {
    /*padding: 50% 0px;*/
@@ -297,20 +325,24 @@ span.info-channel.all-server{
 }
 .channel-info{
 	padding-bottom: 7px;
+    width:90%;
+    display: inline-block;
 }
 .location-area{
 	width: 100%;
 }
 #time-area{
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    width: 100%;
-    max-width: 1475px;
-    left: 50%;
-    transform: translate(-50%, 0%);
-    padding-left: 1em;
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	width: 100%;
+	max-width: 1475px;
+	left: 50%;
+	transform: translate(-50%, 0%);
+	padding-left: 1em;
+	text-align: left;
+	font-family: 'Noto Sans KR';
 }
 p.set-info {
     margin: 0px;
@@ -432,6 +464,12 @@ span#loadingClose {
     background: #f0f0f0;
 }
 
+.modal-open {
+	/*right: 2.1em;*/
+}
+.qCode-copy{
+	display:none;
+}
 /* 모달 관련 CSS */
 /* 모달 오버레이 */
 
@@ -827,4 +865,29 @@ input[type="checkbox"]:disabled+.checkmark {
 	display: flex;
     align-items: center;
     justify-content: center;
+}
+.channel-view{
+	display: none;
+}
+.channel-view.view{
+	display: block;
+}
+.image-container2 img:not(.default_jumoney) {
+    cursor: pointer;
+}
+
+.ico-view{
+    position: absolute;
+    font-size: 10px;
+    color: #717171;
+    line-height: 18px;
+    padding-left: 5px;
+}
+
+.ico-up-triangle:before {
+    content: "\25B2";
+}
+
+.ico-down-triangle:before {
+    content: "\25BC";
 }
