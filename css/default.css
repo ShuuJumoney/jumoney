@@ -348,11 +348,13 @@ p.set-info {
     margin: 0px;
 }
 span.setComplete {
-    font-size: 9pt;
+	font-size: 9pt;
     background: #ddd;
     border-radius: 20px;
     padding: 2px 7px;
     cursor: pointer;
+    min-width: fit-content;
+    width: 45px;
 }
 .set-info .server-mark {
     margin: 0;
@@ -499,6 +501,9 @@ span#loadingClose {
     max-width: 800px;
     width: 55%;
     position: relative;
+    overflow-y: visible;
+    overflow-x: hidden;
+    max-height: calc(100vh - 70px);
 }
 
 /* 모달 헤더 */
@@ -713,7 +718,7 @@ label.timeTitle {
 }
 
 /* 화면 너비가 1350px 미만일 때 현재 시간 숨기기 */
-@media (max-width: 1310px) {
+@media (max-width: 1340px), (max-height: 730px ) and (max-width: 1370px) {
     #modal-realTime {
     	opacity: 0;
     	height: 0;
@@ -903,4 +908,21 @@ input[type="checkbox"]:disabled+.checkmark {
 hr.set-divider {
     border: none;
     border-top: 1px solid #dbdbdb;
+}
+
+.sets-area{
+    /* float: left; */
+    display: grid;
+    /* grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); */
+    justify-content: start;
+}
+.set-info {
+    /* display: flex; */
+    display: inline-block;
+    text-align: left;
+    /* margin-right: 10px; */
+    /* flex-direction: row; */
+    /* margin-top: 1px; */
+    /* align-items: center; */
+    /* justify-content: flex-start; */
 }
