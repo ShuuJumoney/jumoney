@@ -900,3 +900,7 @@ input[type="checkbox"]:disabled+.checkmark {
 .ico-down-triangle:before {
     content: "\25BC";
 }
+hr.set-divider {
+    border: none;
+    border-top: 1px solid #dbdbdb;
+}
