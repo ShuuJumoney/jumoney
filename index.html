@@ -4,27 +4,33 @@
 <meta charset="UTF-8">
 <link rel="icon" href="./image/favicon.ico" type="image/x-icon">
 <title>주머니 순회</title>
+<script type="text/javascript" src="./js/cache.js?v241101"></script>
 <script type="text/javascript" src="./js/apiCode.js"></script>
 <script src="./js/erinTime.min.js?v2"></script>
 <script type="text/javascript" src="./js/decodeGivenColorQuery.min.js"></script>
-<script type="text/javascript" src="./js/jumoneySample.min.js?241101"></script>
+<script type="text/javascript" src="./js/jumoneySample.min.js?241103"></script>
 <script src="https://cdn.jsdelivr.net/npm/dom-to-image-more@2.8.0/dist/dom-to-image-more.min.js"></script>
-<script type="text/javascript" src="./js/jumoney.min.js?v241102"></script>
+<script type="text/javascript" src="./js/jumoney.min.js?v241103"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.4/dist/sweetalert2.all.min.js"></script>
 <link rel="stylesheet" href="./js/izitoast/iziToast.css"></link>
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
 <script type="text/javascript"  src="./js/izitoast/iziToast.js"></script>
 <link rel="stylesheet" href="./css/font.css?241101">
-<link rel="stylesheet" href="./css/default.css?v241102-1">
+<link rel="stylesheet" href="./css/default.css?v241101">
 <link rel="stylesheet" href="./css/icon/iconStyle.css?v241101">
 <link rel="stylesheet" href="./js/sweetalert2/sweetalert2.css"></link>
+<script>
+
+</script>
 <style>
-		#loading a {
-			text-decoration: none;
-		    color: #1f5593;
-		    font-weight: bold;
-		}
-	</style>
+	#loading a {
+		text-decoration: none;
+	    color: #1f5593;
+	    font-weight: bold;
+	}
+</style>
 </head>
 <body>
 	<div id="main">
@@ -76,7 +82,7 @@
 					</select>
 				</div>
 				<input type="password" id="apiKey"><button id="setApiKey" style="margin-right: 6px;">검색</button>
-				<label class="checkLabel" style="display:none;">
+				<label class="checkLabel">
 			        <span>공용키 사용</span>
 			        <input type="checkbox" id="shareKey">
 			        <span class="checkmark"></span>
@@ -102,13 +108,12 @@
 				<li>얼레벌레 공지입니다. 보기 좋게 만드는 건 기능구현 후에..</li>
 			</ul>
 			<br/>
-			<ul style="background: #fff8c7;font-size: 11pt;">				
-				<li>
-					<a href="https://x.com/jumeonidik3038" target="_blank">주머니디코@jumeonidik303</a>님과 <a href="https://x.com/inventory_LT" target="_blank">인꾸해요@inventory_LT</a>님의 도움으로
-					색 코드를 표시할 수 있게 됐습니다!
-				</li>
+			<ul style="background: #fff8c7;font-size: 11pt;">
 				<li>색상코드 계산법이 <a href="https://x.com/jumeonidik3038" target="_blank">주머니디코@jumeonidik303</a>이 제공해주신 파일 수정본으로 대체됩니다.</li>
+				<li>&nbsp;</li>
 				<li>이미지 제작에 도움 및 파일 제공 해주신 <a href="https://x.com/darkchocored" target="_blank">주머니보고다님@darkchocored</a>님 감사합니다.</li>
+				<li>&nbsp;</li>
+				<li>10월 26일 이후 업데이트는 <a href="https://x.com/Shuu__deal/status/1850117716096725476" target="_blank">여기</a>에서 확인 가능합니다.</li>		
 			</ul>			
 			
 			<ul>
@@ -119,7 +124,16 @@
 			<br/>
 			
 			<ul style=" background: #fcf3f3;">
-				<li><label class="new_nt">new</label>2024-11-01 23:02</li>
+				<li><label class="new_nt">new</label>2024-11-03 20:30</li>
+				<li>&nbsp;</li>
+				<li>공용키 사용이 추가됩니다.</li>
+				<li>- 검색 버튼 우측 체크 박스를 선택하여 사용할 수 있으며, 키 입력 없이 사용하실 수 있습니다.</li>
+				<li>&nbsp;</li>
+				<li>- 트래픽이 얼마나 될지 몰라서 중간에 잘 안될경우는 공용키 사용을 해제하고 키 입력 후 사용해주세요.</li>
+			</ul>
+			
+			<ul style=" background: #fcf3f3;">
+				<li>2024-11-01 23:02</li>
 				<li>&nbsp;</li>
 				<li>1. 채널링 후 가독성을 위해 세트 정보를 우선 표시합니다.</li>
 				<li>&nbsp;&nbsp;&nbsp;&nbsp;"옷감셋" 혹은 "서버 마크", "채널링 정보" 를 누르면 채널이 표시됩니다.</li>
@@ -131,7 +145,7 @@
 				<li>4. 채널링 표시에서 제알 앞 채널이 강조 표시 되며, 다른 채널은 좀 더 작고 연하게 표시 됩니다.</li>
 				<li>&nbsp;&nbsp;&nbsp;&nbsp;해당 기능의 경우 기존 처럼 보기 위한 토글 기능을 추가 예정입니다.</li>
 				<li>&nbsp;</li>
-				<li>5. 셀렉 박스에서 선택한 채널이 로컬 데이터에 저장되어 유지됩니다.</li>
+				<li>5. 셀레 박스에서 선택한 채널이 로컬 데이터에 저장되어 유지됩니다.</li>
 				<li>&nbsp;&nbsp;&nbsp;&nbsp;이전 및 다음 채널 버튼으로 이동한 채널은 저장되지 않습니다.</li>
 				<li>&nbsp;&nbsp;&nbsp;&nbsp;서버를 변경할 경우 1채로 변경됩니다. 채널 선택에서 다시 저장할 수 있습니다.</li>
 				<li>&nbsp;</li>
@@ -144,7 +158,7 @@
 				<li>저가형 로마자를 제외한 일반, 고급, 최고급 로마자 계산법이 수정되었습니다.</li>
 			</ul>
 			<ul>
-				<li>10월 26일 이후 업데이트는 <a href="https://x.com/Shuu__deal/status/1850117716096725476" target="_blank">여기</a>에서 확인 가능합니다.</li>			
+					
 			</ul>
 			<ul>
 				<li>아이템 이미지 부분 더블클릭시 채널링 기능이 생겼습니다.</li>
@@ -211,6 +225,7 @@
 	                </div>
 	                <div class="image-list-sample">
 	                </div>
+	                
 	            </div>
 	
 	            <!-- 오른쪽: 세트 정보와 채널 정보 -->
@@ -224,7 +239,7 @@
 		                <!-- <div class="set-info" id="modalItemSet"></div>  --><!-- 세트 정보 -->
 		                <div class="channel-info" id="modalItemChannel"></div> <!-- 채널 정보 -->
 	                </div>
-			<span id="curDate"></span>
+	                <span id="curDate"></span>
 	            </div>
 	        </div>
 	    </div>
@@ -247,7 +262,7 @@
 	</div>
 	<footer>
 		<p>Data based on NEXON Open API</p>
-		<p>V241102-0319-1</p>
+		<p>V241103-2030</p>
 		<span>made by @Shuu__deal</span>
 	</footer>
 </body>
