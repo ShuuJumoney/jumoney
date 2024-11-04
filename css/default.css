@@ -349,19 +349,21 @@ p.set-info {
 }
 span.setComplete {
 	font-size: 9pt;
-    background: #ddd;
-    border-radius: 20px;
-    padding: 2px 7px;
-    cursor: pointer;
-    min-width: fit-content;
-    width: 45px;
+	background: #ddd;
+	border-radius: 20px;
+	padding: 2px 7px;
+	cursor: pointer;
+	min-width: fit-content;
+	/* width: 45px; */
 }
 .set-info .server-mark {
     margin: 0;
-    cursor: pointer;
     opacity: 0.5;
 }
-#tables .set-info .server-mark:hover, .set-info .server-mark.active {
+.set-info .server-mark:not(.통합) {
+	cursor: pointer;
+}
+#tables .set-info .server-mark:not(.통합):hover, .set-info .server-mark.active {
     opacity: 1;
 }
 /* 로딩 오버레이 스타일 */
@@ -625,6 +627,7 @@ span#loadingClose {
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 3px;
 }
 .default_jumoney{
 	-webkit-filter: grayscale(100%); /* 크롬, 사파리 구형 */
@@ -638,6 +641,7 @@ span#loadingClose {
     height: 48px;
     display: inline-block;
     overflow: hidden;
+    /* background: #e3e3e3; */
 }
 
 #curDate{
@@ -925,4 +929,52 @@ hr.set-divider {
     /* margin-top: 1px; */
     /* align-items: center; */
     /* justify-content: flex-start; */
+}
+
+#itemModal .sets-area{
+    /* float: left; */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(0, auto));
+    /* max-width: 100px; */
+    justify-content: start;
+    gap: 12px;
+}
+#itemModal .set-info {
+    display: flex;
+    text-align: left;
+    flex-direction: column;
+    max-width: 130px;
+    font-size: 14px;
+    justify-content: flex-start;
+}
+itemModal .set-by-server{	
+    font-size: 13px;
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    line-height: 11px;
+    display: inline-block;
+}
+
+#itemModal span.setComplete {
+    margin-bottom: 2px;
+    text-align: center;
+    min-width: 50px;
+    width: 60px;
+}
+#tables .server-set-channel{
+	display:none;
+}
+#tables .sets-area {
+	display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+#tables .set-info {
+    display: inline-block;
+}
+.set-group {
+    display: flex;
+    flex-direction: row;
 }
