@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="./image/favicon.ico" type="image/x-icon">
+<title>주머니 이미지 Beta</title>
+<style>
+/*개발용*/
+/*
+
+@import
+	url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap')
+	;
+
+@import
+	url('https://fastly.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.1/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css')
+	;
+
+@font-face {
+	font-family: 'MabinogiClassicR';
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+	src:
+		url('https://cdn.jsdelivr.net/gh/fonts-archive/MabinogiClassic/MabinogiClassic.woff2')
+		format('woff2'),
+		url('https://cdn.jsdelivr.net/gh/fonts-archive/MabinogiClassic/MabinogiClassic.woff')
+		format('woff'),
+		url('https://cdn.jsdelivr.net/gh/fonts-archive/MabinogiClassic/MabinogiClassic.otf')
+		format('opentype'),
+		url('https://cdn.jsdelivr.net/gh/fonts-archive/MabinogiClassic/MabinogiClassic.ttf')
+		format('truetype');
+}
+	*/
+</style>
+<!-- JSZip 라이브러리 추가 -->
+<link rel="stylesheet" href="./css/default-beta.css?241104">
+<script	src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+<script type="text/javascript" src="./js/cache.js?v241101"></script>
+<script type="text/javascript" src="./js/a_001.min.js?241104"></script>
+<script type="text/javascript" src="./js/a_002.min.js?241107"></script>
+<script	src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script	src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
+<link rel="stylesheet" href="./css/font.css?241104">
+<script	src="https://cdn.jsdelivr.net/npm/dom-to-image-font-patch@latest/dist/dom-to-image-font-patch.min.js"></script>
+
+</head>
+<body>
+	<div id="left">
+	  	<h1>주머니 이미지 Beta</h1>	  
+		<span>테스트용으로 만든 베타 버전입니다.</span>
+		<div style="font-family: 'Wanted Sans Variable';">
+			<!-- 색상 입력 필드 -->
+			<div class="color-inputs">
+				<div class="color-input">
+					<label for="colorA">A파트 (겉감)</label> <input type="text" id="colorA" placeholder="Hex(#ff0000) or RGB">
+				</div>
+				<div class="color-input">
+					<label for="colorB">B파트 (아이콘/안감)</label> <input type="text" id="colorB" placeholder="Hex(#ff0000) or RGB">
+				</div>
+				<div class="color-input">
+					<label for="colorC_crop_textile">C파트 (안감)</label> <input id="colorC_crop_textile" type="text" placeholder="Hex(#ff0000) or RGB">
+				</div>
+				<div class="color-input">
+					<label for="colorC_other">C파트 (로마자)</label> <input id="colorC_other" type="text" placeholder="Hex(#ff0000) or RGB">
+				</div>
+				<button onclick="applyColors()">색상 적용</button>
+			</div>
+			<div id="saveOption">
+				<!-- 배경색 및 투명도 선택 -->
+				<div>
+					<label for="bgColorSelect">저장 배경색 선택:</label> <input type="color"
+						id="bgColorSelect" value="#ffffff"> <label for="bgOpacity">배경
+						투명도(0 ~ 1):</label> <input type="number" id="bgOpacity" value="0" min="0"
+						max="1" step="0.1"> <label for="scaleSelect">저장 배율:</label>
+					<select id="scaleSelect">
+						<option value="1">1배</option>
+						<option value="2">2배</option>
+						<option value="3">3배</option>
+						<option value="4">4배</option>
+						<option value="5">5배</option>
+					</select>
+	
+				</div>			
+			</div>
+			<!-- 배율 선택 -->
+			<!-- 세트 선택과 저장 옵션 -->
+			<div id="bottomSaveOpt">
+				<label for="setSelect">저장 세트:</label> 
+				<select id="setSelect">
+					<option value="작물셋">작물셋</option>
+					<option value="방직셋">방직셋</option>
+					<option value="가죽셋">가죽셋</option>
+					<option value="옷감셋">옷감셋</option>
+					<option value="실크셋">실크셋</option>
+				</select>
+				<label for="typeSelect">타입:</label>
+				<select id="typeSelect">
+					<option value="all">전체</option>
+					<option value="open">열림</option>
+					<option value="close">닫힘</option>
+				</select>
+				
+			</div>
+			<div id="saveBtn">
+				<button onclick="saveAllImages()">모든 이미지 개별 (zip)</button>
+				<button onclick="saveAllMergedImages()">모든 이미지 (png)</button>
+				<button onclick="saveSetImages()">세트별 각각 저장 (zip)</button>
+				<button onclick="saveMergedSetImages()">세트별 저장 (png)</button>
+				<!-- <button onclick="saveContainerAsSVGImage()">주머니 수배 이미지 저장</button> -->
+			</div>	
+		</div>
+		
+		
+	
+		<div id="contents">
+	  		<div class="jumoney-container" id="jumoneyContainer"></div>  		
+		</div>
+	</div>
+	<div id="right">
+		<h1>주머니 수배지</h1>
+		<label class="color-picker">테두리 색 변경 <input type="color" id="setBorderColor" value="#808080"/></label>
+		<div id="container" class="container">
+			<div class="info-section">
+				<div id="jumoney-info">
+					<div id="user-info">
+						<span>
+							<input type="text" id="server" placeholder="울프" style="font-family: 'MabinogiClassicR';">
+						</span>
+						<span>
+							<input type="text" id="name" placeholder="닉네임 입력하기"style="font-family: 'MabinogiClassicR';">
+						</span>
+					</div>
+					<div id="color-info" style="font-family: 'Wanted Sans Variable';">
+						<div id="color-A" class="colors">
+							<label>A</label>
+							<div class="color-rect-hide">
+								<span class="color-rect"  data-target="A"></span>
+								<input type="color" class="color-input" data-target="A">
+							</div>
+							<input class="color-rgb" type="text" id="color-a" placeholder="128 128 128">
+							<input class="color-hex" type="text" style="font-size: 9pt;" placeholder="#808080">
+							<small style="font-size: 9pt;">겉감</small>
+						</div>
+						<div id="color-B" class="colors">
+							<label>B</label>
+							<div class="color-rect-hide">
+								<span class="color-rect" data-target="B"></span>
+								<input type="color" class="color-input" data-target="B">
+							</div>
+							<input class="color-rgb" type="text" id="color-b" placeholder="128 128 128">
+							<input class="color-hex" type="text"  style="font-size: 9pt;" placeholder="#808080">
+							<small style="font-size: 9pt;">아이콘/안감</small>
+						</div>
+						<div id="color-C" class="colors">
+							<label>C</label>
+							<div class="color-rect-hide">
+								<span class="color-rect"  data-target="C"></span>
+								<input type="color" class="color-input" data-target="C">
+							</div>
+							<input class="color-rgb" type="text" id="color-c" placeholder="128 128 128">
+							<input class="color-hex" type="text"  style="font-size: 9pt;" placeholder="#808080">
+							<small style="font-size: 9pt;">방직 안감</small>
+						</div>
+						<div id="color-R" class="colors">
+							<label></label>
+							<div class="color-rect-hide">
+								<span class="color-rect"  data-target="R"></span>
+								<input type="color" class="color-input" data-target="R">
+							</div>
+							<input class="color-rgb" type="text" id="color-r" placeholder="128 128 128">
+							<input class="color-hex" type="text"  style="font-size: 9pt;" placeholder="#808080">
+							<small style="font-size: 9pt;">로마자</small>
+						</div>
+					</div>
+				</div>
+				<div class="large-box">+</div>
+			</div>
+			<div class="grid-container">
+				<div class="small-box">+</div>
+				<div class="small-box">+</div>
+				<div class="small-box">+</div>
+				<div class="small-box">+</div>
+				<div class="small-box">+</div>
+				<div class="small-box">+</div>
+				<div class="small-box">+</div>
+				<div class="small-box">+</div>
+				<div class="small-box">+</div>
+				<div class="small-box">+</div>
+				<div class="small-box">+</div>
+				<div class="small-box">+</div>
+				<div class="small-box">+</div>
+				<div class="small-box">+</div>
+				<div class="small-box">+</div>
+				<div class="small-box">+</div>
+				<div class="small-box">+</div>
+				<div class="small-box">+</div>
+				<div class="small-box">+</div>
+				<div class="small-box">+</div>
+			</div>
+		</div>
+		<button onclick="saveContainerAsSVGImage2()">주머니 수배 이미지 저장</button>
+	</div>
+  <div id="workspace" class="workspace" style="display:none;"></div>
+    <!-- 여기에 이미지를 드래그 앤 드롭으로 추가합니다 -->
+<script>
+	//applyColors();
+</script>
+</body>
+</html>

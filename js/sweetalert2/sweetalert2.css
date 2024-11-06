@@ -246,9 +246,9 @@ div:where(.swal2-container) div:where(.swal2-popup) {
   position: relative;
   box-sizing: border-box;
   grid-template-columns: minmax(0, 100%);
-  width: 32em;
+  width: 30em;
   max-width: 100%;
-  padding: 0 0 1.25em;
+  padding: 0 0 1em;
   border: none;
   border-radius: 5px;
   background: #fff;
@@ -266,7 +266,7 @@ div:where(.swal2-container) h2:where(.swal2-title) {
   position: relative;
   max-width: 100%;
   margin: 0;
-  padding: 0.8em 1em 0;
+  padding: 1em 1em 0;
   color: inherit;
   font-size: 1.2em;
   font-weight: 600;
@@ -321,7 +321,7 @@ div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm) {
   border: 0;
   border-radius: 0.25em;
   background: initial;
-  background-color: #7066e0;
+  background-color: #536786;
   color: #fff;
   font-size: 1em;
 }
@@ -426,7 +426,7 @@ div:where(.swal2-container) .swal2-html-container {
   padding: 1em 1.6em 0.3em;
   overflow: auto;
   color: inherit;
-  font-size: 1.125em;
+  font-size: 1em;
   font-weight: normal;
   line-height: normal;
   text-align: center;
@@ -611,7 +611,7 @@ div:where(.swal2-icon) {
   justify-content: center;
   width: 5em;
   height: 5em;
-  margin: 2.5em auto 0.6em;
+  margin: 2em auto 0.5em;
   border: 0.25em solid transparent;
   border-radius: 50%;
   border-color: #000;

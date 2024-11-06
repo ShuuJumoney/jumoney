@@ -1,0 +1,392 @@
+body {
+	display: grid;
+	justify-items: center;
+	grid-template-columns: 40% auto;
+	justify-content: center;
+	font-family: 'Wanted Sans Variable';
+}
+
+h1 {
+	margin: 10px 0px 7px;
+}
+
+.jumoney-container {
+	display: flex;
+	flex-direction: column;
+	gap: 0px;
+	image-rendering: pixelated;
+	width: 630px;
+	margin-top: 10px;
+	padding: 10px;
+}
+
+.set-container {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 3px;
+}
+
+.jumoney-item {
+	text-align: center;
+}
+
+.jumoney-item img {
+	max-width: none;
+	height: auto;
+}
+
+.color-inputs {
+	display: flex;
+	gap: 10px;
+	margin-bottom: 20px;
+	margin-top: 15px;
+}
+
+.color-input {
+	display: flex;
+	flex-direction: column;
+}
+
+h2, h3 {
+	display: none;
+}
+
+.workspace {
+	width: 800px;
+	height: 600px;
+	border: 2px dashed #cccccc;
+	position: relative;
+	margin-bottom: 20px;
+}
+
+.jumoney-item {
+	/*position: absolute;*/
+	cursor: grab;
+}
+
+.container {
+	width: 600px;
+	background-color: white;
+	padding: 20px;
+	border: 20px solid #808080;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+	image-rendering: pixelated;
+	/* position: relative; */
+	/* top: 50%; */
+	/* transform: translateY(-50%); */
+}
+
+div#jumoney-info {
+	width: 330px;
+}
+
+.info-section {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 15px 30px 0px;
+	margin-bottom: 20px;
+}
+
+.info-section div {
+	/* margin-bottom: 5px; */
+	/* position: relative; */
+	white-space: nowrap;
+	/* left: -5px; */
+	/* width: 300px; */
+	/* height: 20px; */
+	vertical-align: middle;
+	/* display: flex; */
+}
+
+.grid-container {
+	display: grid;
+	grid-template-columns: repeat(5, 96px);
+	grid-gap: 10px;
+	justify-content: center;
+	color: #919191;
+}
+
+.small-box, .large-box {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 96px;
+	height: 96px;
+}
+
+.large-box {
+	width: 194px;
+	height: 194px;
+}
+
+#color-info {
+	padding: 20px 0px 0px;
+	font-family: 'Wanted Sans Variable';
+	position: relative;
+	left: -5px;
+}
+
+.colors label {
+	text-align: center;
+	display: inline-block;
+	width: 30px;
+	font-weight: bold;
+	color: #5f5f5f;
+	/* height: 20px; */
+	position: relative;
+	/* top: 1px; */
+}
+
+.color-rect {
+	width: 15px;
+	height: 15px;
+	display: inline-block;
+	background: #808080;
+	vertical-align: text-top;
+	/* margin: 0px 7px; */
+	margin: 0px 5px 0px 0px;
+	position: relative;
+	top: 1px;
+	border-radius: 3px;
+	border: thin solid #ddd;
+}
+
+.colors {
+	margin-bottom: 5px;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	gap: 5px;
+	/* display: block; */
+	height: 20px;
+	align-items: flex-start;
+}
+
+#contents {
+	display: flex;
+	flex-direction: row;
+}
+
+#user-info input {
+	font-family: 'MabinogiClassicR';
+	border: none;
+	font-size: 16pt;
+	color: #5b5b5b;
+}
+
+div#user-info {
+	display: flex;
+	flex-direction: column;
+	gap: 7px;
+}
+
+input#name {
+	font-size: 18pt;
+	color: #2b2b2b;
+	white-space: nowrap;
+}
+
+small {
+	font-size: 9pt;
+	color: #8f8f8f;
+	white-space: nowrap;
+	margin-right: 5px;
+	position: relative;
+	top: 2px;
+	display: inline-block;
+}
+
+#color-info input {
+	border: none;
+	font-size: 12pt;
+	width: 100px;
+	color: #636363;
+	font-family: 'Wanted Sans Variable';
+	font-weight: 600;
+}
+
+button:hover, button:active {
+	background: rgb(59, 76, 103);
+	transform: translateY(1px);
+	box-shadow: none;
+}
+
+button {
+	padding: 7px;
+	font-size: 1em;
+	vertical-align: bottom;
+	border: 1px solid #38416f;
+	background: rgb(83, 103, 134);
+	color: #fff;
+	font-weight: normal;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+select {
+	border-color: #cccccc;
+	border-radius: 3px;
+	padding: 2px 3px;
+	font-size: 12pt;
+	font-family: 'Wanted Sans Variable';
+	margin-right: 5px;
+}
+
+input#bgOpacity {
+	width: 40px;
+	padding: 3px;
+	border: 1px solid #bbb;
+	border-radius: 3px;
+}
+
+.color-input input {
+	/* width: 40px; */
+	padding: 5px;
+	border: 1px solid #bbb;
+	border-radius: 3px;
+	width: 120px;
+}
+
+input.color-hex {
+	width: 53px !important;
+	color: #8f8f8f;
+	font-weight: normal !important;
+	position: relative;
+	top: 2px;
+}
+
+input.color-hex::placeholder {
+	color: #c1c1c1;
+}
+
+div#saveBtn button {
+	background: #859cc1;
+	border-color: #919eb1;
+	font-size: 10pt;
+	padding: 3px 5px;
+	/* margin-top: 5px; */
+}
+
+div#saveBtn {
+	display: inline-block;
+}
+
+#bottomSaveOpt {
+	display: flex;
+	align-items: center;
+	flex-direction: row;
+	gap: 5px;
+	margin-bottom: 5px;
+}
+
+#color-info .color-input {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	width: 15px;
+	height: 15px;
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+	z-index: -1;
+	position: absolute;
+	top: 0px;
+}
+
+#color-info .color-input::-webkit-color-swatch {
+	border-radius: 3px;
+	border: none;
+}
+
+#color-info .color-input::-moz-color-swatch {
+	border-radius: 3px;
+	border: none;
+}
+
+.color-rect-hide {
+	display: inline-block;
+	position: relative;
+	height: 15px;
+	width: 15px;
+	margin: 0px;
+	padding: 0px;
+}
+
+#color-info .color-input {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	width: 15px;
+	height: 15px;
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+	z-index: -1;
+	position: absolute;
+	top: 0px;
+}
+
+#setBorderColor::-webkit-color-swatch {
+	border-radius: 30px;
+	border: none;
+	border: 1px solid #ddd;
+}
+
+#setBorderColor::-moz-color-swatch {
+	border-radius: 30px;
+	border: none;
+	border: 1px solid #ddd;
+}
+
+#setBorderColor {
+	float: left;
+	border: none;
+	width: 28px;
+	height: 30px;
+	border-radius: 30px;
+	background: transparent;
+}
+
+div#right {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.color-picker {
+	line-height: 29px;
+	color: #1c1c1c;
+	font-weight: 500;
+}
+
+input[type=color], .color-rect {
+	cursor: pointer;
+}
+
+@media ( max-width : 1700px) {
+	body {
+		justify-content: space-around;		
+	}
+	.color-inputs button {
+		padding: 5px;
+	}
+}
+@media ( max-width : 1460px) {
+	#left {margin-left: 20px;}
+}
+
+@media ( max-width : 1395px) {
+	body {
+		grid-template-columns:none;
+	}
+	.color-inputs button {
+		padding: 3px;
+	}
+}
+
+    
+div#saveOption input {
+	margin-right: 5px;
+	text-align: center;
+}
