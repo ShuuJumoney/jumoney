@@ -557,7 +557,7 @@ span#loadingClose {
     width: 50%;
     align-items: center;
     position: relative;
-    top: -29px;
+    /* top: -29px; */
 }
 
 #itemModal .left-layout h3 {
@@ -567,6 +567,7 @@ span#loadingClose {
 	font-size: 17pt;
 	position: relative;
 	top: -5px;
+	margin-top: 10px;
 } 
 
 #itemModal .image-container {
@@ -663,6 +664,7 @@ span#loadingClose {
     flex-direction: column;
     align-items: center;
     gap: 3px;
+    padding-bottom: 7px;
 }
 .default_jumoney{
 	-webkit-filter: grayscale(100%); /* 크롬, 사파리 구형 */
