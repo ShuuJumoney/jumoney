@@ -612,6 +612,7 @@ span#loadingClose {
     align-items: flex-start;
     margin: 0px;
     white-space: nowrap;
+    gap: 3px;
 }
 
 #itemModal .color-info .hex, #itemModal .color-info .rgb {
@@ -1074,4 +1075,5 @@ itemModal .set-by-server{
 #modalItemColors .color-info p {
     display: flex;
     flex-direction: row;
+    /* gap: 3px; */
 }
