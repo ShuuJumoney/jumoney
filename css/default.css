@@ -294,6 +294,8 @@ span.info-channel.all-server{
     transform: skew(-0.1deg);
     color: #333;
     font-size: 14px;
+    position: relative;
+    left: -5px;
 }
 .item.nomatch-addItem {
    /*padding: 50% 0px;*/
@@ -555,13 +557,16 @@ span#loadingClose {
     width: 50%;
     align-items: center;
     position: relative;
+    top: -20px;
 }
 
 #itemModal .left-layout h3 {
 	text-align: center;
 	margin: 0px;
-    margin-top: 8px;
-    padding-left: 4px;
+	padding-left: 4px;
+	font-size: 17pt;
+	position: relative;
+	top: -5px;
 } 
 
 #itemModal .image-container {
@@ -609,14 +614,17 @@ span#loadingClose {
 }
 
 #itemModal .color-info .hex, #itemModal .color-info .rgb {
-    width: fit-content;
+    width: 70px;
     min-width: 58px;
     flex-direction: column;
+    display: inline-block;
 }
 
 #itemModal .color-info .rgb{
-   padding-left: 1.5em;
-   white-space: nowrap;	
+   /* padding-left: 1.5em; */
+   white-space: nowrap;
+   min-width: 85px;
+   width: 95px;
 }
 
 #itemModal #closeModal {
@@ -693,8 +701,9 @@ span#loadingClose {
 } 
  
  #itemModal .image-list-sample img {
-   object-fit: contain; /* 비율 유지 */
+   object-fit: none; /* 비율 유지 */
    top: 0px;
+   height: auto;
  }
 
 
@@ -908,8 +917,11 @@ input[type="checkbox"]:disabled+.checkmark {
 
 #modalItemColors{
 	display: flex;
-    align-items: center;
-    justify-content: center;
+	align-items: center;
+	justify-content: center;
+	flex-direction: row;
+	/* width: 60%; */
+	/* min-width: 400px; */
 }
 .channel-view{
 	display: none;
@@ -1004,6 +1016,8 @@ itemModal .set-by-server{
 .set-group {
     display: flex;
     flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
 }
 .container.filter-color {
     grid-template-columns: repeat(auto-fit, minmax(240px, 270px));
@@ -1055,4 +1069,7 @@ itemModal .set-by-server{
     z-index: -1;
   }
 }
-
+#modalItemColors .color-info p {
+    display: flex;
+    flex-direction: row;
+}
