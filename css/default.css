@@ -689,6 +689,7 @@ span#loadingClose {
     font-size: 10px;
     color: #555;
     padding-bottom: 0.3em;
+    white-space: nowrap;
 }
 
 #itemModal .loading-spinner, .loading-spinner {
@@ -748,7 +749,8 @@ label.timeTitle {
 
 .info-jumoney-name .color_rect {
 	width: 10px;
-	height: 10px;	
+	height: 10px;
+	cursor:pointer;
 }
 
 #modal-realTime {
@@ -1076,4 +1078,8 @@ itemModal .set-by-server{
     display: flex;
     flex-direction: row;
     /* gap: 3px; */
+}
+
+#itemModal .info-jumoney-name .color_rect.show:after {
+    opacity: 1;
 }
