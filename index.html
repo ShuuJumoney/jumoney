@@ -11,206 +11,356 @@
 <script type="text/javascript" src="./js/a_001.min.js?241103"></script>
 <script src="https://cdn.jsdelivr.net/npm/dom-to-image-more@2.8.0/dist/dom-to-image-more.min.js"></script>
 <script	src="https://cdn.jsdelivr.net/npm/dom-to-image-font-patch@latest/dist/dom-to-image-font-patch.min.js"></script>
-<script type="text/javascript" src="./js/jumoney.min.js?v241112"></script>
+<script type="text/javascript" src="./js/jumoney.min.js?v241209"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.4/dist/sweetalert2.all.min.js"></script>
 <link rel="stylesheet" href="./js/izitoast/iziToast.css"></link>
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"></script> -->
+<!-- <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2/fonts/variable/woff2/SUIT-Variable.css" rel="stylesheet">-->
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-
 <script type="text/javascript"  src="./js/izitoast/iziToast.js"></script>
 <link rel="stylesheet" href="./css/font.css?241105">
-<link rel="stylesheet" href="./css/default.css?v241112">
+<link rel="stylesheet" href="./css/default.css?v241209">
 <link rel="stylesheet" href="./css/icon/iconStyle.css?v241101">
 <link rel="stylesheet" href="./js/sweetalert2/sweetalert2.css"></link>
 <script>
 
 </script>
 <style>
-	#loading a {
-		text-decoration: none;
-	    color: #1f5593;
-	    font-weight: bold;
-	}
+#loading a {
+	text-decoration: none;
+    color: #1f5593;
+    font-weight: bold;
+}
+
+#filterForm.show {
+    top: 0; /* 메뉴가 나타나는 위치 */
+}
+#dragArea {
+display:none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50px; /* 감지 영역 크기 */
+    background: rgba(0, 0, 0, 0.1); /* 투명하게 표시 */
+    text-align: center;
+    line-height: 50px;
+    cursor: pointer;
+    z-index: 1000;
+}
+.resize-handle {
+    height: 5px;
+    background: #ddd;
+    cursor: row-resize;
+    border-top: 1px solid #ccc;
+    position: sticky;
+    width: 100%;
+    bottom: 0px;
+    display:none;
+}
+
 </style>
 </head>
 <body>
-	<div id="main">
-		<div id="srchForm">
-			<div id="time-area">
-				<sapn>
-					오늘 날짜: <span id="today"></span>
-				</sapn>
-				<span style="visibility: hidden;">
-					호출 시간: <span id="lastCallTime"></span>
-				</span>
-				<span id="resetTime">
-					다음 리셋: <span id="time"></span>
-				</span>
-				<sapn id="erinTime">
-				</sapn>
+	<div id="srchForm">
+		<div id="time-area">
+			<sapn>
+				오늘 날짜: <span id="today"></span>
+			</sapn>
+			<span style="visibility: hidden;">
+				호출 시간: <span id="lastCallTime"></span>
+			</span>
+			<span id="resetTime">
+				다음 리셋: <span id="time"></span>
+			</span>
+			<sapn id="erinTime">
+			</sapn>
+		</div>
+		<div id="top-info">
+			<div class="srchBtn">
+				<select id="npc_nm" class="">
+					<option value="all">전체</option>
+					<option value="상인 네루">티르코네일</option>
+					<option value="상인 누누">던바튼</option>
+					<option value="상인 메루">이멘마하</option>
+					<option value="상인 라누">반호르</option>
+					<option value="상인 베루">탈틴</option>
+					<option value="상인 에루">타라</option>
+					<option value="상인 아루">카브</option>
+					<option value="상인 피루">벨바스트</option>
+					<option value="상인 세누">스카하</option>
+					<option value="테일로">켈라</option>
+					<option value="켄">필리아</option>
+					<option value="리나">코르</option>
+					<option value="카디">발레스</option>
+					<option value="귀넥">카루</option>
+					<option value="얼리">오아시스</option>
+					<option value="모락">칼리다</option>
+					<option value="데위">페라(자르딘)</option>
+				</select>
+				
+				<select id="server">
+					<option value="류트">류트</option>
+					<option value="하프">하프</option>
+					<option value="울프">울프</option>
+					<option value="만돌린">만돌린</option>
+				</select>
+				
+				<select id="ch" class="">
+				</select>
 			</div>
-			<div id="top-info">
-				<div class="srchBtn">
-					<select id="npc_nm" class="">
-						<option value="all">전체</option>
-						<option value="상인 네루">티르코네일</option>
-						<option value="상인 누누">던바튼</option>
-						<option value="상인 메루">이멘마하</option>
-						<option value="상인 라누">반호르</option>
-						<option value="상인 베루">탈틴</option>
-						<option value="상인 에루">타라</option>
-						<option value="상인 아루">카브</option>
-						<option value="상인 피루">벨바스트</option>
-						<option value="상인 세누">스카하</option>
-						<option value="테일로">켈라</option>
-						<option value="켄">필리아</option>
-						<option value="리나">코르</option>
-						<option value="카디">발레스</option>
-						<option value="귀넥">카루</option>
-						<option value="얼리">오아시스</option>
-						<option value="모락">칼리다</option>
-						<option value="데위">페라(자르딘)</option>
-					</select>
-					
-					<select id="server">
-						<option value="류트">류트</option>
-						<option value="하프">하프</option>
-						<option value="울프">울프</option>
-						<option value="만돌린">만돌린</option>
-					</select>
-					
-					<select id="ch" class="">
-					</select>
-				</div>
-				<input type="password" id="apiKey"><button id="setApiKey" style="margin-right: 6px;">검색</button>
+			
+			<div class="srchBtn" style="display:flex;gap: 5px;">
+				<input type="text" id="apiKey"><button id="setApiKey">검색</button>					
 				<label class="checkLabel">
-			        <span>공용키 사용</span>
+			        <span>공용키</span>
 			        <input type="checkbox" id="shareKey">
 			        <span class="checkmark"></span>
 			    </label>
-				<button onclick="window.open('https://openapi.nexon.com/my-application/')">KEY 생성</button>
-			</div>			
-			<div id="wid">
-				
-								
-				<div id="locationPrevNext" class="srchBtn">
-					<button id="prevLo">이전 마을</button>
-				    <button id="nextLo">다음 마을</button>
-			    </div>
-			    <div id="channelPrevNext" class="srchBtn">
-					<button id="prev">이전 채널</button>
-				    <button id="next">다음 채널</button>
-			    </div>
-			    <button id="checkSet" style="margin-left: 2px;">채널링</button>
+		    </div>
+			<button style="font-size: 9pt;padding: 4px 8px;" onclick="window.open('https://openapi.nexon.com/my-application/')">API<br>KEY</button>
+		</div>			
+		<div id="wid">			    
+			<div id="locationPrevNext" class="srchBtn">
+				<button id="prevLo">이전 마을</button>
+			    <button id="nextLo">다음 마을</button>
+		    </div>
+		    <div id="channelPrevNext" class="srchBtn">
+				<button id="prev">이전 채널</button>
+			    <button id="next">다음 채널</button>
+		    </div>
+		    <div id="channelingBtn" class="srchBtn">
+			    <button id="checkSet">채널링</button>
 			    <button id="checkAllServers">전 서버 채널링</button>
-			    <button id="betaJumoney" onclick="location.href='jumoney-beta.html'" style="font-size: 8pt;padding: 4px;">주머니<br>Beta</button>				
-			</div>
+		    </div>			    
+			<div class="srchBtn">
+		    	<button id="optionBtn">옵션 접기</button>		
+		    	<button id="topBtn"></button>		    	
+		    </div>
+		    <button id="betaJumoney" onclick="window.open('jumoney-beta.html')" style="font-size: 8pt;padding: 4px 5px;">주머니<br>Beta</button>				
 		</div>
-		<div id="filter-color" class="hide-show-srch">
-			<div id="colorFilter">
-			    <label for="colorInput">색상 코드 필터:</label>
-			    <input type="text" id="colorInput" placeholder="#RRGGBB 형식">
-			    <button id="applyColorFilter">필터 적용</button>
+	</div>	
+	<div id="filterForm">
+		<div class="flex-col">
+			<div id="filter-top">
+				<div class="filter-option space-between">
+					<div class="leftSpace flex-simple-row">
+						<button id="addSimpleFilter" class="sub-btn">필터 추가</button>
+						<button id="addDetailFilter" class="sub-btn">범위 필터 추가</button>
+						<div class="flex-simple-row gap5" >
+							<label class="label" for="filterAlign">필터 정렬</label>
+							<div class="wrapper wid65">							
+								<input type="checkbox" id="filterAlign" class="switch">
+								<label for="filterAlign" class="switch_label">
+									<span class="onf_btn"></span>
+									<label class="switch-state switch-on">세로</label>
+									<label class="switch-state switch-off">가로</label>
+								</label>
+							</div>							
+						</div>
+						<div class="flex-simple-row gap5" >
+							<label class="label" for="autoFiltering">필터링 자동 실행</label>
+							<div class="wrapper">							
+								<input type="checkbox" id="autoFiltering" class="switch">
+								<label for="autoFiltering" class="switch_label">
+									<span class="onf_btn"></span>
+									<label class="switch-state switch-on">ON</label>
+									<label class="switch-state switch-off">OFF</label>
+								</label>
+							</div>
+						</div>
+					</div>
+					<div class="rightSpace flex-simple-row">						
+						<button id="filterSimplify">필터 요약</button>
+						<button id="cancleColorFilter">필터링 취소</button>	
+			    		<button id="applyColorFilter">필터링</button>			    		
+			    	</div>
+				</div>
+				<div class="default-text flex-col left">
+					<label>AND/OR은 순차 방식으로 적용됩니다. <small>(수학적 AND 우선 방식 X)</small></label>
+					<label>세트: 세트별로 묶여 세트 안의 순서로 적용됩니다. 각 세트에 만족하는 경우 주머니가 표시됩니다. <small>(A조건 불만족, B조건 만족: 표시)</small></label>
+					<label>순서: 각 세트 내의 순서. 해당 순서대로 순착 방식이 적용됩니다.</label>
+				</div>
+				<div class="filter-option">
+					
+				</div>
 			</div>
+			<div id="filters" style="width: 100%;border-bottom: 1px solid #ddd;margin-bottom: 30px;">
+			    
+				<div id="filter-color" class="hide-show-srch filter simple">
+					<div class="colorFilter flex-simple-row">	
+						<div class="wrapper">
+							<input type="checkbox" id="switch-s-1" index="1" class="switch" checked="checked">
+							<label for="switch-s-1" class="switch_label">
+								<span class="onf_btn"></span>
+								<label class="switch-state switch-on">ON</label>
+								<label class="switch-state switch-off">OFF</label>
+							</label>
+						</div>
+					    <select class="set-logical show-simple">
+					    	<option value="and">AND</option>
+					    	<option value="or">OR</option>
+					    </select>
+					    <div class="filter-select show-simple">
+							<select class="filter-set show-simple">
+						    	<option value="">번호</option>
+						    	<option value="1">1</option>
+						    	<option value="2">2</option>
+						    	<option value="3">3</option>
+						    	<option value="4">4</option>
+						    	<option value="5">5</option>
+						    </select>
+						    <lable class="label-title center">세트</lable>
+					    </div>
+						<div class="filter-input show-simple">
+							<input type="text" class="filter-set-index input-text filter-input-padding input-number" value="1">
+							<lable class="label-title center" required>순서</lable>
+						</div>
+						<div class="filter-input name">
+							<input type="text" class="filter-name input-text input-max-4">
+							<lable class="label-title" >이름<small> (4글자)</small></lable>
+						</div>
+						<select class="filter-type show-simple">
+							<option value="">전체</option>
+							<option value="A">A 겉감</option>
+							<option value="B">B 안감+아이콘</option>
+							<option value="C">C 안감+로마자</option>
+							<option value="C+">C 안감만</option>
+							<option value="R">C 로마자만</option>
+						</select>
+						<div class="filter-color-info">
+					    	<span class="filter-color-rect"></span>
+						    <div class="filter-input show-simple">
+							    <input type="text" id="colorInput-1" class="input-text set-color filter-input-padding" index="1" required>
+							    <label class="label-title">RGB or HEX</label>
+						    </div>
+					    </div>
+					    <select class="set-method show-simple show-simple">
+					    	<option value="+-">±</option>
+					    	<option value="+">+</option>
+					    	<option value="-">-</option>
+					    </select>
+					    <div class="filter-input show-simple show-simple">
+						    <input type="text" id="plus-minus-1" placeholder="" class="input-text set-plus-minus filter-input-padding input-number" index="1" required>
+						    <label class="label-title center">오차</label>
+					    </div>
+					    <select class="error-range-type show-simple">
+					    	<option value="each">RGB 각각</option>
+					    	<option value="sum">RGB 총합</option>
+					    </select>
+					    <button class="removeFilter removeBtn" style="display:none;">제거</button>
+					</div>
+				</div>
+				<div id="filter-color-detail" class="hide-show-srch filter detail">
+<!--
+						<div class="colorFilter">
+							<div class="flex-row">	
+								<div class="wrapper">
+									<input type="checkbox" id="switch-d-1" class="switch" index="1" checked="checked">
+									<label for="switch-d-1" class="switch_label">
+										<span class="onf_btn"></span>
+										<label class="switch-state switch-on">ON</label>
+										<label class="switch-state switch-off">OFF</label>
+									</label>
+								</div>
+								<select class="set-logical show-simple">
+							    	<option value="and">AND</option>
+							    	<option value="or">OR</option>
+							    </select>
+							</div>
+							<div class="flex-row">
+								<select class="filter-set show-simple">
+							    	<option value="">번호</option>
+							    	<option value="1">1</option>
+							    	<option value="2">2</option>
+							    	<option value="3">3</option>
+							    	<option value="4">4</option>
+							    	<option value="5">5</option>
+							    </select>
+								<div class="filter-input">
+									<input type="text" class="filter-set-index input-text filter-input-padding">
+									<lable class="label-title center" >순서</lable>
+								</div>
+							</div>
+							<div class="filter-input name">
+								<input type="text" class="filter-name input-text">
+								<lable class="label-title input-text" >이름<small> (4글자)</small></lable>
+							</div>
+							<select class="filter-type show-simple">
+								<option value="">전체</option>
+								<option value="A">A 겉감</option>
+								<option value="B">B 안감/아이콘</option>
+								<option value="C">C 안감/로마자</option>
+								<option value="C+">C 안감</option>
+								<option value="R">C 로마자</option>
+							</select>
+							
+							<div class="filter-color-info">						
+								<div class="filter-color-rect color-gradient">
+								</div>
+							</div>
+							<div id="detail-color" class="show-simple">
+								<div class="filter-input color color-r">
+								    <input type="text" id="r-start-1" index="1" class="input-text" required> ~ <input type="text" id="r-end-1" index="1" class="input-text" required>				    
+								    <label class="label-title" for="r-start-1">R</label>
+							    </div>
+							    <div class="filter-input color color-g">
+							    	<input type="text" id="g-start-1" index="1" class="input-text" required> ~ <input type="text" id="g-end-1" index="1" class="input-text" required>
+							    	<label class="label-title" for="g-start-1">G</label>
+							    </div>				    
+							    <div class="filter-input color color-b">
+							    	<input type="text" id="b-start-1" index="1" class="input-text" required> ~ <input type="text" id="b-end-1" index="1" class="input-text" required>
+							    	<label class="label-title" for="b-start-1">B</label>
+							    </div>
+						    </div>
+						    <button class="removeFilter removeBtn">제거</button>
+						</div>
+-->
+				</div>
+			</div>
+			<div class="resize-handle"></div>
 		</div>
+	</div>
+	<div id="main">
 		<div id="loading">
 			<ul>
 				<li>얼레벌레 공지입니다. 보기 좋게 만드는 건 기능구현 후에..</li>
 			</ul>
 			<br/>
-			<ul style="background: #fff8c7;font-size: 11pt;">
-				<li>색상코드 계산법이 <a href="https://x.com/jumeonidik3038" target="_blank">주머니디코@jumeonidik303</a>이 제공해주신 파일 수정본으로 대체됩니다.</li>
+			
+			<ul style=" background: #fcf3f3;">
+				<li><label class="new_nt">new</label>2024-12-09 필터링 기능 업데이트</li>
 				<li>&nbsp;</li>
-				<li>이미지 제작에 도움 및 파일 제공 해주신 <a href="https://x.com/darkchocored" target="_blank">주머니보고다님@darkchocored</a>님 감사합니다.</li>
-				<li>&nbsp;</li>
-				<li>10월 26일 이후 업데이트는 <a href="https://x.com/Shuu__deal/status/1850117716096725476" target="_blank">여기</a>에서 확인 가능합니다.</li>		
-			</ul>			
+				<li>- '옵션 접기/펼치기' 버튼을 통해 필터링 옵션을 설정할 수 있습니다.</li>
+				<li>- 자세한 사용법은 추후 공지 예정입니다.</li>
+			</ul>
+			<br/>			
+			
+			<ul>
+				<li>필터링 기능 안정화 이후 알림 기능 추가 예정.</li>
+			</ul>
 			
 			<ul>
 				<li>채널링, 특히 전 서버 채널링은 어쩔 수 없이 api 호출 횟수가 많습니다.</li>
 				<li>서비스 api키 발급에서 사이트 검증을 안하는 것 같으니 참고하세요!</li>
-			</ul>		
-	
-			<br/>
+			</ul>
 			
-			<ul style=" background: #fcf3f3;">
-				<li><label class="new_nt">new</label>2024-11-12  02:10</li>
-				<li>&nbsp;</li>
-				<li>1. 서버 통합으로 완성되는 유사방직 세트가 표시됩니다.</li>
-				<li>&nbsp;</li>
-				<li>2. 캐시 초기화가 좀 더 명확해집니다.</li>
-				<li>&nbsp;</li>
-				<li>3. 모달 창에서 아이템 이름 왼쪽의 동그란 색상 표시 클릭시</li>
-				<li>툴팁이 표시 후 사라지지 않고, 다시 클릭시 툴팁이 사라집니다.</li>
-				<li>&nbsp;</li>
+			<ul style="background: #fff8c7;font-size: 11pt;">
+				<li>색상코드 계산법이 <a href="https://x.com/jumeonidik3038" target="_blank">주머니디코@jumeonidik303</a>이 제공해주신 파일 수정본으로 대체됩니다.</li>
+				<li>이미지 제작에 도움 및 파일 제공 해주신 <a href="https://x.com/darkchocored" target="_blank">주머니보고다님@darkchocored</a>님 감사합니다.</li>
+				<li>10월 26일 이후 업데이트는 <a href="https://x.com/Shuu__deal/status/1850117716096725476" target="_blank">여기</a>에서 확인 가능합니다.</li>						
 			</ul>
 			
 			<ul>
-				<li>2024-11-08  01:10</li>
-				<li>1. 주머니 베타 기능이 추가되었습니다</li>
+				<li>주머니Beta 기능</li>
 				<li>- 주머니 이미지 제작이 가능하며, 배포 이미지 제작이 가능합니다.</li>
 				<li>- 아이디 입력을 원치 않을 경우 스페이스(공백) 한번을 입력하세요.</li>
 				<li>- 해당 기능은 이미지 툴을 다루기 어려운 분들을 위한 기능입니다.</li>
+				<li>- 수배지 이미지 생성 후 마음대로 수정하셔도 됩니다.</li>
 				<li>- 이미지 툴 다루는데 어려움이 없으신 분들은 <a href="https://x.com/Elatha_Marry_Me/status/1853811385647730803" target="_blank">WF 쭈냠냠이</a>님 틀을 사용해보세요!</li>
-				<li>&nbsp;</li>
-				<li>2. 캡쳐 또는 이미지 저장시 색 코드가 줄바꿈 되던 현상이 수정되었습니다.</li>
-				<li>3. 전서버 채널링 / 서버 채널링이 구분되어 표시됩니다. (채널링 정보 좌측 서버 표시)</li>
 			</ul>
 			
-			<ul>
-				<li>2024-11-04 18:30</li>
-				<li>1.모달창에서 세트별 서버 채널 표시가 추가됩니다.</li>
-				<li>2.공용키 사용이 추가됩니다.</li>
-				<li>- 검색 버튼 우측 체크 박스를 선택하여 사용할 수 있으며, 키 입력 없이 사용하실 수 있습니다.</li>
-				<li>- 트래픽이 얼마나 될지 몰라서 중간에 잘 안될경우는 공용키 사용을 해제하고 키 입력 후 사용해주세요.</li>
-			</ul>
 			
-			<ul>
-				<li>2024-11-01 23:02</li>
-				<li>1. 채널링 후 가독성을 위해 세트 정보를 우선 표시합니다.</li>
-				<li>&nbsp;&nbsp;&nbsp;&nbsp;"옷감셋" 혹은 "서버 마크", "채널링 정보" 를 누르면 채널이 표시됩니다.</li>
-				<li>2. 모달창에서는 채널 숨김 없이 기본적으로 전부 표시 됩니다.</li>
-				<li>3. 모달창에서 미리보기 이미지를 클릭하여 원하는 주머니를 3배 확대 이미지로 볼 수 있습니다.</li>
-				<li>4. 채널링 표시에서 제알 앞 채널이 강조 표시 되며, 다른 채널은 좀 더 작고 연하게 표시 됩니다.</li>
-				<li>&nbsp;&nbsp;&nbsp;&nbsp;해당 기능의 경우 기존 처럼 보기 위한 토글 기능을 추가 예정입니다.</li>
-				<li>5. 셀레 박스에서 선택한 채널이 로컬 데이터에 저장되어 유지됩니다.</li>
-				<li>&nbsp;&nbsp;&nbsp;&nbsp;이전 및 다음 채널 버튼으로 이동한 채널은 저장되지 않습니다.</li>
-				<li>&nbsp;&nbsp;&nbsp;&nbsp;서버를 변경할 경우 1채로 변경됩니다. 채널 선택에서 다시 저장할 수 있습니다.</li>
-				<li>6. 모달창에서 복사 성공시 뜨던 귀찮은 경고창이 대체됩니다!</li>
-			</ul>
-	
-			<ul>
-					
-			</ul>
-			<ul>
-				<li>아이템 이미지 부분 더블클릭시 채널링 기능이 생겼습니다.</li>
-				<li>캡쳐시 API KEY 노출을 방지 합니다.</li>							
-				<li>주머니 이름 클릭시 이미지 위에 지역 이름이 표시됩니다!</li>
-			</ul>
-				
-			<ul>							
-				<li>미리보기 이미지가 api 호출이 아닌 자체 이미지로 변경됩니다.</li>
-				<li>이미지는 약간의 오차가 있을 수 있습니다.</li>
-				<li>&nbsp;</li>
-				<li>모달 창에서 각 아이템 이름 왼쪽에 C팟 컬러에 해당하는 색이 표시됩니다.</li>
-				<li>&nbsp;</li>
-				<li>모달 창에서 우측 상단에 리셋시간, 남은시간, 현재시간이 표시됩니다.</li>
-				<li>현재 시간의 경우 모달 창의 넓이가 좁을 경우 표시되지 않습니다.</li>
-			</ul>
-							
-			<ul>				
-				<li>테스트키로 채널링 및 전체 채널링 검색 시 초당 호출 횟수 제한 우회를 위한 로딩시간이 있습니다.</li>
-				<li>어디까지 로딩했는지 확인 가능합니다.</li>
-				<li>로딩된 데이터는 페이지를 새로고침 하거나, 리셋시간이 되지 않은 경우 캐시에 저장 되어있으니</li>
-				<li>호출 제한 코드가 뜬 후 다시 채널링을 누를 경우 못 받은 데이터만 호출해서 가져옵니다.</li>
-			</ul>
-			
-			<ul>
-				<li>기능 추가 예정 - 여기 중에 뭐가 먼저 나올지는 저도 모르겠어요</li>
-				<li>주머니 코드 입력시 원하는 지향 주머니 이미지 제작</li>		
-				<li>만들어진 이미지를 픽셀이 깨지지 않고 축소 확대 기능 추가 예정</li>				
-				<li>색 필터링 검색 기능 추가 예정</li>
-			</ul>
 		</div>
 		<div id="tables" style="display:none;"></div>
 		<div id="results"></div>
@@ -269,7 +419,7 @@
 	<!-- 미리보기 모달 추가 -->
 	<div id="previewModal" class="modal" style="display:none;">
 	    <div class="modal-content">
-	        <span id="closePreviewModal" class="close">&times;</span>
+	        <span>이미지를 우클릭 또는 꾹 눌러 복사/저장해주세요.</span><span id="closePreviewModal" class="close">&times;</span>
 	        <img id="previewModalImage" style="width: 100%; height: auto;" alt="Captured Preview">
 	    </div>
 	</div>
@@ -290,8 +440,13 @@
 	
 	<footer>
 		<p>Data based on NEXON Open API</p>
-		<p>V241112-0220</p>
-		<span>made by @Shuu__deal</span>
+		<p style="font-size: 13px;">V241209-filter</p>
+		<span>울프 주머니@Shuu__deal</span>
 	</footer>
 </body>
+<script>
+//document.addEventListener("DOMContentLoaded", function ()
+
+
+</script>
 </html>
