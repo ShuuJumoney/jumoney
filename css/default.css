@@ -1706,3 +1706,6 @@ button#topBtn {
 	align-items: flex-start;
 	gap:2px;
 }
+#modal-haveTime .timeTitle{
+	background: #bbdcff;	
+}
