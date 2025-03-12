@@ -8,7 +8,8 @@ const ApiErrorCode = {
 	"OPENAPI00007"	:	["Too Many Requests ","API 호출량 초과"],
 	"OPENAPI00009"	:	["Bad Request","데이터 준비 중"],
 	"OPENAPI00010"	:	["Bad Request","게임 점검 중"],
-	"OPENAPI00011"	:	["Service Unavailable","API 점검 중"]
+	"OPENAPI00011"	:	["Service Unavailable","API 점검 중"],
+	"Hey Nexon..."	:	["Nexon did not work", "받은 데이터에 상품 리스트가 없습니다"]
 };
 
 function getErrorMessage(code) {
