@@ -528,6 +528,8 @@ label.new_nt {
     transform: translate(-50%);
     list-style: none;
     font-size: 0.9em;
+    padding: 5px 10px 7px 40px;
+    border-radius: 5px;
 }
 span#loadingClose:hover {
     color: #ffea5d;
@@ -1724,4 +1726,9 @@ button#topBtn {
 
 #filterForm[info=hide] .filterHide{
 	display:none;
+}
+#loading hr{
+    width: calc(70% + 50px);
+    border: 0px;
+    border-top: 1px solid #ddd;
 }
