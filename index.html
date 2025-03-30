@@ -5,13 +5,13 @@
 <link rel="icon" href="./image/favicon.ico" type="image/x-icon">
 <title>주머니 순회</title>
 <script type="text/javascript" src="./js/cache.js?v241101"></script>
-<script type="text/javascript" src="./js/apiCode.js?b250313"></script>
-<script src="./js/erinTime.min.js?v2"></script>
+<script type="text/javascript" src="./js/apiCode.js"></script>
+<script src="./js/erinTime.min.js?v20250313-03"></script>
 <script type="text/javascript" src="./js/decodeGivenColorQuery.min.js"></script>
 <script type="text/javascript" src="./js/a_001.min.js?241209"></script>
 <script src="https://cdn.jsdelivr.net/npm/dom-to-image-more@2.8.0/dist/dom-to-image-more.min.js"></script>
 <script	src="https://cdn.jsdelivr.net/npm/dom-to-image-font-patch@latest/dist/dom-to-image-font-patch.min.js"></script>
-<script type="text/javascript" src="./js/jumoney.min.js?v250313"></script>
+<script type="text/javascript" src="./js/jumoney.min.js?V250322"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.4/dist/sweetalert2.all.min.js"></script>
 <link rel="stylesheet" href="./js/izitoast/iziToast.css"></link>
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"></script> -->
@@ -19,7 +19,7 @@
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script type="text/javascript"  src="./js/izitoast/iziToast.js"></script>
 <link rel="stylesheet" href="./css/font.css?241105">
-<link rel="stylesheet" href="./css/default.css?v250312">
+<link rel="stylesheet" href="./css/default.css?V250322">
 <link rel="stylesheet" href="./css/icon/iconStyle.css?v241101">
 <link rel="stylesheet" href="./js/sweetalert2/sweetalert2.css"></link>
 <script>
@@ -325,20 +325,31 @@ display:none;
 		</div>
 	</div>
 	<div id="main">
-		<div id="loading">
-			<ul style="text-align: center; font-size: 15pt;">
-				<li>2025년 한 해는 좋은 일이 가득한 한 해 되시길 바랍니다</li>
-				<li>다들 새해 복 많이 받으세요</li>
-			</ul>
-			<br/>
+		<div id="loading">			
 			<ul>
-				<li>얼레벌레 공지입니다. 보기 좋게 만드는 건 기능구현 후에..</li>
+				<li>대충 만든 공지입니다.</li>
 			</ul>
-			<br/>
-			
-			<ul style=" background: #fcf3f3;">
-				<li><label class="new_nt">new</label>2025-03-01</li>
+			<ul style=" background: #f3f9fc;">
+				<li><label class="new_nt">new</label>2025-03-22</li>
+				<li><label  style="text-decoration: line-through;font-size:14pt;">"달걀 주머니" 누락 이슈</label> - 수정 완료</li>
+				<li style="text-decoration: line-through;">1. 마을 "전체" 일때</li>
+				<li style="text-decoration: line-through;">2. 더블 클릭으로 채널링할 경우</li>
+				<li style="text-decoration: line-through;">=> "달걀 주머니" 만 누락 되는 경우가 있습니다.</li>
+				<li>교역소 선택 후 상단의 [전 서버 채널링] 또는 [채널링] 기능을 사용하면 돌연변이 배열이나 밀린 배열 확인이 편합니다 '-'b </li>
+			</ul>
+			<hr>
+			<ul>
+				<li>2025-03-13</li>
+				<li>- 에린 시간이 API에서 받은 리셋 시간과 동기화 작업이 진행됩니다.</li>
+				<li>- 동기화는 에린시간 하루에 한번씩 진행되며 주머니 리스트를 호출 한 경우만 해당됩니다.</li>
+				<li>- 이 작업으로 현실 시간으로 초기화 시간이 되면 주머니 채널링이 불가능했던 점이 에린시간 기준으로 변경됩니다.</li>
 				<li>&nbsp;</li>
+				<li>- 간혹 API 호출 응답은 성공적으로 받았으나 주머니 리스트가 존재하지 않아 빈 화면으로 표시되던 현상이 있었습니다.</li>
+				<li>- 해당 현상도 사용자가 알아볼 수 있도록 경고창이 나오도록 수정되었습니다.</li>
+			</ul>
+			<hr>
+			<ul>
+				<li>2025-03-01</li>
 				<li>- '필터링 보기', '필터링 숨기기' 를 통해 필터링 정보를 숨길 수 있습니다.</li>
 				<li>&nbsp;</li>
 				<li>- 델/델렌 바구니 정보가 표시됩니다.</li>
@@ -347,12 +358,7 @@ display:none;
 				<li>- 기존 필터링 내용에서 이름이 4글자 제한이 받지 않는 버그가 있습니다.</li>
 				<li>- 해당 기능은 필터링 후 리스트에서 이름이 이미지를 가리지 않기 위한 조치(필터링 여러개가 적합할 때)로 기능에는 이상이 없어 일단 그래도 둘 예정입니다.</li>
 			</ul>
-			<br/>			
-			
-			<ul>
-				<li>필터링 기능 안정화 이후 알림 기능 추가 예정.</li>
-			</ul>
-			
+			<hr>
 			<ul>
 				<li>채널링, 특히 전 서버 채널링은 어쩔 수 없이 api 호출 횟수가 많습니다.</li>
 				<li>서비스 api키 발급에서 사이트 검증을 안하는 것 같으니 참고하세요!</li>
@@ -367,10 +373,20 @@ display:none;
 			<ul>
 				<li>주머니Beta 기능</li>
 				<li>- 주머니 이미지 제작이 가능하며, 배포 이미지 제작이 가능합니다.</li>
-				<li>- 아이디 입력을 원치 않을 경우 스페이스(공백) 한번을 입력하세요.</li>
+				<li>- 아이디 또는 코드 등 입력을 원치 않을 경우 스페이스(공백) 한번을 입력하세요.</li>
 				<li>- 해당 기능은 이미지 툴을 다루기 어려운 분들을 위한 기능입니다.</li>
 				<li>- 수배지 이미지 생성 후 마음대로 수정하셔도 됩니다.</li>
 				<li>- 이미지 툴 다루는데 어려움이 없으신 분들은 <a href="https://x.com/Elatha_Marry_Me/status/1853811385647730803" target="_blank">WF 쭈냠냠이</a>님 틀을 사용해보세요!</li>
+			</ul>
+			
+			<ul>
+				<li>언젠가 추가할 기능</li>
+				<li>- 알림 기능.</li>
+				<li>- 전 서버 전체 교역소 채널링 데이터</li>
+				<li>- 델/델렌 꽃다발 등 바구니 처럼 인꾸템 추가</li>
+				<li>- 주머니 Beta 인꾸 템 몇가지 추가</li>
+				<li>- 주머니 Beta 인벤과 같은 틀 추가</li>
+				<li>- 등등..</li>
 			</ul>
 			
 			
@@ -453,7 +469,7 @@ display:none;
 	
 	<footer>
 		<p>Data based on NEXON Open API</p>
-		<p style="font-size: 13px;">V250313</p>
+		<p style="font-size: 13px;">V250322</p>
 		<span>울프 주머니@Shuu__deal</span>
 	</footer>
 </body>
