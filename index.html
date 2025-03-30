@@ -11,15 +11,15 @@
 <script type="text/javascript" src="./js/a_001.min.js?241103"></script>
 <script src="https://cdn.jsdelivr.net/npm/dom-to-image-more@2.8.0/dist/dom-to-image-more.min.js"></script>
 <script	src="https://cdn.jsdelivr.net/npm/dom-to-image-font-patch@latest/dist/dom-to-image-font-patch.min.js"></script>
-<script type="text/javascript" src="./js/jumoney.min.js?v241112"></script>
+<script type="text/javascript" src="./js/jumoney.min.js?v241113-2"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.4/dist/sweetalert2.all.min.js"></script>
 <link rel="stylesheet" href="./js/izitoast/iziToast.css"></link>
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"></script> -->
+<!-- <link href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2/fonts/variable/woff2/SUIT-Variable.css" rel="stylesheet">-->
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-
 <script type="text/javascript"  src="./js/izitoast/iziToast.js"></script>
 <link rel="stylesheet" href="./css/font.css?241105">
-<link rel="stylesheet" href="./css/default.css?v241112">
+<link rel="stylesheet" href="./css/default.css?v241113-1">
 <link rel="stylesheet" href="./css/icon/iconStyle.css?v241101">
 <link rel="stylesheet" href="./js/sweetalert2/sweetalert2.css"></link>
 <script>
@@ -120,9 +120,7 @@
 			<br/>
 			<ul style="background: #fff8c7;font-size: 11pt;">
 				<li>색상코드 계산법이 <a href="https://x.com/jumeonidik3038" target="_blank">주머니디코@jumeonidik303</a>이 제공해주신 파일 수정본으로 대체됩니다.</li>
-				<li>&nbsp;</li>
 				<li>이미지 제작에 도움 및 파일 제공 해주신 <a href="https://x.com/darkchocored" target="_blank">주머니보고다님@darkchocored</a>님 감사합니다.</li>
-				<li>&nbsp;</li>
 				<li>10월 26일 이후 업데이트는 <a href="https://x.com/Shuu__deal/status/1850117716096725476" target="_blank">여기</a>에서 확인 가능합니다.</li>		
 			</ul>			
 			
@@ -134,7 +132,13 @@
 			<br/>
 			
 			<ul style=" background: #fcf3f3;">
-				<li><label class="new_nt">new</label>2024-11-12  02:10</li>
+				<li><label class="new_nt">new</label>2024-11-14  00:10</li>
+				<li>&nbsp;</li>
+				<li>모달 창에서 클립보드 저장 실패시 이미지를 직접 복사/저장 할 수 있는 창이 열립니다.</li>
+			</ul>
+			
+			<ul style=" background: #fcf3f3;">
+				<li><label class="new_nt">new</label>2024-11-12  01:10</li>
 				<li>&nbsp;</li>
 				<li>1. 서버 통합으로 완성되는 유사방직 세트가 표시됩니다.</li>
 				<li>&nbsp;</li>
@@ -151,6 +155,7 @@
 				<li>- 주머니 이미지 제작이 가능하며, 배포 이미지 제작이 가능합니다.</li>
 				<li>- 아이디 입력을 원치 않을 경우 스페이스(공백) 한번을 입력하세요.</li>
 				<li>- 해당 기능은 이미지 툴을 다루기 어려운 분들을 위한 기능입니다.</li>
+				<li>- 수배지 이미지 생성 후 마음대로 수정하셔도 됩니다.</li>
 				<li>- 이미지 툴 다루는데 어려움이 없으신 분들은 <a href="https://x.com/Elatha_Marry_Me/status/1853811385647730803" target="_blank">WF 쭈냠냠이</a>님 틀을 사용해보세요!</li>
 				<li>&nbsp;</li>
 				<li>2. 캡쳐 또는 이미지 저장시 색 코드가 줄바꿈 되던 현상이 수정되었습니다.</li>
@@ -269,7 +274,7 @@
 	<!-- 미리보기 모달 추가 -->
 	<div id="previewModal" class="modal" style="display:none;">
 	    <div class="modal-content">
-	        <span id="closePreviewModal" class="close">&times;</span>
+	        <span>이미지를 우클릭 또는 꾹 눌러 복사/저장해주세요.</span><span id="closePreviewModal" class="close">&times;</span>
 	        <img id="previewModalImage" style="width: 100%; height: auto;" alt="Captured Preview">
 	    </div>
 	</div>
@@ -290,7 +295,7 @@
 	
 	<footer>
 		<p>Data based on NEXON Open API</p>
-		<p>V241112-0220</p>
+		<p>V241114-0010</p>
 		<span>made by @Shuu__deal</span>
 	</footer>
 </body>
