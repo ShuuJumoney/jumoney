@@ -59,7 +59,7 @@ footer span{
     text-align: center;
     margin-bottom: 4px;
 	position: relative;
-   	padding-top: 10px;
+   	padding-top: 7px;
    	max-width:300px;
 }
 .color_rect {
@@ -1732,3 +1732,4 @@ button#topBtn {
     border-top: 1px solid #ddd;
 
 }
+
