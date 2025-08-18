@@ -40,7 +40,7 @@ footer span{
 }
 .img-area {
     image-rendering: pixelated;
-    height: 94px;
+    height: 96px;
     text-align: center;
     cursor: url(../image/mouse_click.png) 13.5 0, auto;
     display: inline-block;
@@ -49,8 +49,7 @@ footer span{
 }
 .api-img {
     image-rendering: pixelated;
-	height: 94px;
-    height: 94px;
+	height: 96px;
 }
 .item, .channel-info.new-colorSet {
     width: calc(100% - 6px);
@@ -1731,4 +1730,5 @@ button#topBtn {
     width: calc(70% + 50px);
     border: 0px;
     border-top: 1px solid #ddd;
+
 }
