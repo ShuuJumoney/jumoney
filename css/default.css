@@ -450,10 +450,10 @@ span.setComplete {
     margin: 0;
     opacity: 0.5;
 }
-.set-info .server-mark:not(.í†µí•©) {
+.set-info .server-mark:not(.통합) {
 	cursor: pointer;
 }
-#tables .set-info .server-mark:not(.í†µí•©):hover, .set-info .server-mark.active {
+#tables .set-info .server-mark:not(.통합):hover, .set-info .server-mark.active {
     opacity: 1;
 }
 
@@ -1741,4 +1741,5 @@ button#topBtn {
 	color: #ed6969;
     font-weight: bold;
 }
+
 
