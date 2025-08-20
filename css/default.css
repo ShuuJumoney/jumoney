@@ -367,7 +367,7 @@ span.info-channel.all-server{
 	background-size: 15px 13px;
 	background-repeat: no-repeat;
 	vertical-align: middle;
-	opacity: 0.6;
+	opacity: 0.7;
 	margin-right: 4px;
 }
 .server-mark.울프{
@@ -448,7 +448,7 @@ span.setComplete {
 }
 .set-info .server-mark {
     margin: 0;
-    opacity: 0.5;
+    opacity: 0.7;
 }
 .set-info .server-mark:not(.통합) {
 	cursor: pointer;
@@ -1741,5 +1741,6 @@ button#topBtn {
 	color: #ed6969;
     font-weight: bold;
 }
+
 
 
