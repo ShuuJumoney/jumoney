@@ -346,7 +346,7 @@ span.info-channel.all-server{
 }
 .channel-info h4 {
     margin-bottom: 3px;
-    margin-top: 8px;
+    margin-top: 5px;
     text-align: center;
     font-size: 11pt;
     cursor: pointer;
@@ -621,11 +621,11 @@ span#loadingClose {
 #itemModal .left-layout {
     display: flex;
     flex-direction: column;
-    gap: 7px;
+    gap: 3px; /*7 -> 3*/
     width: 50%;
     align-items: center;
     position: relative;
-    /* top: -29px; */
+    /* top: -35px; */
 }
 
 #itemModal .left-layout h3 {
@@ -635,7 +635,7 @@ span#loadingClose {
 	font-size: 17pt;
 	position: relative;
 	top: -5px;
-	margin-top: 10px;
+	margin-top: 3px;
 } 
 
 #itemModal .image-container {
@@ -755,12 +755,13 @@ span#loadingClose {
     bottom: -16px;
     right: 0px;
     font-size: 10px;
-    color: #111;
+    color: #616161;
     padding-bottom: 0.3em;
     white-space: nowrap;
     font-family: 'Wanted Sans Variable';
     font-size: 12px;
     line-height: 7px;
+    font-weight: bold;
 }
 
 #itemModal .loading-spinner, .loading-spinner {
@@ -809,6 +810,8 @@ label.timeTitle {
     border-radius: 20px;
     padding: 2px 5px;
     white-space: nowrap;
+    /* background: #ffc8c8; */
+    line-height: 15px;
 }
 
 .set-time{
@@ -816,7 +819,7 @@ label.timeTitle {
     line-height: 19px;
     /* padding: 0px 4px 4px; */
     vertical-align: super;
-    padding: 0px 7px 0px 5px;
+    padding: 0px 7px 0px 4px;
 }
 
 .info-jumoney-name .color_rect {
