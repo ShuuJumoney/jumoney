@@ -1733,6 +1733,12 @@ button#topBtn {
     width: calc(70% + 50px);
     border: 0px;
     border-top: 1px solid #ddd;
-
+}
+#modal-resetTime .timeTitle {
+	background: #ffc8c8;
+}
+#modal-resetTime .set-time {
+	color: #ed6969;
+    font-weight: bold;
 }
 
