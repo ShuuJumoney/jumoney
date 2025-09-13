@@ -514,10 +514,9 @@ button#loadingClose {
 label.new_nt {
     color: red;
     font-size: 10px;
-    margin-right: 5px;
     position: absolute;
-    left: 15px;
-    /* top: 16px; */
+    left: 22px;
+    line-height: 21px;
 }
 #loading ul {
     width: 70%;
@@ -809,8 +808,7 @@ label.timeTitle {
     background: #ddd;
     border-radius: 20px;
     padding: 2px 5px;
-    white-space: nowrap;
-    /* background: #ffc8c8; */
+    white-space: nowrap;    
     line-height: 15px;
 }
 
@@ -1733,7 +1731,9 @@ button#topBtn {
     width: calc(70% + 50px);
     border: 0px;
     border-top: 1px solid #ddd;
+
 }
+
 #modal-resetTime .timeTitle {
 	background: #ffc8c8;
 }
@@ -1741,6 +1741,3 @@ button#topBtn {
 	color: #ed6969;
     font-weight: bold;
 }
-
-
-
