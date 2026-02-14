@@ -885,14 +885,15 @@ label.timeTitle {
     left: -3px;
 }
 #itemModal .info-jumoney-name .color_rect.no_color:before{
-	content: "";
-    background: #572020db;
-    width: 100%;
+    content: "";
+    background: #a33232;
+    width: 102%;
     height: 2px;
     display: inline-block;
-    transform: rotate(30deg);
+    transform: rotate(35deg);
     position: relative;
     top: calc(-50% - 2px);
+    border-radius: 10px;
 }
 .tooltip {
     display: none; /* ê¸°ë³¸ì ìœ¼ë¡œ ìˆ¨ê¸°ê¸° */
