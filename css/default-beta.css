@@ -103,7 +103,7 @@ div#jumoney-info {
 .grid-container {
 	display: grid;
 	grid-template-columns: repeat(5, 96px);
-	grid-gap: 10px;
+    column-gap: 10px;
 	justify-content: center;
 	color: #919191;
 }
@@ -393,4 +393,14 @@ input[type=color], .color-rect {
 div#saveOption input {
 	margin-right: 5px;
 	text-align: center;
+}
+
+.select-box{
+	outline: 2px solid #3b82f6;
+    outline-offset: -2px;
+}
+
+.mode-save .select-box{
+	outline: 0px solid #fff;
+    outline-offset: 0px;
 }
